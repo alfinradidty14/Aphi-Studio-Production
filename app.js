@@ -1,7 +1,12 @@
 // Aphi Studio Production - Apple Liquid Glass Application Logic
 class ProductionApp {
   constructor() {
-    this.storageKey = "aphi_studio_production_v2";
+    this.storageKey = "aphi_studio_production_v3";
+    this.projects = this.loadProjects();
+    if (!Array.isArray(this.projects) || this.projects.length === 0) {
+      this.projects = JSON.parse(JSON.stringify(INITIAL_PROJECTS));
+      this.saveProjects();
+    }
     this.projects = this.loadProjects();
     this.activeProjectId = null;
     this.initDOM();
@@ -1112,12 +1117,18 @@ class ProductionApp {
   // --- MODAL UTILS ---
   openModal(modalId) {
     const el = document.getElementById(modalId);
-    if (el) el.classList.add("open");
+    if (el) {
+      el.style.display = "flex";
+      el.classList.add("open");
+    }
   }
 
   closeModal(modalId) {
     const el = document.getElementById(modalId);
-    if (el) el.classList.remove("open");
+    if (el) {
+      el.style.display = "none";
+      el.classList.remove("open");
+    }
   }
 
   escapeHTML(str) {

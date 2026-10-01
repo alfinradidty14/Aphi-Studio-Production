@@ -5,16 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Aphi Studio Production — Pre-Production & Production Hub</title>
   <style>
-/* CinePrep / Aphi Studio - Apple Liquid Glass White Theme */
+
 :root {
-  --bg-canvas: #f5f6fa;
-  --glass-surface: rgba(255, 255, 255, 0.76);
-  --glass-surface-hover: rgba(255, 255, 255, 0.92);
-  --glass-card: rgba(255, 255, 255, 0.65);
-  --glass-border: rgba(255, 255, 255, 0.85);
-  --glass-border-subtle: rgba(0, 0, 0, 0.06);
-  --glass-shadow: 0 12px 36px 0 rgba(0, 0, 0, 0.04), 0 2px 6px 0 rgba(0, 0, 0, 0.02);
-  --glass-shadow-hover: 0 20px 48px -6px rgba(0, 0, 0, 0.08), 0 4px 12px 0 rgba(0, 0, 0, 0.03);
+  --bg-canvas: #f8fafc;
+  --glass-surface: rgba(255, 255, 255, 0.82);
+  --glass-surface-hover: rgba(255, 255, 255, 0.95);
+  --glass-card: rgba(255, 255, 255, 0.75);
+  --glass-border: rgba(255, 255, 255, 0.9);
+  --glass-border-subtle: rgba(0, 0, 0, 0.07);
+  --glass-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
+  --glass-shadow-hover: 0 20px 40px -6px rgba(0, 0, 0, 0.09), 0 4px 12px 0 rgba(0, 0, 0, 0.03);
   
   --apple-blue: #0071e3;
   --apple-blue-hover: #0077ed;
@@ -38,7 +38,7 @@
   --radius-sm: 8px;
   --radius-pill: 9999px;
   
-  --font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  --font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
   --font-mono: "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
 }
 
@@ -51,10 +51,10 @@
 body {
   background-color: var(--bg-canvas);
   background-image: 
-    radial-gradient(at 10% 20%, rgba(224, 238, 255, 0.8) 0px, transparent 50%),
-    radial-gradient(at 90% 10%, rgba(254, 243, 199, 0.6) 0px, transparent 40%),
-    radial-gradient(at 80% 80%, rgba(243, 232, 255, 0.7) 0px, transparent 50%),
-    radial-gradient(at 20% 90%, rgba(209, 250, 229, 0.5) 0px, transparent 45%);
+    radial-gradient(at 10% 15%, rgba(219, 234, 254, 0.85) 0px, transparent 55%),
+    radial-gradient(at 90% 10%, rgba(254, 243, 199, 0.75) 0px, transparent 45%),
+    radial-gradient(at 85% 85%, rgba(243, 232, 255, 0.8) 0px, transparent 55%),
+    radial-gradient(at 15% 90%, rgba(209, 250, 229, 0.7) 0px, transparent 50%);
   background-attachment: fixed;
   color: var(--apple-dark);
   font-family: var(--font-family);
@@ -63,11 +63,11 @@ body {
   min-height: 100vh;
 }
 
-/* Glass Surface Utility */
+/* Glass Panels */
 .glass-panel {
   background: var(--glass-surface);
-  backdrop-filter: blur(28px) saturate(190%);
-  -webkit-backdrop-filter: blur(28px) saturate(190%);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
   border: 1px solid var(--glass-border);
   box-shadow: var(--glass-shadow);
   border-radius: var(--radius-lg);
@@ -75,25 +75,14 @@ body {
   overflow: hidden;
 }
 
-.glass-panel::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.9) 50%, rgba(255,255,255,0) 100%);
-  pointer-events: none;
-}
-
-/* Top App Navigation */
+/* App Header */
 .app-header {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(255, 255, 255, 0.82);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
   padding: 0.75rem 2rem;
   display: flex;
@@ -138,10 +127,10 @@ body {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  background: rgba(0, 0, 0, 0.03);
+  background: rgba(0, 0, 0, 0.04);
   padding: 0.35rem 0.85rem;
   border-radius: var(--radius-pill);
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.06);
   font-size: 0.82rem;
 }
 
@@ -151,7 +140,7 @@ body {
   gap: 0.6rem;
 }
 
-/* Apple Buttons */
+/* Buttons */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -225,16 +214,14 @@ body {
 .badge-purple { background: var(--accent-purple-bg); color: var(--accent-purple); }
 .badge-red { background: var(--accent-red-bg); color: var(--accent-red); }
 
-/* Main App Wrapper */
+/* Main Wrapper */
 .app-wrapper {
   max-width: 1360px;
   margin: 1.5rem auto;
   padding: 0 1.5rem 3rem 1.5rem;
 }
 
-/* =========================================
-   VIEW 1: LANDING PAGE & PROJECTS DASHBOARD
-   ========================================= */
+/* Landing Hero */
 .landing-hero {
   margin-bottom: 2rem;
   padding: 2.25rem 2.5rem;
@@ -304,8 +291,8 @@ body {
 
 .project-card {
   background: var(--glass-surface);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
   border: 1px solid var(--glass-border);
   box-shadow: var(--glass-shadow);
   border-radius: var(--radius-lg);
@@ -371,9 +358,7 @@ body {
   gap: 0.3rem;
 }
 
-/* =========================================
-   VIEW 2: WORKSPACE & PRODUCTION TOOLS
-   ========================================= */
+/* Workspace Header */
 .workspace-header {
   margin-bottom: 1.25rem;
   padding: 1.25rem 1.75rem;
@@ -399,7 +384,7 @@ body {
   color: var(--apple-text-sub);
 }
 
-/* Apple Segmented Tab Bar */
+/* Segmented Tabs */
 .segmented-tabs-bar {
   background: rgba(0, 0, 0, 0.05);
   padding: 0.25rem;
@@ -434,21 +419,14 @@ body {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
-/* Tab Panes */
 .tab-pane {
   display: none;
 }
 .tab-pane.active {
   display: block;
-  animation: appleFadeIn 0.2s ease-out;
 }
 
-@keyframes appleFadeIn {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Compact Glass Cards in Workspace */
+/* Glass Card Compact */
 .glass-card-compact {
   background: var(--glass-surface);
   backdrop-filter: blur(20px) saturate(180%);
@@ -476,7 +454,6 @@ body {
   letter-spacing: -0.01em;
 }
 
-/* Grids */
 .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.15rem; }
 .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.15rem; }
 .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
@@ -487,7 +464,7 @@ body {
   .projects-grid { grid-template-columns: 1fr; }
 }
 
-/* Tables (Clean & Compact) */
+/* Table */
 .table-wrap {
   width: 100%;
   overflow-x: auto;
@@ -521,9 +498,9 @@ body {
   background: rgba(0, 113, 227, 0.02);
 }
 
-/* Script Breakdown Scene Cards */
+/* Scene Cards */
 .scene-strip-card {
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.75);
   border: 1px solid rgba(0, 0, 0, 0.06);
   border-radius: var(--radius-md);
   margin-bottom: 0.85rem;
@@ -564,7 +541,7 @@ body {
   color: var(--apple-dark);
 }
 
-/* Forms & Inputs (Apple Style) */
+/* Forms */
 .form-group {
   margin-bottom: 0.85rem;
 }
@@ -596,29 +573,25 @@ body {
   background: #ffffff;
 }
 
-/* Glass Modal */
+/* CRITICAL: Modals MUST BE HIDDEN BY DEFAULT */
 .modal-backdrop {
+  display: none; /* Default hidden */
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.35);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  display: flex;
+  z-index: 999;
   align-items: center;
   justify-content: center;
-  z-index: 200;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s ease;
 }
 
 .modal-backdrop.open {
-  opacity: 1;
-  pointer-events: auto;
+  display: flex !important; /* Opened via JS */
 }
 
 .modal-glass-content {
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(30px);
   -webkit-backdrop-filter: blur(30px);
   border: 1px solid rgba(255, 255, 255, 0.9);
@@ -648,9 +621,7 @@ body {
   cursor: pointer;
 }
 
-/* =========================================
-   CALL SHEET DOCUMENT PREVIEW (PRINT COMPLIANT)
-   ========================================= */
+/* Call Sheet Document */
 .callsheet-sheet-card {
   background: #ffffff;
   color: #111827;
@@ -680,7 +651,6 @@ body {
 .cs-table tr:nth-child(even) td { background: #f9fafb; }
 .cs-footer { border-top: 2px solid #111827; padding-top: 8px; display: flex; justify-content: space-between; font-size: 10px; color: #4b5563; }
 
-/* Print Stylesheet */
 @media print {
   body { background: #ffffff !important; }
   .no-print, .app-header, .segmented-tabs-bar, .modal-backdrop, .btn { display: none !important; }
@@ -1130,7 +1100,7 @@ body {
        ============================================== -->
 
   <!-- MODAL: NEW PROJECT -->
-  <div class="modal-backdrop" id="modal-new-project">
+  <div class="modal-backdrop" style="display: none;" style="display: none;" id="modal-new-project">
     <div class="modal-glass-content">
       <div class="modal-header-row">
         <h3>✨ Buat Proyek Produksi Baru</h3>
@@ -1176,7 +1146,7 @@ body {
   </div>
 
   <!-- MODAL: ADD / EDIT SCENE -->
-  <div class="modal-backdrop" id="modal-scene">
+  <div class="modal-backdrop" style="display: none;" style="display: none;" id="modal-scene">
     <div class="modal-glass-content">
       <div class="modal-header-row">
         <h3 id="modal-scene-title">Tambah Adegan (Scene)</h3>
@@ -1251,7 +1221,7 @@ body {
   </div>
 
   <!-- MODAL: ADD / EDIT SHOT -->
-  <div class="modal-backdrop" id="modal-shot">
+  <div class="modal-backdrop" style="display: none;" style="display: none;" id="modal-shot">
     <div class="modal-glass-content">
       <div class="modal-header-row">
         <h3 id="modal-shot-title">Tambah Shot</h3>
@@ -1325,7 +1295,7 @@ body {
   </div>
 
   <!-- MODAL: ADD / EDIT CAST -->
-  <div class="modal-backdrop" id="modal-cast">
+  <div class="modal-backdrop" style="display: none;" style="display: none;" id="modal-cast">
     <div class="modal-glass-content">
       <div class="modal-header-row">
         <h3>Tambah Cast / Pemain</h3>
@@ -1380,7 +1350,7 @@ body {
   </div>
 
   <!-- MODAL: ADD / EDIT CREW -->
-  <div class="modal-backdrop" id="modal-crew">
+  <div class="modal-backdrop" style="display: none;" style="display: none;" id="modal-crew">
     <div class="modal-glass-content">
       <div class="modal-header-row">
         <h3>Tambah Kru Produksi</h3>
@@ -1431,7 +1401,7 @@ body {
   </div>
 
   <!-- MODAL: ADD / EDIT EQUIPMENT -->
-  <div class="modal-backdrop" id="modal-equipment">
+  <div class="modal-backdrop" style="display: none;" style="display: none;" id="modal-equipment">
     <div class="modal-glass-content">
       <div class="modal-header-row">
         <h3>Tambah Peralatan (Gear)</h3>
@@ -1484,6 +1454,7 @@ body {
   </div>
 
   <!-- Scripts -->
+  
   <script>
 // Multi-Project Demo Dataset for Aphi Studio Production (CinePrep)
 const INITIAL_PROJECTS = [
@@ -3014,5 +2985,6 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
   </script>
+
 </body>
 </html>
