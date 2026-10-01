@@ -7,20 +7,18 @@
   <style>
 :root {
   --bg-canvas: #f8fafc;
-  --glass-surface: rgba(255, 255, 255, 0.85);
-  --glass-surface-hover: rgba(255, 255, 255, 0.95);
-  --glass-border: rgba(255, 255, 255, 0.9);
-  --glass-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
-  --glass-shadow-hover: 0 20px 40px -6px rgba(0, 0, 0, 0.09), 0 4px 12px 0 rgba(0, 0, 0, 0.03);
-  
+  --apple-dark: #1d1d1f;
   --apple-blue: #0071e3;
   --apple-blue-hover: #0077ed;
-  --apple-blue-light: rgba(0, 113, 227, 0.08);
-  --apple-dark: #1d1d1f;
+  --apple-blue-deep: #1d4ed8;
   --apple-text-sub: #6e6e73;
   --apple-text-tertiary: #86868b;
   --apple-border: #e5e5ea;
   
+  --glass-surface: rgba(255, 255, 255, 0.88);
+  --glass-border: rgba(255, 255, 255, 0.95);
+  --glass-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
+
   --accent-gold: #b45309;
   --accent-gold-bg: rgba(245, 158, 11, 0.1);
   --accent-green: #059669;
@@ -30,7 +28,7 @@
   --accent-purple: #7c3aed;
   --accent-purple-bg: rgba(124, 58, 237, 0.1);
 
-  --radius-lg: 20px;
+  --radius-lg: 24px;
   --radius-md: 14px;
   --radius-sm: 8px;
   --radius-pill: 9999px;
@@ -39,19 +37,15 @@
   --font-mono: "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
   background-color: var(--bg-canvas);
   background-image: 
-    radial-gradient(at 10% 15%, rgba(219, 234, 254, 0.85) 0px, transparent 55%),
-    radial-gradient(at 90% 10%, rgba(254, 243, 199, 0.75) 0px, transparent 45%),
-    radial-gradient(at 85% 85%, rgba(243, 232, 255, 0.8) 0px, transparent 55%),
-    radial-gradient(at 15% 90%, rgba(209, 250, 229, 0.7) 0px, transparent 50%);
+    radial-gradient(at 10% 15%, rgba(219, 234, 254, 0.75) 0px, transparent 55%),
+    radial-gradient(at 90% 10%, rgba(254, 243, 199, 0.65) 0px, transparent 45%),
+    radial-gradient(at 85% 85%, rgba(243, 232, 255, 0.7) 0px, transparent 55%),
+    radial-gradient(at 15% 90%, rgba(209, 250, 229, 0.6) 0px, transparent 50%);
   background-attachment: fixed;
   color: var(--apple-dark);
   font-family: var(--font-family);
@@ -72,12 +66,12 @@ body {
   overflow: hidden;
 }
 
-/* Header */
+/* App Header */
 .app-header {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.88);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
@@ -96,39 +90,48 @@ body {
 }
 
 .brand-logo-glass {
-  width: 38px;
-  height: 38px;
+  width: 36px;
+  height: 36px;
   background: linear-gradient(135deg, #ffffff, #f0f4f9);
   border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05), inset 0 1px 0 #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.25rem;
+  font-size: 1.2rem;
 }
 
 .brand-text h1 {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--apple-dark);
 }
 
 .brand-text p {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: var(--apple-text-sub);
 }
 
-.header-project-pill {
+.header-search-bar {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
   background: rgba(0, 0, 0, 0.04);
-  padding: 0.35rem 0.85rem;
-  border-radius: var(--radius-pill);
   border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: var(--radius-pill);
+  padding: 0.35rem 0.85rem;
+  width: 260px;
+}
+
+.header-search-bar input {
+  border: none;
+  background: transparent;
+  outline: none;
   font-size: 0.82rem;
+  width: 100%;
+  margin-left: 0.4rem;
+  font-family: inherit;
 }
 
 .header-controls {
@@ -137,7 +140,6 @@ body {
   gap: 0.6rem;
 }
 
-/* User Profile in Header */
 .user-profile-badge {
   display: flex;
   align-items: center;
@@ -167,18 +169,16 @@ body {
   font-family: inherit;
 }
 
-.btn:active {
-  transform: scale(0.97);
-}
+.btn:active { transform: scale(0.97); }
 
 .btn-primary {
-  background: var(--apple-blue);
+  background: var(--apple-blue-deep);
   color: #ffffff;
-  box-shadow: 0 2px 8px rgba(0, 113, 227, 0.25);
+  box-shadow: 0 4px 14px rgba(29, 78, 216, 0.28);
 }
 .btn-primary:hover {
-  background: var(--apple-blue-hover);
-  box-shadow: 0 4px 14px rgba(0, 113, 227, 0.35);
+  background: #1e40af;
+  box-shadow: 0 6px 18px rgba(29, 78, 216, 0.38);
 }
 
 .btn-glass {
@@ -198,23 +198,15 @@ body {
   border: 1px solid rgba(124, 58, 237, 0.25);
   box-shadow: 0 2px 6px rgba(124, 58, 237, 0.08);
 }
-.btn-admin-glass:hover {
-  background: rgba(124, 58, 237, 0.18);
-}
+.btn-admin-glass:hover { background: rgba(124, 58, 237, 0.18); }
 
 .btn-danger-glass {
   background: var(--accent-red-bg);
   color: var(--accent-red);
   border: 1px solid rgba(225, 29, 72, 0.2);
 }
-.btn-danger-glass:hover {
-  background: rgba(225, 29, 72, 0.15);
-}
-
-.btn-sm {
-  padding: 0.3rem 0.75rem;
-  font-size: 0.78rem;
-}
+.btn-danger-glass:hover { background: rgba(225, 29, 72, 0.15); }
+.btn-sm { padding: 0.3rem 0.75rem; font-size: 0.78rem; }
 
 /* Badges */
 .badge {
@@ -227,8 +219,7 @@ body {
   font-weight: 600;
   letter-spacing: 0.02em;
 }
-
-.badge-blue { background: var(--apple-blue-light); color: var(--apple-blue); }
+.badge-blue { background: rgba(0, 113, 227, 0.08); color: var(--apple-blue); }
 .badge-gold { background: var(--accent-gold-bg); color: var(--accent-gold); }
 .badge-green { background: var(--accent-green-bg); color: var(--accent-green); }
 .badge-purple { background: var(--accent-purple-bg); color: var(--accent-purple); }
@@ -242,62 +233,163 @@ body {
 }
 
 /* ========================================================
-   AUTHENTICATION VIEW (GATEKEEPER LOGIN & SIGNUP)
+   VIEW 0: AUTHENTICATION (IMAGE 2 REFERENCE: _123456.jpeg)
    ======================================================== */
-.auth-container {
-  max-width: 480px;
-  margin: 4rem auto;
-  padding: 2.5rem 2rem;
-  text-align: center;
+.auth-split-wrapper {
+  max-width: 1040px;
+  min-height: 620px;
+  margin: 2.5rem auto;
+  background: #ffffff;
+  border-radius: 32px;
+  box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.12), 0 0 1px rgba(0,0,0,0.1);
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.06);
 }
 
-.auth-header {
-  margin-bottom: 1.75rem;
+@media (max-width: 900px) {
+  .auth-split-wrapper { grid-template-columns: 1fr; }
+  .auth-left-banner { display: none; }
 }
 
-.auth-logo {
-  width: 60px;
-  height: 60px;
-  margin: 0 auto 1rem auto;
-  background: linear-gradient(135deg, #ffffff, #f0f4f9);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06), inset 0 1px 0 #ffffff;
+/* Left Banner (Blue Gradient + Steps) */
+.auth-left-banner {
+  background: linear-gradient(145deg, #1d4ed8 0%, #2563eb 50%, #3b82f6 100%);
+  padding: 3rem 2.5rem;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-left-banner::before {
+  content: "";
+  position: absolute;
+  top: -20%;
+  left: -20%;
+  width: 140%;
+  height: 140%;
+  background: radial-gradient(circle at 70% 20%, rgba(255, 255, 255, 0.22) 0%, transparent 40%);
+  pointer-events: none;
+}
+
+.auth-left-top .auth-pill-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+}
+
+.auth-left-top h2 {
+  font-size: 2.3rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin-bottom: 0.6rem;
+}
+
+.auth-left-top p {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.5;
+}
+
+/* 3 Step Cards on Left Side */
+.auth-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+.auth-step-card {
   border-radius: 16px;
+  padding: 1rem 0.85rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 110px;
+}
+
+.auth-step-active {
+  background: #ffffff;
+  color: var(--apple-dark);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.auth-step-glass {
+  background: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
+.auth-step-num {
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-pill);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
 }
 
-.auth-header h2 {
-  font-size: 1.5rem;
+.auth-step-active .auth-step-num { background: #1d4ed8; color: #ffffff; }
+.auth-step-glass .auth-step-num { background: rgba(255, 255, 255, 0.3); color: #ffffff; }
+
+.auth-step-text {
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+/* Right Side: Clean Form */
+.auth-right-form {
+  padding: 3rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.auth-right-header {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.auth-right-header h3 {
+  font-size: 1.7rem;
   font-weight: 800;
   letter-spacing: -0.02em;
   color: var(--apple-dark);
 }
 
-.auth-header p {
-  font-size: 0.85rem;
-  color: var(--apple-text-sub);
-  margin-top: 0.35rem;
-}
-
-.auth-toggle-tabs {
-  background: rgba(0, 0, 0, 0.05);
-  padding: 0.25rem;
+.auth-tabs-pill {
+  background: #f1f5f9;
   border-radius: var(--radius-pill);
+  padding: 0.25rem;
   display: inline-flex;
   gap: 0.25rem;
-  margin-bottom: 1.75rem;
-  width: 100%;
+  margin: 1rem auto 0 auto;
+  border: 1px solid #e2e8f0;
 }
 
 .auth-tab-btn {
-  flex: 1;
   background: transparent;
   border: none;
-  padding: 0.55rem;
-  font-size: 0.85rem;
+  padding: 0.45rem 1.25rem;
+  font-size: 0.82rem;
   font-weight: 600;
   border-radius: var(--radius-pill);
   color: var(--apple-text-sub);
@@ -313,167 +405,440 @@ body {
 }
 
 .auth-alert {
-  padding: 0.75rem 1rem;
+  padding: 0.7rem 0.9rem;
   border-radius: var(--radius-md);
   font-size: 0.82rem;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
   text-align: left;
   display: none;
 }
-.auth-alert-error {
-  background: var(--accent-red-bg);
-  color: var(--accent-red);
-  border: 1px solid rgba(225, 29, 72, 0.2);
-}
-.auth-alert-warning {
-  background: var(--accent-gold-bg);
-  color: var(--accent-gold);
-  border: 1px solid rgba(245, 158, 11, 0.25);
-}
-.auth-alert-success {
-  background: var(--accent-green-bg);
-  color: var(--accent-green);
-  border: 1px solid rgba(16, 185, 129, 0.25);
+.auth-alert-error { background: var(--accent-red-bg); color: var(--accent-red); border: 1px solid rgba(225, 29, 72, 0.2); }
+.auth-alert-warning { background: var(--accent-gold-bg); color: var(--accent-gold); border: 1px solid rgba(245, 158, 11, 0.25); }
+.auth-alert-success { background: var(--accent-green-bg); color: var(--accent-green); border: 1px solid rgba(16, 185, 129, 0.25); }
+
+/* Form Control Apple style */
+.apple-input-group {
+  margin-bottom: 0.85rem;
+  text-align: left;
 }
 
-/* Landing Hero */
-.landing-hero {
-  margin-bottom: 2rem;
-  padding: 2.25rem 2.5rem;
+.apple-input-group label {
+  display: block;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--apple-text-sub);
+  margin-bottom: 0.3rem;
+}
+
+.apple-input-control {
+  width: 100%;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 0.65rem 0.85rem;
+  font-size: 0.88rem;
+  font-family: inherit;
+  color: var(--apple-dark);
+  transition: all 0.15s ease;
+}
+
+.apple-input-control:focus {
+  outline: none;
+  background: #ffffff;
+  border-color: #1d4ed8;
+  box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.15);
+}
+
+.btn-continue {
+  width: 100%;
+  background: #1d4ed8;
+  color: #ffffff;
+  border: none;
+  padding: 0.75rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 0.5rem;
+  box-shadow: 0 4px 14px rgba(29, 78, 216, 0.25);
+}
+.btn-continue:hover {
+  background: #1e40af;
+  box-shadow: 0 6px 18px rgba(29, 78, 216, 0.35);
+}
+
+.auth-divider {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  position: relative;
+  text-align: center;
+  margin: 1.25rem 0;
+  color: var(--apple-text-tertiary);
+  font-size: 0.75rem;
+}
+.auth-divider::before, .auth-divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #e2e8f0;
+}
+.auth-divider:not(:empty)::before { margin-right: 0.75em; }
+.auth-divider:not(:empty)::after { margin-left: 0.75em; }
+
+.btn-google-sign {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 0.65rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--apple-dark);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.15s ease;
+}
+.btn-google-sign:hover { background: #f8fafc; border-color: #cbd5e1; }
+
+.auth-disclaimer {
+  font-size: 0.72rem;
+  color: var(--apple-text-tertiary);
+  text-align: center;
+  margin-top: 1.25rem;
+  line-height: 1.4;
 }
 
-.landing-hero-left h2 {
-  font-size: 2rem;
+/* ========================================================
+   VIEW 1: DASHBOARD UI (IMAGE 4 REFERENCE: _ (8).jpeg)
+   ======================================================== */
+.dashboard-greeting-header {
+  margin-bottom: 1.75rem;
+}
+
+.dashboard-greeting-header h2 {
+  font-size: 1.95rem;
   font-weight: 800;
   letter-spacing: -0.03em;
   color: var(--apple-dark);
-  margin-bottom: 0.35rem;
 }
 
-.landing-hero-left p {
+.dashboard-greeting-header p {
   font-size: 0.95rem;
   color: var(--apple-text-sub);
-  max-width: 580px;
+  margin-top: 0.2rem;
 }
 
-.studio-stats-strip {
+/* 2 Large Action Cards (Image 4) */
+.action-hero-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+  margin-bottom: 2.25rem;
+}
+
+@media (max-width: 850px) {
+  .action-hero-cards-grid { grid-template-columns: 1fr; }
+}
+
+.action-card-blue {
+  background: linear-gradient(135deg, #1d4ed8 0%, #3b82f6 100%);
+  border-radius: 24px;
+  padding: 2rem;
+  color: #ffffff;
   display: flex;
-  gap: 1.5rem;
-  margin-top: 1.25rem;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 12px 30px rgba(29, 78, 216, 0.25);
+  position: relative;
+  overflow: hidden;
 }
 
-.hero-stat-item {
-  display: flex;
-  flex-direction: column;
-}
-
-.hero-stat-val {
-  font-size: 1.4rem;
+.action-card-blue h3 {
+  font-size: 1.35rem;
   font-weight: 800;
-  color: var(--apple-dark);
+  margin-bottom: 0.4rem;
 }
 
-.hero-stat-lbl {
-  font-size: 0.72rem;
-  color: var(--apple-text-sub);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+.action-card-blue p {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.88);
+  max-width: 320px;
+  margin-bottom: 1.25rem;
 }
 
-/* Projects Grid */
-.projects-section-header {
+.action-card-green {
+  background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+  border-radius: 24px;
+  padding: 2rem;
+  color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 12px 30px rgba(5, 150, 105, 0.25);
+  position: relative;
+  overflow: hidden;
+}
+
+.action-card-green h3 {
+  font-size: 1.35rem;
+  font-weight: 800;
+  margin-bottom: 0.4rem;
+}
+
+.action-card-green p {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.88);
+  max-width: 320px;
+  margin-bottom: 1.25rem;
+}
+
+/* 3D Visual folder artwork inside action cards */
+.action-art-icon {
+  font-size: 4.5rem;
+  opacity: 0.95;
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.2));
+  transform: rotate(-6deg);
+  transition: transform 0.3s ease;
+  user-select: none;
+}
+.action-card-blue:hover .action-art-icon, .action-card-green:hover .action-art-icon {
+  transform: rotate(0deg) scale(1.08);
+}
+
+/* ========================================================
+   FOLDER PROJECT CARDS (IMAGE 3 REFERENCE: (1) Home _ X.jpeg)
+   ======================================================== */
+.folder-grid-section-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1.25rem;
 }
 
-.section-title {
-  font-size: 1.25rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-}
-
-.projects-grid {
+.folder-projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 1.75rem;
+  margin-bottom: 2.5rem;
 }
 
-.project-card {
-  background: var(--glass-surface);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow);
-  border-radius: var(--radius-lg);
-  padding: 1.35rem;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+.folder-card {
+  width: 100%;
+  height: 310px;
+  border-radius: 28px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-end;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.folder-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 42px rgba(0, 0, 0, 0.16);
+}
+
+/* Themes for folder top gradients */
+.theme-gradient-blue {
+  background: linear-gradient(135deg, #1d4ed8 0%, #3b82f6 50%, #93c5fd 100%);
+}
+.theme-gradient-red {
+  background: linear-gradient(135deg, #b91c1c 0%, #ef4444 50%, #fca5a5 100%);
+}
+.theme-gradient-purple {
+  background: linear-gradient(135deg, #6d28d9 0%, #8b5cf6 50%, #c4b5fd 100%);
+}
+.theme-gradient-green {
+  background: linear-gradient(135deg, #047857 0%, #10b981 50%, #6ee7b7 100%);
+}
+
+/* 3 White Document Sheets Peeking Out */
+.peeking-sheets-wrapper {
+  position: absolute;
+  top: 32px;
+  left: 18px;
+  right: 18px;
+  height: 140px;
+  pointer-events: none;
+}
+
+.peeking-sheet {
+  position: absolute;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.14);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 10px 8px;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.paper-line {
+  height: 3px;
+  background: #e2e8f0;
+  border-radius: 2px;
+  margin-bottom: 6px;
+}
+
+.sheet-left {
+  width: 90px;
+  height: 110px;
+  left: 12px;
+  top: 15px;
+  transform: rotate(-10deg);
+}
+
+.sheet-right {
+  width: 90px;
+  height: 110px;
+  right: 15px;
+  top: 12px;
+  transform: rotate(8deg);
+}
+
+.sheet-center {
+  width: 100px;
+  height: 120px;
+  left: 50%;
+  top: 0px;
+  transform: translateX(-50%) rotate(-1deg);
+  z-index: 2;
+}
+
+.folder-card:hover .sheet-left { transform: rotate(-14deg) translateY(-8px); }
+.folder-card:hover .sheet-right { transform: rotate(12deg) translateY(-8px); }
+.folder-card:hover .sheet-center { transform: translateX(-50%) rotate(0deg) translateY(-12px); }
+
+/* The Dark Folder Pocket (Bottom Half) with Tab Cut */
+.folder-dark-pocket {
   position: relative;
-  cursor: pointer;
+  z-index: 5;
+  background: #18181b;
+  color: #ffffff;
+  padding: 1.25rem 1.25rem 1.15rem 1.25rem;
+  border-radius: 0 0 28px 28px;
+  box-shadow: 0 -4px 14px rgba(0, 0, 0, 0.2);
 }
 
-.project-card:hover {
-  transform: translateY(-4px);
-  background: var(--glass-surface-hover);
-  box-shadow: var(--glass-shadow-hover);
-  border-color: rgba(0, 113, 227, 0.3);
+.folder-pocket-tab-cut {
+  position: absolute;
+  top: -24px;
+  left: 0;
+  width: 58%;
+  height: 25px;
+  background: #18181b;
+  border-top-left-radius: 14px;
+  border-top-right-radius: 16px;
 }
 
-.project-card-header {
+.folder-pocket-tab-cut::after {
+  content: "";
+  position: absolute;
+  right: -16px;
+  bottom: 0;
+  width: 16px;
+  height: 16px;
+  background: radial-gradient(circle at 100% 0%, transparent 16px, #18181b 16px);
+}
+
+.folder-title-row {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 0.75rem;
-}
-
-.project-card-title {
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: var(--apple-dark);
   margin-bottom: 0.25rem;
 }
 
-.project-card-client {
-  font-size: 0.8rem;
-  color: var(--apple-text-sub);
+.folder-title-row h4 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 220px;
 }
 
-.project-card-stats {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 0.75rem 0;
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  margin: 0.85rem 0;
-  font-size: 0.82rem;
-  color: var(--apple-dark);
+.folder-subtext {
+  font-size: 0.78rem;
+  color: #a1a1aa;
+  margin-bottom: 1rem;
 }
 
-.project-card-footer {
+.folder-footer-stats {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 0.5rem;
+  font-size: 0.76rem;
+  color: #a1a1aa;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 0.65rem;
 }
 
-.project-date-tag {
-  font-size: 0.75rem;
-  color: var(--apple-text-tertiary);
+/* ========================================================
+   LOWER DASHBOARD TABLES (IMAGE 4 SPLIT SECTION)
+   ======================================================== */
+.dashboard-lower-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .dashboard-lower-grid { grid-template-columns: 1fr; }
+}
+
+.drafts-card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.draft-item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 12px;
+  transition: all 0.15s ease;
+}
+.draft-item-row:hover {
+  background: #ffffff;
+  border-color: rgba(0, 113, 227, 0.3);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+}
+
+.draft-item-left {
   display: flex;
   align-items: center;
-  gap: 0.3rem;
+  gap: 0.75rem;
 }
 
-/* Workspace Header */
+.draft-icon-box {
+  width: 32px;
+  height: 32px;
+  background: #f1f5f9;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.timeline-feed-item {
+  display: flex;
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+  font-size: 0.82rem;
+}
+
+/* Workspace Styles */
 .workspace-header {
   margin-bottom: 1.25rem;
   padding: 1.25rem 1.75rem;
@@ -499,7 +864,6 @@ body {
   color: var(--apple-text-sub);
 }
 
-/* Segmented Tabs */
 .segmented-tabs-bar {
   background: rgba(0, 0, 0, 0.05);
   padding: 0.25rem;
@@ -524,24 +888,16 @@ body {
   white-space: nowrap;
 }
 
-.seg-tab-btn:hover {
-  color: var(--apple-dark);
-}
-
+.seg-tab-btn:hover { color: var(--apple-dark); }
 .seg-tab-btn.active {
   background: #ffffff;
   color: var(--apple-dark);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
-.tab-pane {
-  display: none;
-}
-.tab-pane.active {
-  display: block;
-}
+.tab-pane { display: none; }
+.tab-pane.active { display: block; }
 
-/* Glass Card Compact */
 .glass-card-compact {
   background: var(--glass-surface);
   backdrop-filter: blur(20px) saturate(180%);
@@ -566,7 +922,6 @@ body {
   font-size: 0.95rem;
   font-weight: 700;
   color: var(--apple-dark);
-  letter-spacing: -0.01em;
 }
 
 .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.15rem; }
@@ -575,23 +930,10 @@ body {
 
 @media (max-width: 960px) {
   .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
-  .landing-hero { flex-direction: column; align-items: flex-start; gap: 1rem; }
-  .projects-grid { grid-template-columns: 1fr; }
 }
 
-/* Table */
-.table-wrap {
-  width: 100%;
-  overflow-x: auto;
-}
-
-.apple-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.82rem;
-  text-align: left;
-}
-
+.table-wrap { width: 100%; overflow-x: auto; }
+.apple-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; text-align: left; }
 .apple-table th {
   background: rgba(0, 0, 0, 0.02);
   color: var(--apple-text-sub);
@@ -602,32 +944,20 @@ body {
   padding: 0.6rem 0.75rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 }
-
 .apple-table td {
   padding: 0.65rem 0.75rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   vertical-align: middle;
 }
+.apple-table tr:hover td { background: rgba(0, 113, 227, 0.02); }
 
-.apple-table tr:hover td {
-  background: rgba(0, 113, 227, 0.02);
-}
-
-/* Scene Cards */
 .scene-strip-card {
   background: rgba(255, 255, 255, 0.75);
   border: 1px solid rgba(0, 0, 0, 0.06);
   border-radius: var(--radius-md);
   margin-bottom: 0.85rem;
   overflow: hidden;
-  transition: all 0.15s ease;
 }
-
-.scene-strip-card:hover {
-  border-color: rgba(0, 113, 227, 0.3);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
-}
-
 .scene-strip-head {
   background: rgba(0, 0, 0, 0.02);
   padding: 0.7rem 0.9rem;
@@ -636,18 +966,8 @@ body {
   align-items: center;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
-
-.scene-strip-body {
-  padding: 0.85rem 1rem;
-}
-
-.tag-bubble-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.3rem;
-  margin-top: 0.4rem;
-}
-
+.scene-strip-body { padding: 0.85rem 1rem; }
+.tag-bubble-row { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.4rem; }
 .tag-bubble {
   font-size: 0.72rem;
   background: rgba(0, 0, 0, 0.04);
@@ -656,20 +976,8 @@ body {
   color: var(--apple-dark);
 }
 
-/* Forms */
-.form-group {
-  margin-bottom: 0.85rem;
-  text-align: left;
-}
-
-.form-label {
-  display: block;
-  font-size: 0.74rem;
-  font-weight: 600;
-  color: var(--apple-text-sub);
-  margin-bottom: 0.3rem;
-}
-
+.form-group { margin-bottom: 0.85rem; text-align: left; }
+.form-label { display: block; font-size: 0.74rem; font-weight: 600; color: var(--apple-text-sub); margin-bottom: 0.3rem; }
 .form-control {
   width: 100%;
   background: rgba(255, 255, 255, 0.9);
@@ -679,15 +987,8 @@ body {
   font-size: 0.85rem;
   font-family: inherit;
   color: var(--apple-dark);
-  transition: all 0.15s ease;
 }
-
-.form-control:focus {
-  outline: none;
-  border-color: var(--apple-blue);
-  box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.15);
-  background: #ffffff;
-}
+.form-control:focus { outline: none; border-color: var(--apple-blue); box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.15); background: #ffffff; }
 
 /* Modals */
 .modal-backdrop {
@@ -725,15 +1026,9 @@ body {
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 }
 
-.close-btn {
-  background: none;
-  border: none;
-  font-size: 1.25rem;
-  color: var(--apple-text-sub);
-  cursor: pointer;
-}
+.close-btn { background: none; border: none; font-size: 1.25rem; color: var(--apple-text-sub); cursor: pointer; }
 
-/* Call Sheet Document */
+/* Call Sheet Document Preview */
 .callsheet-sheet-card {
   background: #ffffff;
   color: #111827;
@@ -746,7 +1041,6 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 12px;
 }
-
 .cs-header { border-bottom: 3px solid #111827; padding-bottom: 0.75rem; margin-bottom: 1rem; }
 .cs-title-bar { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; }
 .cs-main-title { font-size: 20px; font-weight: 900; text-transform: uppercase; }
@@ -780,8 +1074,8 @@ body {
 </head>
 <body>
 
-  <!-- Top Glass Navigation -->
-  <header class="app-header">
+  <!-- Top Glass Navigation (Shown when logged in) -->
+  <header class="app-header" id="main-header" style="display: none;">
     <div class="brand-section" onclick="app.navToLanding()">
       <div class="brand-logo-glass">🎬</div>
       <div class="brand-text">
@@ -790,9 +1084,10 @@ body {
       </div>
     </div>
 
-    <!-- Dynamic Workspace Breadcrumb or Studio Status -->
-    <div id="header-context-container" style="display: flex; align-items: center; gap: 0.6rem;">
-      <span class="badge badge-blue">Studio Management</span>
+    <!-- Search bar (Image 4 reference) -->
+    <div class="header-search-bar no-print" id="header-search-wrap">
+      <span>🔍</span>
+      <input type="text" id="project-search-input" placeholder="Search projects, scenes..." oninput="app.handleSearch(this.value)">
     </div>
 
     <!-- Header Controls & User Session -->
@@ -804,156 +1099,262 @@ body {
   <!-- Main Application Wrapper -->
   <div class="app-wrapper">
 
-    <!-- ==============================================
-         VIEW 0: AUTHENTICATION (LOGIN & SIGN UP)
-         ============================================== -->
-    <section id="view-auth" class="auth-container glass-panel">
-      <div class="auth-header">
-        <div class="auth-logo">🎬</div>
-        <h2>Aphi Studio Production</h2>
-        <p>Silakan masuk atau buat akun baru untuk mengakses portal persiapan produksi.</p>
-      </div>
-
-      <!-- Tab Switcher Login vs Sign Up -->
-      <div class="auth-toggle-tabs">
-        <button class="auth-tab-btn active" id="btn-tab-login" onclick="app.switchAuthTab('login')">Masuk (Log In)</button>
-        <button class="auth-tab-btn" id="btn-tab-signup" onclick="app.switchAuthTab('signup')">Daftar Akun Baru</button>
-      </div>
-
-      <!-- Auth Alert Box -->
-      <div class="auth-alert" id="auth-alert-box"></div>
-
-      <!-- FORM LOGIN -->
-      <form id="form-login" onsubmit="event.preventDefault(); app.handleLogin();">
-        <div class="form-group">
-          <label class="form-label">Alamat Email</label>
-          <input type="email" class="form-control" id="login-email" required placeholder="nama@email.com">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Password</label>
-          <input type="password" class="form-control" id="login-password" required placeholder="••••••••">
-        </div>
-        <div style="margin-top: 1.25rem;">
-          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.65rem;">Masuk ke Studio →</button>
-        </div>
+    <!-- ========================================================
+         VIEW 0: AUTHENTICATION (IMAGE 2 REFERENCE: _123456.jpeg)
+         ======================================================== -->
+    <div id="view-auth">
+      <div class="auth-split-wrapper">
         
-        <div style="margin-top: 1.25rem; font-size: 0.76rem; color: var(--apple-text-sub); background: rgba(0,0,0,0.02); padding: 0.6rem; border-radius: 8px;">
-          💡 <strong>Akun Master Admin bawaan:</strong><br>
-          Email: <code style="color:var(--apple-blue);">admin@aphistudio.com</code> &bull; Password: <code>admin123</code>
-        </div>
-      </form>
-
-      <!-- FORM SIGN UP -->
-      <form id="form-signup" style="display: none;" onsubmit="event.preventDefault(); app.handleSignUp();">
-        <div class="form-group">
-          <label class="form-label">Nama Lengkap</label>
-          <input type="text" class="form-control" id="signup-name" required placeholder="Nama lengkap Anda">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Alamat Email</label>
-          <input type="email" class="form-control" id="signup-email" required placeholder="nama@email.com">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Posisi / Departemen di Produksi</label>
-          <select class="form-control" id="signup-role">
-            <option value="Sutradara (Director)">Sutradara (Director)</option>
-            <option value="Produser (Producer)">Produser (Producer)</option>
-            <option value="1st / 2nd Assistant Director">1st / 2nd Assistant Director</option>
-            <option value="Kamera (DoP / AC / Operator)">Kamera (DoP / AC / Operator)</option>
-            <option value="Lighting & Grip (Gaffer / Key Grip)">Lighting & Grip (Gaffer / Key Grip)</option>
-            <option value="Audio & Sound Recordist">Audio & Sound Recordist</option>
-            <option value="Art Department & Props">Art Department & Props</option>
-            <option value="Wardrobe & Makeup Artist">Wardrobe & Makeup Artist</option>
-            <option value="Aktor / Cast / Talent">Aktor / Cast / Talent</option>
-            <option value="Unit & Logistik Produksi">Unit & Logistik Produksi</option>
-            <option value="Klien / Agensi Periklanan">Klien / Agensi Periklanan</option>
-          </select>
-        </div>
-        <div class="grid-2">
-          <div class="form-group">
-            <label class="form-label">Password</label>
-            <input type="password" class="form-control" id="signup-password" required placeholder="Minimal 6 karakter">
+        <!-- Left Side: Cobalt Blue Gradient & Journey Steps -->
+        <div class="auth-left-banner">
+          <div class="auth-left-top">
+            <div class="auth-pill-tag">
+              <span>🎬</span> Aphi Studio Production
+            </div>
+            <h2>Start your<br>Journey</h2>
+            <p>Pusat koordinasi & persiapan produksi film, TVC, music video, dan commercial kelas industri.</p>
           </div>
-          <div class="form-group">
-            <label class="form-label">Ulangi Password</label>
-            <input type="password" class="form-control" id="signup-password-confirm" required placeholder="Konfirmasi password">
+
+          <div class="auth-steps-grid">
+            <div class="auth-step-card auth-step-active">
+              <div class="auth-step-num">1</div>
+              <div class="auth-step-text">Register your account</div>
+            </div>
+            <div class="auth-step-card auth-step-glass">
+              <div class="auth-step-num">2</div>
+              <div class="auth-step-text">Wait for admin approval</div>
+            </div>
+            <div class="auth-step-card auth-step-glass">
+              <div class="auth-step-num">3</div>
+              <div class="auth-step-text">Access production set</div>
+            </div>
           </div>
         </div>
 
-        <p style="font-size: 0.75rem; color: var(--apple-text-sub); text-align: left; margin: 0.5rem 0 1rem 0;">
-          ℹ️ <strong>Catatan Approval:</strong> Setiap pendaftaran baru memerlukan persetujuan dari <strong>Master Admin</strong> sebelum akun aktif dan dapat digunakan untuk masuk.
-        </p>
+        <!-- Right Side: Clean Apple Form (Image 2) -->
+        <div class="auth-right-form">
+          <div class="auth-right-header">
+            <h3 id="auth-title-text">Join Us</h3>
+            
+            <div class="auth-tabs-pill">
+              <button type="button" class="auth-tab-btn active" id="btn-tab-login" onclick="app.switchAuthTab('login')">Log In</button>
+              <button type="button" class="auth-tab-btn" id="btn-tab-signup" onclick="app.switchAuthTab('signup')">Sign Up</button>
+            </div>
+          </div>
 
-        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.65rem;">Daftar Akun Baru (Menunggu Approval)</button>
-      </form>
-    </section>
+          <!-- Alert box -->
+          <div class="auth-alert" id="auth-alert-box"></div>
+
+          <!-- LOGIN FORM -->
+          <form id="form-login" onsubmit="event.preventDefault(); app.handleLogin();">
+            <div class="apple-input-group">
+              <label>Email Address</label>
+              <input type="email" class="apple-input-control" id="login-email" required placeholder="name@email.com">
+            </div>
+            <div class="apple-input-group">
+              <label>Password</label>
+              <input type="password" class="apple-input-control" id="login-password" required placeholder="••••••••">
+            </div>
+            
+            <button type="submit" class="btn-continue">Continue →</button>
+
+            <div style="text-align: center; margin-top: 0.85rem; font-size: 0.8rem; color: var(--apple-text-sub);">
+              Don't have an account? <a href="javascript:void(0)" onclick="app.switchAuthTab('signup')" style="color: #1d4ed8; font-weight:600; text-decoration:none;">Sign up</a>
+            </div>
+
+            <div class="auth-divider">Or</div>
+
+            <button type="button" class="btn-google-sign" onclick="app.quickDemoAdminLogin()">
+              <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.66v3.04h3.88c2.27-2.09 3.66-5.17 3.66-9.14z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.04c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.13C3.25 21.36 7.33 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.28c-.25-.72-.38-1.49-.38-2.28s.13-1.56.38-2.28V6.59H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.41l4.03-3.13z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.25 2.64 1.25 6.59l4.03 3.13c.95-2.83 3.6-4.93 6.72-4.93z"/></svg>
+              Quick Sign In as Master Admin
+            </button>
+
+            <div class="auth-disclaimer">
+              By signing up I confirm that I carefully have read and agree to the Aphi Studio Privacy Policy and Terms of Service.
+            </div>
+          </form>
+
+          <!-- SIGN UP FORM -->
+          <form id="form-signup" style="display: none;" onsubmit="event.preventDefault(); app.handleSignUp();">
+            <div class="apple-input-group">
+              <label>Full Name</label>
+              <input type="text" class="apple-input-control" id="signup-name" required placeholder="Full Name">
+            </div>
+            <div class="apple-input-group">
+              <label>Email Address</label>
+              <input type="email" class="apple-input-control" id="signup-email" required placeholder="name@email.com">
+            </div>
+            <div class="apple-input-group">
+              <label>Production Role / Department</label>
+              <select class="apple-input-control" id="signup-role">
+                <option value="Sutradara (Director)">Sutradara (Director)</option>
+                <option value="Produser (Producer)">Produser (Producer)</option>
+                <option value="1st / 2nd Assistant Director">1st / 2nd Assistant Director</option>
+                <option value="Kamera (DoP / AC / Operator)">Kamera (DoP / AC / Operator)</option>
+                <option value="Lighting & Grip (Gaffer / Key Grip)">Lighting & Grip (Gaffer / Key Grip)</option>
+                <option value="Audio & Sound Recordist">Audio & Sound Recordist</option>
+                <option value="Art Department & Props">Art Department & Props</option>
+                <option value="Wardrobe & Makeup Artist">Wardrobe & Makeup Artist</option>
+                <option value="Aktor / Cast / Talent">Aktor / Cast / Talent</option>
+                <option value="Unit & Logistik Produksi">Unit & Logistik Produksi</option>
+              </select>
+            </div>
+            <div class="grid-2">
+              <div class="apple-input-group">
+                <label>Password</label>
+                <input type="password" class="apple-input-control" id="signup-password" required placeholder="Min 6 characters">
+              </div>
+              <div class="apple-input-group">
+                <label>Confirm</label>
+                <input type="password" class="apple-input-control" id="signup-password-confirm" required placeholder="Repeat password">
+              </div>
+            </div>
+
+            <button type="submit" class="btn-continue">Create Account (Pending Approval) →</button>
+
+            <div style="text-align: center; margin-top: 0.85rem; font-size: 0.8rem; color: var(--apple-text-sub);">
+              Already have an account? <a href="javascript:void(0)" onclick="app.switchAuthTab('login')" style="color: #1d4ed8; font-weight:600; text-decoration:none;">Log in</a>
+            </div>
+
+            <div class="auth-disclaimer">
+              Akun baru memerlukan persetujuan dari Master Admin sebelum dapat masuk ke ruang kerja studio.
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
 
 
-    <!-- ==============================================
-         VIEW 1: LANDING PAGE & PROJECTS DASHBOARD
-         ============================================== -->
+    <!-- ========================================================
+         VIEW 1: LANDING & DASHBOARD (IMAGE 4 REFERENCE: _ (8).jpeg)
+         ======================================================== -->
     <main id="view-landing" style="display: none;">
-      <!-- Landing Hero Glass Banner -->
-      <section class="landing-hero glass-panel">
-        <div class="landing-hero-left">
-          <span class="badge badge-blue" style="margin-bottom: 0.6rem;">Studio Production Management</span>
-          <h2>Persiapan Produksi Tanpa Hambatan</h2>
-          <p>Kelola naskah, breakdown adegan, shot list sutradara, roster kru & cast, hingga pembuatan call sheet resmi harian dalam satu kanvas terintegrasi.</p>
-          
-          <div class="studio-stats-strip">
-            <div class="hero-stat-item">
-              <span class="hero-stat-val" id="stat-landing-projects">0</span>
-              <span class="hero-stat-lbl">Total Proyek</span>
-            </div>
-            <div class="hero-stat-item">
-              <span class="hero-stat-val" id="stat-landing-scenes">0</span>
-              <span class="hero-stat-lbl">Total Adegan</span>
-            </div>
-            <div class="hero-stat-item">
-              <span class="hero-stat-val" id="stat-landing-shots">0</span>
-              <span class="hero-stat-lbl">Planned Shots</span>
-            </div>
-            <div class="hero-stat-item">
-              <span class="hero-stat-val" id="stat-landing-gear">0</span>
-              <span class="hero-stat-lbl">Equipment Units</span>
-            </div>
-          </div>
-        </div>
+      
+      <!-- Greeting Header (Image 4) -->
+      <div class="dashboard-greeting-header">
+        <h2 id="user-greeting-heading">Good morning, Producer 👋</h2>
+        <p>What would you like to prepare today?</p>
+      </div>
 
-        <div class="landing-hero-right no-print">
-          <button class="btn btn-primary" style="padding: 0.75rem 1.5rem; font-size: 0.95rem;" onclick="app.openNewProjectModal()">
-            ✨ Mulai Proyek Baru
-          </button>
-        </div>
-      </section>
-
-      <!-- Projects Section -->
-      <section>
-        <div class="projects-section-header">
+      <!-- Action Hero Cards (Image 4: Blue and Green Cards) -->
+      <div class="action-hero-cards-grid">
+        <!-- Blue Action Card -->
+        <div class="action-card-blue">
           <div>
-            <h3 class="section-title">📂 Daftar Proyek Produksi</h3>
-            <p style="font-size: 0.8rem; color: var(--apple-text-sub);">Pilih proyek untuk membuka ruang kerja produksi dan call sheet.</p>
+            <h3>Start a new project</h3>
+            <p>Get started on a production process quickly and easily for TVC, Music Video, or Film.</p>
+            <button class="btn btn-glass" style="background:#ffffff; color:#1d4ed8; font-weight:700; box-shadow:0 4px 12px rgba(0,0,0,0.15);" onclick="app.openNewProjectModal()">
+              File an application →
+            </button>
           </div>
-          <div style="display: flex; gap: 0.5rem;">
-            <button class="btn btn-glass btn-sm" onclick="app.resetToDemoData()">🔄 Reset Demo Projects</button>
-          </div>
+          <div class="action-art-icon">📁</div>
         </div>
 
-        <div class="projects-grid" id="projects-grid-container">
+        <!-- Green Action Card -->
+        <div class="action-card-green">
+          <div>
+            <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.4rem;">
+              <span class="badge" style="background:#ffffff; color:#059669; font-weight:800; font-size:0.85rem; padding:0.25rem 0.65rem;" id="badge-total-callsheets">3</span>
+              <h3 style="margin-bottom:0;">Call Sheets & Schedule</h3>
+            </div>
+            <p>View and print today's official call sheets, cast pickup times, and hospital safety info.</p>
+            <button class="btn btn-glass" style="background:#ffffff; color:#059669; font-weight:700; box-shadow:0 4px 12px rgba(0,0,0,0.15);" onclick="app.openFirstProjectCallSheet()">
+              View call sheets →
+            </button>
+          </div>
+          <div class="action-art-icon">📋</div>
+        </div>
+      </div>
+
+      <!-- FOLDER PROJECTS SECTION (IMAGE 3 REFERENCE: (1) Home _ X.jpeg) -->
+      <section style="margin-bottom: 2.5rem;">
+        <div class="folder-grid-section-header">
+          <div>
+            <h3 style="font-size: 1.25rem; font-weight: 800; letter-spacing: -0.02em;">📂 Production Folders</h3>
+            <p style="font-size: 0.8rem; color: var(--apple-text-sub);">Pilih folder proyek untuk membuka ruang kerja produksi.</p>
+          </div>
+          <button class="btn btn-glass btn-sm" onclick="app.openNewProjectModal()">+ New Project</button>
+        </div>
+
+        <!-- The Physical Folder Cards Grid -->
+        <div class="folder-projects-grid" id="folder-projects-container">
           <!-- Rendered via JS -->
         </div>
       </section>
+
+      <!-- LOWER DASHBOARD GRID (IMAGE 4: Drafts & Activities) -->
+      <section class="dashboard-lower-grid">
+        
+        <!-- Left: Drafts / Projects List -->
+        <div class="glass-card-compact">
+          <div class="card-title-row">
+            <h3 id="drafts-count-heading">Drafts & Projects (3)</h3>
+            <span style="font-size: 0.75rem; color: var(--apple-text-tertiary);">Recent</span>
+          </div>
+
+          <div class="drafts-card-list" id="drafts-list-container">
+            <!-- Rendered via JS -->
+          </div>
+        </div>
+
+        <!-- Right: Recent Activities Feed -->
+        <div class="glass-card-compact">
+          <div class="card-title-row">
+            <h3>Recent activities</h3>
+            <span style="font-size: 0.75rem; color: var(--apple-text-tertiary);">Timeline</span>
+          </div>
+
+          <div style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: var(--apple-text-tertiary); margin-bottom: 0.75rem;">TODAY</div>
+
+          <div class="timeline-feed-item">
+            <span>🎬</span>
+            <div>
+              <div style="font-weight: 600;">Scene 1 Macro Shot Approved</div>
+              <div style="font-size: 0.72rem; color: var(--apple-text-sub);">DoP Reza signed off on Cooke 100mm Macro</div>
+            </div>
+          </div>
+
+          <div class="timeline-feed-item">
+            <span>📋</span>
+            <div>
+              <div style="font-weight: 600;">Call Sheet Day 1 Generated</div>
+              <div style="font-size: 0.72rem; color: var(--apple-text-sub);">General Crew Call set to 06:00 AM at Senopati Set</div>
+            </div>
+          </div>
+
+          <div class="timeline-feed-item">
+            <span>👥</span>
+            <div>
+              <div style="font-weight: 600;">New crew member verified</div>
+              <div style="font-size: 0.72rem; color: var(--apple-text-sub);">Budi Santoso joined as 1st Assistant Director</div>
+            </div>
+          </div>
+
+          <div style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: var(--apple-text-tertiary); margin: 1rem 0 0.75rem 0;">PREVIOUS ACTIVITY</div>
+
+          <div class="timeline-feed-item">
+            <span>📦</span>
+            <div>
+              <div style="font-weight: 600;">ARRI Alexa Mini LF rental booked</div>
+              <div style="font-size: 0.72rem; color: var(--apple-text-sub);">CineRent Jakarta confirmed delivery</div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
     </main>
 
-    <!-- ==============================================
+    <!-- ========================================================
          VIEW 2: PROJECT WORKSPACE
-         ============================================== -->
+         ======================================================== -->
     <main id="view-workspace" style="display: none;">
       
       <!-- Workspace Sub-Header & Breadcrumb -->
       <div class="workspace-header glass-panel no-print">
         <div class="workspace-breadcrumb">
-          <button class="btn btn-glass btn-sm" onclick="app.navToLanding()">← Daftar Proyek</button>
+          <button class="btn btn-glass btn-sm" onclick="app.navToLanding()">← Home Dashboard</button>
           <div class="workspace-title-box">
             <div style="display:flex; align-items:center; gap:0.5rem;">
               <h2 id="ws-project-title">Loading...</h2>
@@ -1134,9 +1535,7 @@ body {
             </div>
             <button class="btn btn-primary btn-sm" onclick="app.openAddSceneModal()">+ Tambah Adegan</button>
           </div>
-          <div id="scenes-list-container">
-            <!-- Rendered via JS -->
-          </div>
+          <div id="scenes-list-container"></div>
         </div>
       </section>
 
@@ -1170,9 +1569,7 @@ body {
                   <th style="width:75px;">Aksi</th>
                 </tr>
               </thead>
-              <tbody id="shot-list-table-body">
-                <!-- Rendered via JS -->
-              </tbody>
+              <tbody id="shot-list-table-body"></tbody>
             </table>
           </div>
         </div>
@@ -1181,7 +1578,6 @@ body {
       <!-- TAB 4: CAST & CREW -->
       <section id="tab-roster" class="tab-pane">
         <div class="grid-2">
-          <!-- Cast Roster -->
           <div class="glass-card-compact">
             <div class="card-title-row">
               <div>
@@ -1203,14 +1599,11 @@ body {
                     <th>Aksi</th>
                   </tr>
                 </thead>
-                <tbody id="cast-table-body">
-                  <!-- Rendered via JS -->
-                </tbody>
+                <tbody id="cast-table-body"></tbody>
               </table>
             </div>
           </div>
 
-          <!-- Crew Roster -->
           <div class="glass-card-compact">
             <div class="card-title-row">
               <div>
@@ -1230,9 +1623,7 @@ body {
                     <th>Aksi</th>
                   </tr>
                 </thead>
-                <tbody id="crew-table-body">
-                  <!-- Rendered via JS -->
-                </tbody>
+                <tbody id="crew-table-body"></tbody>
               </table>
             </div>
           </div>
@@ -1245,7 +1636,7 @@ body {
           <div class="card-title-row">
             <div>
               <h3>📦 Equipment & Rental Checklist</h3>
-              <p style="font-size:0.75rem; color:var(--apple-text-sub);">Checklist kamera, lensa, lighting, audio, grip, dan daya listrik genset.</p>
+              <p style="font-size:0.75rem; color:var(--apple-text-sub);">Checklist kamera, lensa, lighting, audio, grip, dan daya genset.</p>
             </div>
             <button class="btn btn-primary btn-sm" onclick="app.openAddEquipmentModal()">+ Tambah Gear</button>
           </div>
@@ -1261,9 +1652,7 @@ body {
                   <th style="width:75px;">Aksi</th>
                 </tr>
               </thead>
-              <tbody id="equipment-table-body">
-                <!-- Rendered via JS -->
-              </tbody>
+              <tbody id="equipment-table-body"></tbody>
             </table>
           </div>
         </div>
@@ -1279,9 +1668,7 @@ body {
           <button class="btn btn-primary" onclick="app.printCurrentCallSheet()">🖨️ Cetak / Download PDF</button>
         </div>
 
-        <div class="callsheet-sheet-card" id="printable-callsheet">
-          <!-- Rendered via JS -->
-        </div>
+        <div class="callsheet-sheet-card" id="printable-callsheet"></div>
       </section>
 
     </main>
@@ -1314,9 +1701,7 @@ body {
               <th style="width: 170px;">Aksi Admin</th>
             </tr>
           </thead>
-          <tbody id="admin-users-table-body">
-            <!-- Rendered via JS -->
-          </tbody>
+          <tbody id="admin-users-table-body"></tbody>
         </table>
       </div>
 
@@ -1680,7 +2065,7 @@ body {
     </div>
   </div>
 
-  <!-- Application Logic -->
+  <!-- APPLICATION LOGIC INLINED -->
   <script>
 // Multi-Project Demo Dataset for Aphi Studio Production (CinePrep)
 const INITIAL_PROJECTS = [
@@ -2070,7 +2455,6 @@ const INITIAL_PROJECTS = [
 ];
 
 
-// Master User Database Definition
 const DEFAULT_USERS = [
   {
     id: "usr_admin",
@@ -2106,14 +2490,15 @@ const DEFAULT_USERS = [
 
 class ProductionApp {
   constructor() {
-    this.storageProjectsKey = "aphi_studio_production_v4";
-    this.storageUsersKey = "aphi_studio_users_v4";
-    this.storageSessionKey = "aphi_studio_current_user_v4";
+    this.storageProjectsKey = "aphi_studio_production_v5";
+    this.storageUsersKey = "aphi_studio_users_v5";
+    this.storageSessionKey = "aphi_studio_current_user_v5";
 
     this.projects = this.loadProjects();
     this.users = this.loadUsers();
     this.currentUser = this.loadSession();
     this.activeProjectId = null;
+    this.searchQuery = "";
 
     this.initDOM();
   }
@@ -2158,11 +2543,9 @@ class ProductionApp {
   loadSession() {
     const saved = localStorage.getItem(this.storageSessionKey);
     if (saved) {
-      try {
-        return JSON.parse(saved);
-      } catch (e) {}
+      try { return JSON.parse(saved); } catch (e) {}
     }
-    return null; // Not logged in
+    return null;
   }
 
   saveSession(user) {
@@ -2184,14 +2567,11 @@ class ProductionApp {
     }
   }
 
-  // ==========================================
-  // AUTHENTICATION LOGIC (LOGIN & SIGNUP)
-  // ==========================================
   showAuthView() {
+    document.getElementById("main-header").style.display = "none";
     document.getElementById("view-auth").style.display = "block";
     document.getElementById("view-landing").style.display = "none";
     document.getElementById("view-workspace").style.display = "none";
-    this.updateHeaderControls();
   }
 
   switchAuthTab(tab) {
@@ -2200,17 +2580,20 @@ class ProductionApp {
     const btnSignup = document.getElementById("btn-tab-signup");
     const formLogin = document.getElementById("form-login");
     const formSignup = document.getElementById("form-signup");
+    const titleText = document.getElementById("auth-title-text");
 
     if (tab === "login") {
       btnLogin.classList.add("active");
       btnSignup.classList.remove("active");
       formLogin.style.display = "block";
       formSignup.style.display = "none";
+      titleText.textContent = "Log In";
     } else {
       btnLogin.classList.remove("active");
       btnSignup.classList.add("active");
       formLogin.style.display = "none";
       formSignup.style.display = "block";
+      titleText.textContent = "Join Us";
     }
   }
 
@@ -2232,22 +2615,20 @@ class ProductionApp {
 
     const user = this.users.find((u) => u.email.toLowerCase() === email && u.password === password);
     if (!user) {
-      this.showAuthAlert("❌ Email atau password salah. Silakan coba lagi.", "error");
+      this.showAuthAlert("❌ Email atau password salah.", "error");
       return;
     }
 
-    // Check approval status
     if (user.status === "pending") {
-      this.showAuthAlert("⏳ <strong>Pendaftaran Masih Menunggu Persetujuan:</strong><br>Akun Anda belum disetujui oleh Master Admin Aphi Studio. Silakan tunggu konfirmasi admin.", "warning");
+      this.showAuthAlert("⏳ <strong>Pendaftaran Menunggu Persetujuan:</strong><br>Akun Anda belum disetujui oleh Master Admin Aphi Studio. Silakan tunggu konfirmasi admin.", "warning");
       return;
     }
 
     if (user.status === "rejected") {
-      this.showAuthAlert("🚫 <strong>Akses Ditolak:</strong> Akun ini telah dinonaktifkan atau ditolak oleh Admin.", "error");
+      this.showAuthAlert("🚫 Akun ini telah ditolak atau dinonaktifkan oleh Admin.", "error");
       return;
     }
 
-    // Approved! Login successful
     this.saveSession(user);
     this.hideAuthAlert();
     document.getElementById("form-login").reset();
@@ -2262,12 +2643,12 @@ class ProductionApp {
     const confirmPass = document.getElementById("signup-password-confirm").value;
 
     if (password !== confirmPass) {
-      this.showAuthAlert("❌ Password dan Konfirmasi Password tidak cocok.", "error");
+      this.showAuthAlert("❌ Password dan Konfirmasi Password tidak sama.", "error");
       return;
     }
 
     if (this.users.some((u) => u.email.toLowerCase() === email)) {
-      this.showAuthAlert("⚠️ Email ini sudah terdaftar. Silakan gunakan email lain atau hubungi admin.", "warning");
+      this.showAuthAlert("⚠️ Email ini sudah terdaftar. Silakan log in.", "warning");
       return;
     }
 
@@ -2277,7 +2658,7 @@ class ProductionApp {
       email,
       password,
       role,
-      status: "pending", // Waiting for admin approval!
+      status: "pending",
       isAdmin: false,
       registeredAt: new Date().toISOString().split("T")[0]
     };
@@ -2287,7 +2668,16 @@ class ProductionApp {
 
     document.getElementById("form-signup").reset();
     this.switchAuthTab("login");
-    this.showAuthAlert("🎉 <strong>Pendaftaran Berhasil!</strong><br>Akun Anda telah terdaftar dan berstatus <strong>Pending Approval</strong>. Anda baru dapat masuk setelah Master Admin menyetujui akun Anda.", "success");
+    this.showAuthAlert("🎉 <strong>Pendaftaran Berhasil!</strong><br>Akun Anda berstatus <strong>Pending Approval</strong>. Harap tunggu persetujuan Master Admin sebelum masuk.", "success");
+  }
+
+  quickDemoAdminLogin() {
+    const admin = this.users.find(u => u.isAdmin);
+    if (admin) {
+      this.saveSession(admin);
+      this.hideAuthAlert();
+      this.navToLanding();
+    }
   }
 
   logout() {
@@ -2298,14 +2688,8 @@ class ProductionApp {
     }
   }
 
-  // ==========================================
-  // ADMIN APPROVAL LOGIC
-  // ==========================================
   openAdminApprovalsModal() {
-    if (!this.currentUser || !this.currentUser.isAdmin) {
-      alert("Hanya Master Admin yang memiliki hak akses persetujuan akun.");
-      return;
-    }
+    if (!this.currentUser || !this.currentUser.isAdmin) return;
     this.renderAdminUsersList();
     this.openModal("modal-admin-approvals");
   }
@@ -2354,7 +2738,6 @@ class ProductionApp {
     if (!user) return;
     user.status = "approved";
     this.saveUsers();
-    alert(`Akun "${user.name}" berhasil disetujui! Pengguna sekarang sudah bisa masuk.`);
   }
 
   rejectUser(id) {
@@ -2362,7 +2745,6 @@ class ProductionApp {
     if (!user) return;
     user.status = "rejected";
     this.saveUsers();
-    alert(`Akun "${user.name}" ditolak.`);
   }
 
   deleteUser(id) {
@@ -2379,16 +2761,14 @@ class ProductionApp {
     if (!container) return;
 
     if (!this.currentUser) {
-      container.innerHTML = `
-        <span class="badge badge-gold">Sesi Terkunci</span>
-      `;
+      container.innerHTML = ``;
       return;
     }
 
     const pendingCount = this.users.filter((u) => u.status === "pending").length;
     const adminBtn = this.currentUser.isAdmin ? `
       <button class="btn btn-admin-glass btn-sm" onclick="app.openAdminApprovalsModal()" title="Persetujuan Akun">
-        🛡️ Persetujuan Kru ${pendingCount > 0 ? `<span class="badge badge-gold" style="background:#b45309; color:#fff; font-size:0.68rem; padding:0.1rem 0.4rem; margin-left:0.2rem;">${pendingCount} Pending</span>` : ''}
+        🛡️ Kru ${pendingCount > 0 ? `<span class="badge badge-gold" style="background:#b45309; color:#fff; font-size:0.68rem; padding:0.1rem 0.4rem; margin-left:0.2rem;">${pendingCount} Pending</span>` : ''}
       </button>
     ` : '';
 
@@ -2398,9 +2778,14 @@ class ProductionApp {
         ${this.currentUser.isAdmin ? '<span class="badge badge-purple">Admin</span>' : `<span style="font-size:0.75rem; color:var(--apple-text-sub);">${this.escapeHTML(this.currentUser.role)}</span>`}
       </div>
       ${adminBtn}
-      <button class="btn btn-glass btn-sm" onclick="app.exportAllJSON()" title="Export JSON">💾 Export</button>
+      <button class="btn btn-glass btn-sm" onclick="app.exportAllJSON()" title="Export Backup">💾</button>
       <button class="btn btn-danger-glass btn-sm" onclick="app.logout()">Keluar</button>
     `;
+  }
+
+  handleSearch(val) {
+    this.searchQuery = (val || "").trim().toLowerCase();
+    this.renderLanding();
   }
 
   // ==========================================
@@ -2410,12 +2795,15 @@ class ProductionApp {
     if (!this.currentUser) return this.showAuthView();
 
     this.activeProjectId = null;
+    document.getElementById("main-header").style.display = "flex";
     document.getElementById("view-auth").style.display = "none";
     document.getElementById("view-landing").style.display = "block";
     document.getElementById("view-workspace").style.display = "none";
-    document.getElementById("header-context-container").innerHTML = `
-      <span class="badge badge-blue">Studio Management</span>
-    `;
+    document.getElementById("header-search-wrap").style.display = "flex";
+
+    // Greeting update (Image 4)
+    document.getElementById("user-greeting-heading").textContent = `Selamat datang, ${this.currentUser.name.split(' ')[0]} 👋`;
+
     this.updateHeaderControls();
     this.renderLanding();
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -2428,20 +2816,20 @@ class ProductionApp {
     const proj = this.getActiveProject();
     if (!proj) return;
 
+    document.getElementById("main-header").style.display = "flex";
     document.getElementById("view-auth").style.display = "none";
     document.getElementById("view-landing").style.display = "none";
     document.getElementById("view-workspace").style.display = "block";
+    document.getElementById("header-search-wrap").style.display = "none";
 
-    document.getElementById("header-context-container").innerHTML = `
-      <div class="header-project-pill">
-        <strong>${this.escapeHTML(proj.title)}</strong>
-        <span class="badge badge-gold">Day ${proj.currentDay || 1}/${proj.totalDays || 1}</span>
-      </div>
-    `;
+    document.getElementById("ws-project-title").textContent = proj.title || "Untitled";
+    document.getElementById("ws-project-type").textContent = proj.type || "Film/Video";
+    document.getElementById("ws-day-badge").textContent = `Day ${proj.currentDay || 1}/${proj.totalDays || 1}`;
+    document.getElementById("ws-project-sub").innerHTML = `Klien: <strong>${this.escapeHTML(proj.client || "-")}</strong> &bull; Sutradara: <strong>${this.escapeHTML(proj.director || "-")}</strong> &bull; Tanggal: <strong>${proj.shootDate || "-"}</strong>`;
 
     this.updateHeaderControls();
 
-    // Reset active tab to Overview
+    // Reset tab to Overview
     document.querySelectorAll(".seg-tab-btn").forEach((b) => b.classList.remove("active"));
     document.querySelectorAll("#view-workspace .tab-pane").forEach((p) => p.classList.remove("active"));
     const firstTabBtn = document.querySelector(`.seg-tab-btn[data-tab="tab-overview"]`);
@@ -2453,58 +2841,127 @@ class ProductionApp {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
+  openFirstProjectCallSheet() {
+    const first = this.projects[0];
+    if (first) {
+      this.openProject(first.id);
+      const csBtn = document.querySelector(`.seg-tab-btn[data-tab="tab-callsheet"]`);
+      if (csBtn) csBtn.click();
+    }
+  }
+
   getActiveProject() {
     return this.projects.find((p) => p.id === this.activeProjectId) || this.projects[0];
   }
 
-  resetToDemoData() {
-    if (confirm("Reset seluruh daftar proyek ke data demo bawaan?")) {
-      this.projects = JSON.parse(JSON.stringify(INITIAL_PROJECTS));
-      this.saveProjects();
-      this.activeProjectId = null;
-      this.navToLanding();
-      alert("Proyek berhasil di-reset ke sample demo!");
+  // ==========================================
+  // VIEW 1: LANDING & DASHBOARD RENDERING
+  // ==========================================
+  renderLanding() {
+    const grid = document.getElementById("folder-projects-container");
+    const draftsContainer = document.getElementById("drafts-list-container");
+    if (!grid) return;
+
+    let filtered = this.projects;
+    if (this.searchQuery) {
+      filtered = this.projects.filter(p => 
+        (p.title || "").toLowerCase().includes(this.searchQuery) ||
+        (p.client || "").toLowerCase().includes(this.searchQuery) ||
+        (p.type || "").toLowerCase().includes(this.searchQuery)
+      );
     }
+
+    document.getElementById("badge-total-callsheets").textContent = this.projects.length;
+    document.getElementById("drafts-count-heading").textContent = `Drafts & Projects (${filtered.length})`;
+
+    // 1. RENDER FOLDER CARDS (IMAGE 3 REFERENCE)
+    let folderHtml = "";
+    filtered.forEach((p, idx) => {
+      let themeClass = "theme-gradient-blue";
+      if (p.type.includes("Music Video") || p.type.includes("MV")) themeClass = "theme-gradient-red";
+      else if (p.type.includes("Short Film") || p.type.includes("Feature")) themeClass = "theme-gradient-green";
+      else if (idx % 3 === 1) themeClass = "theme-gradient-purple";
+
+      const sceneCount = (p.scenes || []).length;
+      const shotCount = (p.shots || []).length;
+
+      folderHtml += `
+        <div class="folder-card ${themeClass}" onclick="app.openProject('${p.id}')">
+          <!-- 3 White Sheets Peeking Out (Image 3) -->
+          <div class="peeking-sheets-wrapper">
+            <div class="peeking-sheet sheet-left">
+              <div class="paper-line" style="width:75%;"></div>
+              <div class="paper-line" style="width:90%;"></div>
+              <div class="paper-line" style="width:60%;"></div>
+            </div>
+            <div class="peeking-sheet sheet-right">
+              <div class="paper-line" style="width:85%;"></div>
+              <div class="paper-line" style="width:70%;"></div>
+              <div class="paper-line" style="width:50%;"></div>
+            </div>
+            <div class="peeking-sheet sheet-center">
+              <div class="paper-line" style="width:80%;"></div>
+              <div class="paper-line" style="width:95%;"></div>
+              <div class="paper-line" style="width:65%;"></div>
+              <div class="paper-line" style="width:85%;"></div>
+            </div>
+          </div>
+
+          <!-- Dark Folder Pocket Flap (Image 3) -->
+          <div class="folder-dark-pocket">
+            <div class="folder-pocket-tab-cut"></div>
+            <div class="folder-title-row">
+              <h4>${this.escapeHTML(p.title)}</h4>
+              <span style="cursor:pointer; font-size:1.1rem; opacity:0.8;" onclick="event.stopPropagation(); app.deleteProject('${p.id}')" title="Hapus Proyek">•••</span>
+            </div>
+            <div class="folder-subtext">${this.escapeHTML(p.type)} &bull; ${this.escapeHTML(p.status || "In Prep")}</div>
+
+            <div class="folder-footer-stats">
+              <span>📄 ${sceneCount} Scenes &bull; ${shotCount} Shots</span>
+              <span style="font-weight:600; color:#ffffff;">Day ${p.currentDay || 1}/${p.totalDays || 1}</span>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+
+    // Add New Project Folder Card
+    folderHtml += `
+      <div class="folder-card" style="background:#ffffff; border: 2px dashed #cbd5e1; display:flex; align-items:center; justify-content:center; text-align:center;" onclick="app.openNewProjectModal()">
+        <div>
+          <div style="font-size:2.8rem; margin-bottom:0.5rem;">✨</div>
+          <h4 style="font-size:1.05rem; font-weight:800; color:#1d4ed8; margin-bottom:0.25rem;">+ New Production</h4>
+          <p style="font-size:0.78rem; color:var(--apple-text-sub);">Start a new TVC, MV, or Film</p>
+        </div>
+      </div>
+    `;
+
+    grid.innerHTML = folderHtml;
+
+    // 2. RENDER DRAFTS LIST (IMAGE 4 LOWER TABLE)
+    let draftsHtml = "";
+    filtered.forEach((p) => {
+      draftsHtml += `
+        <div class="draft-item-row" onclick="app.openProject('${p.id}')" style="cursor:pointer;">
+          <div class="draft-item-left">
+            <div class="draft-icon-box">📁</div>
+            <div>
+              <div style="font-weight:700; font-size:0.86rem; color:var(--apple-dark);">${this.escapeHTML(p.title)}</div>
+              <div style="font-size:0.74rem; color:var(--apple-text-tertiary);">${this.escapeHTML(p.type)} &bull; ${p.shootDate || "No date"}</div>
+            </div>
+          </div>
+          <button class="btn btn-glass btn-sm" style="font-size:0.75rem;" onclick="event.stopPropagation(); app.openProject('${p.id}')">
+            Resume
+          </button>
+        </div>
+      `;
+    });
+    draftsContainer.innerHTML = draftsHtml || `<div style="text-align:center; padding:1rem; color:var(--apple-text-sub);">No projects found.</div>`;
   }
 
-  exportAllJSON() {
-    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({
-      projects: this.projects,
-      users: this.users
-    }, null, 2));
-    const downloadAnchor = document.createElement("a");
-    downloadAnchor.setAttribute("href", dataStr);
-    downloadAnchor.setAttribute("download", `aphi_studio_backup_${Date.now()}.json`);
-    document.body.appendChild(downloadAnchor);
-    downloadAnchor.click();
-    downloadAnchor.remove();
-  }
-
-  importAllJSON(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      try {
-        const imported = JSON.parse(e.target.result);
-        if (Array.isArray(imported)) {
-          this.projects = imported;
-        } else if (imported && Array.isArray(imported.projects)) {
-          this.projects = imported.projects;
-          if (Array.isArray(imported.users)) this.users = imported.users;
-        }
-        this.saveProjects();
-        this.saveUsers();
-        this.navToLanding();
-        alert("Data proyek berhasil di-import!");
-      } catch (err) {
-        alert("Gagal membaca file JSON: " + err.message);
-      }
-    };
-    reader.readAsText(file);
-    event.target.value = "";
-  }
-
+  // ==========================================
+  // WORKSPACE VIEW LOGIC
+  // ==========================================
   setupWorkspaceTabs() {
     const tabBtns = document.querySelectorAll(".seg-tab-btn");
     tabBtns.forEach((btn) => {
@@ -2524,167 +2981,9 @@ class ProductionApp {
     });
   }
 
-  // ==========================================
-  // VIEW 1: LANDING PAGE RENDERING
-  // ==========================================
-  renderLanding() {
-    let totalScenes = 0;
-    let totalShots = 0;
-    let totalGear = 0;
-
-    this.projects.forEach((p) => {
-      totalScenes += (p.scenes || []).length;
-      totalShots += (p.shots || []).length;
-      totalGear += (p.equipment || []).length;
-    });
-
-    document.getElementById("stat-landing-projects").textContent = this.projects.length;
-    document.getElementById("stat-landing-scenes").textContent = totalScenes;
-    document.getElementById("stat-landing-shots").textContent = totalShots;
-    document.getElementById("stat-landing-gear").textContent = totalGear;
-
-    const grid = document.getElementById("projects-grid-container");
-    if (!grid) return;
-
-    let html = "";
-    this.projects.forEach((proj) => {
-      const typeColor = proj.type.includes("TVC") ? "badge-blue" : (proj.type.includes("MV") ? "badge-purple" : "badge-gold");
-      const statusColor = proj.status === "Ready to Shoot" ? "badge-green" : "badge-gold";
-
-      html += `
-        <div class="project-card" onclick="app.openProject('${proj.id}')">
-          <div>
-            <div class="project-card-header">
-              <span class="badge ${typeColor}">${this.escapeHTML(proj.type)}</span>
-              <span class="badge ${statusColor}">${this.escapeHTML(proj.status || "In Prep")}</span>
-            </div>
-            <h4 class="project-card-title">${this.escapeHTML(proj.title)}</h4>
-            <div class="project-card-client">
-              Klien: <strong>${this.escapeHTML(proj.client || "-")}</strong> &bull; Dir: <strong>${this.escapeHTML(proj.director || "-")}</strong>
-            </div>
-
-            <div class="project-card-stats">
-              <span>🎬 <strong>${(proj.scenes || []).length}</strong> Scenes</span>
-              <span>🎥 <strong>${(proj.shots || []).length}</strong> Shots</span>
-              <span>🎭 <strong>${(proj.cast || []).length}</strong> Cast</span>
-              <span>📦 <strong>${(proj.equipment || []).length}</strong> Gear</span>
-            </div>
-          </div>
-
-          <div>
-            <div class="project-card-footer">
-              <span class="project-date-tag">
-                📅 ${proj.shootDate || "Belum ada tgl"} (Day ${proj.currentDay || 1}/${proj.totalDays || 1})
-              </span>
-              <div style="display:flex; gap:0.4rem;" onclick="event.stopPropagation();">
-                <button class="btn btn-glass btn-sm" onclick="app.openProject('${proj.id}')" title="Buka Workspace Produksi">Buka Workspace →</button>
-                <button class="btn btn-danger-glass btn-sm" onclick="app.deleteProject('${proj.id}')" title="Hapus Proyek">🗑️</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-    });
-
-    // Add New Project Card
-    html += `
-      <div class="project-card" style="border: 2px dashed rgba(0, 113, 227, 0.3); background: rgba(255, 255, 255, 0.4); display: flex; align-items: center; justify-content: center; text-align: center; min-height: 200px;" onclick="app.openNewProjectModal()">
-        <div>
-          <div style="font-size: 2.2rem; margin-bottom: 0.5rem;">✨</div>
-          <h4 style="font-size: 1.05rem; font-weight: 700; color: var(--apple-blue); margin-bottom: 0.25rem;">Buat Proyek Baru</h4>
-          <p style="font-size: 0.8rem; color: var(--apple-text-sub);">TVC, Music Video, Film Pendek, atau Dokumenter</p>
-        </div>
-      </div>
-    `;
-
-    grid.innerHTML = html;
-  }
-
-  openNewProjectModal() {
-    document.getElementById("np-title").value = "";
-    document.getElementById("np-client").value = "";
-    document.getElementById("np-director").value = "";
-    document.getElementById("np-shoot-date").value = new Date().toISOString().split("T")[0];
-    this.openModal("modal-new-project");
-  }
-
-  submitNewProject() {
-    const title = document.getElementById("np-title").value.trim();
-    if (!title) return;
-
-    const newProj = {
-      id: `proj_${Date.now()}`,
-      title,
-      type: document.getElementById("np-type").value,
-      status: "In Prep",
-      client: document.getElementById("np-client").value.trim() || "-",
-      agency: "-",
-      productionCompany: "Aphi Studio Production",
-      director: document.getElementById("np-director").value.trim() || "-",
-      producer: "-",
-      firstAD: "-",
-      dop: "-",
-      currentDay: 1,
-      totalDays: 1,
-      shootDate: document.getElementById("np-shoot-date").value || "",
-      weather: "Cerah, 28°C",
-      sunrise: "05:30 AM",
-      sunset: "17:45 PM",
-      generalCall: "06:00 AM",
-      locationName: "Studio Set Utama",
-      locationAddress: "",
-      parkingNotes: "Parkir area produksi",
-      hospitalName: "RS Terdekat 24 Jam",
-      hospitalAddress: "",
-      hospitalPhone: "",
-      scenes: [],
-      shots: [],
-      cast: [],
-      crew: [],
-      equipment: [],
-      daySchedule: [
-        { time: "06:00 AM", activity: "Crew Call & Breakfast" },
-        { time: "07:00 AM", activity: "Cast Hair & Makeup" },
-        { time: "08:00 AM", activity: "Roll Camera Scene 1" },
-        { time: "12:00 PM", activity: "Lunch Break" },
-        { time: "18:00 PM", activity: "Estimated Wrap" }
-      ],
-      departmentNotes: {
-        production: "Patuhi call time dan jaga kebersihan set.",
-        camera: "Backup media berkala.",
-        lighting: "Safety first.",
-        sound: "Hening saat roll sound.",
-        art: "Siapkan props sebelum blocking."
-      }
-    };
-
-    this.projects.push(newProj);
-    this.saveProjects();
-    this.closeModal("modal-new-project");
-    this.openProject(newProj.id);
-  }
-
-  deleteProject(id) {
-    const p = this.projects.find((item) => item.id === id);
-    if (!p) return;
-    if (confirm(`Yakin ingin menghapus proyek "${p.title}"?`)) {
-      this.projects = this.projects.filter((item) => item.id !== id);
-      this.saveProjects();
-      this.renderLanding();
-    }
-  }
-
-  // ==========================================
-  // VIEW 2: WORKSPACE RENDERING
-  // ==========================================
   renderWorkspaceAll() {
     const p = this.getActiveProject();
     if (!p) return;
-
-    document.getElementById("ws-project-title").textContent = p.title || "Untitled";
-    document.getElementById("ws-project-type").textContent = p.type || "Film/Video";
-    document.getElementById("ws-day-badge").textContent = `Day ${p.currentDay || 1} of ${p.totalDays || 1}`;
-    document.getElementById("ws-project-sub").innerHTML = `Klien: <strong>${this.escapeHTML(p.client || "-")}</strong> &bull; Sutradara: <strong>${this.escapeHTML(p.director || "-")}</strong> &bull; Tanggal: <strong>${p.shootDate || "-"}</strong>`;
 
     this.updateWorkspaceStats();
     this.renderWorkspaceProjectForm();
@@ -2767,12 +3066,11 @@ class ProductionApp {
     alert("Data proyek berhasil disimpan!");
   }
 
-  // --- TAB 2: SCRIPT BREAKDOWN ---
   renderScenes() {
     const p = this.getActiveProject();
     const container = document.getElementById("scenes-list-container");
     if (!p || !p.scenes || p.scenes.length === 0) {
-      container.innerHTML = `<div style="text-align:center; padding:1.5rem; color:var(--apple-text-sub);">Belum ada adegan. Klik <strong>+ Tambah Adegan</strong> untuk memulai script breakdown.</div>`;
+      container.innerHTML = `<div style="text-align:center; padding:1.5rem; color:var(--apple-text-sub);">Belum ada adegan. Klik <strong>+ Tambah Adegan</strong>.</div>`;
       return;
     }
 
@@ -2937,7 +3235,6 @@ class ProductionApp {
     }
   }
 
-  // --- TAB 3: SHOT LIST ---
   renderShotList() {
     const p = this.getActiveProject();
     const tbody = document.getElementById("shot-list-table-body");
@@ -3065,7 +3362,6 @@ class ProductionApp {
     }
   }
 
-  // --- TAB 4: CAST & CREW ---
   renderCast() {
     const p = this.getActiveProject();
     const tbody = document.getElementById("cast-table-body");
@@ -3241,7 +3537,6 @@ class ProductionApp {
     }
   }
 
-  // --- TAB 5: EQUIPMENT ---
   renderEquipment() {
     const p = this.getActiveProject();
     const tbody = document.getElementById("equipment-table-body");
@@ -3320,7 +3615,80 @@ class ProductionApp {
     }
   }
 
-  // --- TAB 6: CALL SHEET ---
+  openNewProjectModal() {
+    document.getElementById("np-title").value = "";
+    document.getElementById("np-client").value = "";
+    document.getElementById("np-director").value = "";
+    document.getElementById("np-shoot-date").value = new Date().toISOString().split("T")[0];
+    this.openModal("modal-new-project");
+  }
+
+  submitNewProject() {
+    const title = document.getElementById("np-title").value.trim();
+    if (!title) return;
+
+    const newProj = {
+      id: `proj_${Date.now()}`,
+      title,
+      type: document.getElementById("np-type").value,
+      status: "In Prep",
+      client: document.getElementById("np-client").value.trim() || "-",
+      agency: "-",
+      productionCompany: "Aphi Studio Production",
+      director: document.getElementById("np-director").value.trim() || "-",
+      producer: "-",
+      firstAD: "-",
+      dop: "-",
+      currentDay: 1,
+      totalDays: 1,
+      shootDate: document.getElementById("np-shoot-date").value || "",
+      weather: "Cerah, 28°C",
+      sunrise: "05:30 AM",
+      sunset: "17:45 PM",
+      generalCall: "06:00 AM",
+      locationName: "Studio Set Utama",
+      locationAddress: "",
+      parkingNotes: "Parkir area produksi",
+      hospitalName: "RS Terdekat 24 Jam",
+      hospitalAddress: "",
+      hospitalPhone: "",
+      scenes: [],
+      shots: [],
+      cast: [],
+      crew: [],
+      equipment: [],
+      daySchedule: [
+        { time: "06:00 AM", activity: "Crew Call & Breakfast" },
+        { time: "07:00 AM", activity: "Cast Hair & Makeup" },
+        { time: "08:00 AM", activity: "Roll Camera Scene 1" },
+        { time: "12:00 PM", activity: "Lunch Break" },
+        { time: "18:00 PM", activity: "Estimated Wrap" }
+      ],
+      departmentNotes: {
+        production: "Patuhi call time dan jaga kebersihan set.",
+        camera: "Backup media berkala.",
+        lighting: "Safety first.",
+        sound: "Hening saat roll sound.",
+        art: "Siapkan props sebelum blocking."
+      }
+    };
+
+    this.projects.push(newProj);
+    this.saveProjects();
+    this.closeModal("modal-new-project");
+    this.openProject(newProj.id);
+  }
+
+  deleteProject(id) {
+    const p = this.projects.find((item) => item.id === id);
+    if (!p) return;
+    if (confirm(`Hapus proyek "${p.title}"?`)) {
+      this.projects = this.projects.filter((item) => item.id !== id);
+      this.saveProjects();
+      this.renderLanding();
+    }
+  }
+
   renderCallSheet() {
     const cs = document.getElementById("printable-callsheet");
     const d = this.getActiveProject();
@@ -3468,7 +3836,7 @@ class ProductionApp {
 
       <div class="cs-footer">
         <div><strong>Director:</strong> ${this.escapeHTML(d.director || "-")}</div>
-        <div><strong>Producer:</strong> ${this.escapeHTML(d.producer || "-")}</div>
+        <div><strong>Producer:</strong> ${this.escapeHTML(d.producer || "-")}}</div>
         <div><strong>1st AD:</strong> ${this.escapeHTML(d.firstAD || "-")}</div>
         <div><strong>DoP:</strong> ${this.escapeHTML(d.dop || "-")}</div>
       </div>
@@ -3482,7 +3850,6 @@ class ProductionApp {
     window.print();
   }
 
-  // --- MODAL UTILS ---
   openModal(modalId) {
     const el = document.getElementById(modalId);
     if (el) {
@@ -3510,7 +3877,6 @@ class ProductionApp {
   }
 }
 
-// Global App Initialization
 let app;
 window.addEventListener("DOMContentLoaded", () => {
   app = new ProductionApp();
