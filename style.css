@@ -1063,3 +1063,205 @@ body {
   .cs-hospital-box { background: #fff5f5 !important; border: 2px solid #b91c1c !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   @page { size: A4 portrait; margin: 10mm; }
 }
+
+/* ========================================================
+   FEATURE 1: STORYBOARD DECK CSS
+   ======================================================== */
+.storyboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+
+.storyboard-card {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.storyboard-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+  border-color: rgba(0, 113, 227, 0.3);
+}
+
+.storyboard-frame-box {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #0f172a;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.storyboard-frame-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.storyboard-card:hover .storyboard-frame-box img {
+  transform: scale(1.03);
+}
+
+.sb-shot-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.storyboard-body {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.sb-framing-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--apple-dark);
+  margin-bottom: 0.25rem;
+}
+
+.sb-caption-text {
+  font-size: 0.8rem;
+  color: var(--apple-text-sub);
+  line-height: 1.4;
+  margin-bottom: 0.75rem;
+}
+
+.sb-footer-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  padding-top: 0.6rem;
+  font-size: 0.72rem;
+  color: var(--apple-text-tertiary);
+}
+
+/* ========================================================
+   FEATURE 2: DIGITAL STRIPBOARD CSS
+   ======================================================== */
+.stripboard-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+.strip-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 1rem;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+  transition: all 0.15s ease;
+}
+
+.strip-ext-day { background: #fef08a; color: #854d0e; border-left: 6px solid #eab308; }
+.strip-int-day { background: #dcfce7; color: #166534; border-left: 6px solid #22c55e; }
+.strip-ext-night { background: #dbeafe; color: #1e40af; border-left: 6px solid #3b82f6; }
+.strip-int-night { background: #ede9fe; color: #5b21b6; border-left: 6px solid #8b5cf6; }
+
+.strip-daybreak {
+  background: #1e293b;
+  color: #f8fafc;
+  padding: 0.75rem 1.25rem;
+  border-radius: 10px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 0.82rem;
+  border-left: 6px solid #f59e0b;
+}
+
+.strip-left-info {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.strip-scene-num {
+  font-weight: 900;
+  font-size: 0.95rem;
+  min-width: 45px;
+}
+
+/* ========================================================
+   FEATURE 3: DIGITAL CONTINUITY & CAMERA LOG
+   ======================================================== */
+.circle-take-star {
+  cursor: pointer;
+  font-size: 1.25rem;
+  color: #cbd5e1;
+  transition: all 0.15s ease;
+}
+.circle-take-star.active {
+  color: #f59e0b;
+  transform: scale(1.15);
+}
+
+/* ========================================================
+   FEATURE 4: BUDGET & PETTY CASH TRACKER
+   ======================================================== */
+.budget-progress-track {
+  width: 100%;
+  height: 8px;
+  background: #e2e8f0;
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  margin: 0.5rem 0 1rem 0;
+}
+
+.budget-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #10b981, #0071e3);
+  border-radius: var(--radius-pill);
+  transition: width 0.3s ease;
+}
+
+/* ========================================================
+   FEATURE 5: CLOUD DATABASE SYNC ENGINE
+   ======================================================== */
+.cloud-sync-banner {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  color: #ffffff;
+  border-radius: 20px;
+  padding: 1.75rem 2rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cloud-pulse-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-pill);
+  background: #10b981;
+  box-shadow: 0 0 12px #10b981;
+  display: inline-block;
+  margin-right: 0.4rem;
+}

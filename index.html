@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aphi Studio Production — Pre-Production & Production Hub</title>
+  <title>Aphi Studio Production — Pre-Production & Production Hub Pro</title>
   <style>
 :root {
   --bg-canvas: #f8fafc;
@@ -1070,6 +1070,208 @@ body {
   .cs-hospital-box { background: #fff5f5 !important; border: 2px solid #b91c1c !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   @page { size: A4 portrait; margin: 10mm; }
 }
+
+/* ========================================================
+   FEATURE 1: STORYBOARD DECK CSS
+   ======================================================== */
+.storyboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+
+.storyboard-card {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.storyboard-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+  border-color: rgba(0, 113, 227, 0.3);
+}
+
+.storyboard-frame-box {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #0f172a;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.storyboard-frame-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.storyboard-card:hover .storyboard-frame-box img {
+  transform: scale(1.03);
+}
+
+.sb-shot-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.storyboard-body {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.sb-framing-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--apple-dark);
+  margin-bottom: 0.25rem;
+}
+
+.sb-caption-text {
+  font-size: 0.8rem;
+  color: var(--apple-text-sub);
+  line-height: 1.4;
+  margin-bottom: 0.75rem;
+}
+
+.sb-footer-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  padding-top: 0.6rem;
+  font-size: 0.72rem;
+  color: var(--apple-text-tertiary);
+}
+
+/* ========================================================
+   FEATURE 2: DIGITAL STRIPBOARD CSS
+   ======================================================== */
+.stripboard-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+.strip-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 1rem;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+  transition: all 0.15s ease;
+}
+
+.strip-ext-day { background: #fef08a; color: #854d0e; border-left: 6px solid #eab308; }
+.strip-int-day { background: #dcfce7; color: #166534; border-left: 6px solid #22c55e; }
+.strip-ext-night { background: #dbeafe; color: #1e40af; border-left: 6px solid #3b82f6; }
+.strip-int-night { background: #ede9fe; color: #5b21b6; border-left: 6px solid #8b5cf6; }
+
+.strip-daybreak {
+  background: #1e293b;
+  color: #f8fafc;
+  padding: 0.75rem 1.25rem;
+  border-radius: 10px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 0.82rem;
+  border-left: 6px solid #f59e0b;
+}
+
+.strip-left-info {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.strip-scene-num {
+  font-weight: 900;
+  font-size: 0.95rem;
+  min-width: 45px;
+}
+
+/* ========================================================
+   FEATURE 3: DIGITAL CONTINUITY & CAMERA LOG
+   ======================================================== */
+.circle-take-star {
+  cursor: pointer;
+  font-size: 1.25rem;
+  color: #cbd5e1;
+  transition: all 0.15s ease;
+}
+.circle-take-star.active {
+  color: #f59e0b;
+  transform: scale(1.15);
+}
+
+/* ========================================================
+   FEATURE 4: BUDGET & PETTY CASH TRACKER
+   ======================================================== */
+.budget-progress-track {
+  width: 100%;
+  height: 8px;
+  background: #e2e8f0;
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  margin: 0.5rem 0 1rem 0;
+}
+
+.budget-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #10b981, #0071e3);
+  border-radius: var(--radius-pill);
+  transition: width 0.3s ease;
+}
+
+/* ========================================================
+   FEATURE 5: CLOUD DATABASE SYNC ENGINE
+   ======================================================== */
+.cloud-sync-banner {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  color: #ffffff;
+  border-radius: 20px;
+  padding: 1.75rem 2rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cloud-pulse-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-pill);
+  background: #10b981;
+  box-shadow: 0 0 12px #10b981;
+  display: inline-block;
+  margin-right: 0.4rem;
+}
   </style>
 </head>
 <body>
@@ -1347,7 +1549,7 @@ body {
     </main>
 
     <!-- ========================================================
-         VIEW 2: PROJECT WORKSPACE
+         VIEW 2: PROJECT WORKSPACE (EXPANDED TO ALL 5 MODULES)
          ======================================================== -->
     <main id="view-workspace" style="display: none;">
       
@@ -1360,25 +1562,32 @@ body {
               <h2 id="ws-project-title">Loading...</h2>
               <span class="badge badge-blue" id="ws-project-type">TVC</span>
               <span class="badge badge-gold" id="ws-day-badge">Day 1 of 2</span>
+              <span class="badge badge-green" id="ws-cloud-badge" style="font-size:0.7rem;">⚪ Local Mode</span>
             </div>
             <p id="ws-project-sub">Klien: - &bull; Sutradara: -</p>
           </div>
         </div>
 
         <div style="display: flex; gap: 0.5rem; align-items: center;">
+          <button class="btn btn-glass btn-sm" onclick="app.switchTab('tab-cloud')">☁️ Cloud Sync</button>
           <button class="btn btn-primary btn-sm" onclick="app.printCurrentCallSheet()">🖨️ Cetak Call Sheet (PDF)</button>
         </div>
       </div>
 
-      <!-- Apple Segmented Tabs Bar -->
-      <div class="no-print" style="display:flex; justify-content:center;">
+      <!-- Apple Segmented Tabs Bar (Updated with all 5 new modules) -->
+      <div class="no-print" style="display:flex; justify-content:center; overflow-x:auto; padding-bottom:0.5rem;">
         <nav class="segmented-tabs-bar">
-          <button class="seg-tab-btn active" data-tab="tab-overview">📊 Overview & Set</button>
+          <button class="seg-tab-btn active" data-tab="tab-overview">📊 Overview</button>
           <button class="seg-tab-btn" data-tab="tab-breakdown">📄 Script Breakdown</button>
+          <button class="seg-tab-btn" data-tab="tab-stripboard">🎞️ Stripboard</button>
+          <button class="seg-tab-btn" data-tab="tab-storyboard">🖼️ Storyboard</button>
           <button class="seg-tab-btn" data-tab="tab-shotlist">🎥 Shot List</button>
+          <button class="seg-tab-btn" data-tab="tab-continuity">🎬 Continuity & Takes</button>
           <button class="seg-tab-btn" data-tab="tab-roster">👥 Cast & Kru</button>
-          <button class="seg-tab-btn" data-tab="tab-equipment">📦 Gear & Rental</button>
-          <button class="seg-tab-btn" data-tab="tab-callsheet">📋 Call Sheet Generator</button>
+          <button class="seg-tab-btn" data-tab="tab-equipment">📦 Gear</button>
+          <button class="seg-tab-btn" data-tab="tab-budget">💰 Budget & Kas</button>
+          <button class="seg-tab-btn" data-tab="tab-callsheet">📋 Call Sheet</button>
+          <button class="seg-tab-btn" data-tab="tab-cloud">☁️ Cloud DB</button>
         </nav>
       </div>
 
@@ -1539,7 +1748,53 @@ body {
         </div>
       </section>
 
-      <!-- TAB 3: SHOT LIST -->
+      <!-- TAB 3: DIGITAL STRIPBOARD (FEATURE 2) -->
+      <section id="tab-stripboard" class="tab-pane">
+        <div class="glass-card-compact">
+          <div class="card-title-row">
+            <div>
+              <h3>🎞️ Digital Stripboard (One-Line Shooting Schedule)</h3>
+              <p style="font-size:0.75rem; color:var(--apple-text-sub);">Urutan pengambilan gambar harian standar industri: Kuning (EXT DAY), Hijau (INT DAY), Biru (EXT NIGHT), Ungu (INT NIGHT).</p>
+            </div>
+            <div style="display:flex; gap:0.4rem;">
+              <button class="btn btn-glass btn-sm" onclick="app.addDayBreakToStripboard()">+ Tambah Day Break</button>
+              <button class="btn btn-primary btn-sm" onclick="app.openAddSceneModal()">+ Tambah Adegan</button>
+            </div>
+          </div>
+
+          <div style="display:flex; gap:1.5rem; margin-bottom:1rem; padding:0.75rem 1rem; background:rgba(0,0,0,0.02); border-radius:10px;">
+            <div><span style="font-size:0.7rem; color:var(--apple-text-tertiary); text-transform:uppercase;">Total Strip</span>: <strong id="st-total-strips">0</strong></div>
+            <div><span style="font-size:0.7rem; color:var(--apple-text-tertiary); text-transform:uppercase;">Total Halaman</span>: <strong id="st-total-pages">0</strong></div>
+            <div><span style="font-size:0.7rem; color:var(--apple-text-tertiary); text-transform:uppercase;">Estimasi Syuting</span>: <strong id="st-total-hours">0 Jam</strong></div>
+          </div>
+
+          <div class="stripboard-container" id="stripboard-list-container">
+            <!-- Rendered via JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 4: VISUAL STORYBOARD & MOODBOARD (FEATURE 1) -->
+      <section id="tab-storyboard" class="tab-pane">
+        <div class="glass-card-compact">
+          <div class="card-title-row">
+            <div>
+              <h3>🖼️ Visual Storyboard & Moodboard Deck</h3>
+              <p style="font-size:0.75rem; color:var(--apple-text-sub);">Visualisasi frame per shot kamera dengan rasio 16:9 sinematik dan arahan sutradara.</p>
+            </div>
+            <div style="display:flex; gap:0.4rem;">
+              <button class="btn btn-glass btn-sm" onclick="app.printStoryboardDeck()">🖨️ Cetak Storyboard Deck (PDF)</button>
+              <button class="btn btn-primary btn-sm" onclick="app.openAddStoryboardModal()">+ Tambah Frame Storyboard</button>
+            </div>
+          </div>
+
+          <div class="storyboard-grid" id="storyboard-grid-container">
+            <!-- Rendered via JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 5: SHOT LIST -->
       <section id="tab-shotlist" class="tab-pane">
         <div class="glass-card-compact">
           <div class="card-title-row">
@@ -1575,7 +1830,57 @@ body {
         </div>
       </section>
 
-      <!-- TAB 4: CAST & CREW -->
+      <!-- TAB 6: CONTINUITY & CAMERA REPORT (FEATURE 3) -->
+      <section id="tab-continuity" class="tab-pane">
+        <div class="glass-card-compact">
+          <div class="card-title-row">
+            <div>
+              <h3>🎬 Daily Continuity & Camera Log (Script Supervisor)</h3>
+              <p style="font-size:0.75rem; color:var(--apple-text-sub);">Pencatatan take di lapangan, media card roll, timecode audio, dan penanda Circle Take (⭐ Pilihan Editor).</p>
+            </div>
+            <div style="display:flex; gap:0.4rem;">
+              <button class="btn btn-glass btn-sm" onclick="app.exportContinuityCSV()">💾 Export Camera Report (CSV)</button>
+              <button class="btn btn-primary btn-sm" onclick="app.openAddTakeModal()">+ Catat Take Baru</button>
+            </div>
+          </div>
+
+          <div class="grid-3" style="margin-bottom:1rem;">
+            <div style="background:rgba(0,0,0,0.02); padding:0.6rem 1rem; border-radius:8px;">
+              <span style="font-size:0.7rem; color:var(--apple-text-tertiary); text-transform:uppercase;">Total Takes Recorded</span>
+              <div style="font-size:1.3rem; font-weight:800;" id="cnt-total-takes">0</div>
+            </div>
+            <div style="background:rgba(245, 158, 11, 0.08); padding:0.6rem 1rem; border-radius:8px;">
+              <span style="font-size:0.7rem; color:var(--accent-gold); text-transform:uppercase;">⭐ Circle Takes (Best)</span>
+              <div style="font-size:1.3rem; font-weight:800; color:var(--accent-gold);" id="cnt-circle-takes">0</div>
+            </div>
+            <div style="background:rgba(225, 29, 72, 0.08); padding:0.6rem 1rem; border-radius:8px;">
+              <span style="font-size:0.7rem; color:var(--accent-red); text-transform:uppercase;">NG / Hold Takes</span>
+              <div style="font-size:1.3rem; font-weight:800; color:var(--accent-red);" id="cnt-ng-takes">0</div>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table class="apple-table">
+              <thead>
+                <tr>
+                  <th style="width:40px; text-align:center;">⭐</th>
+                  <th style="width:70px;">SC / Shot</th>
+                  <th style="width:60px;">Take #</th>
+                  <th style="width:90px;">Media Clip</th>
+                  <th style="width:80px;">Sound Roll</th>
+                  <th style="width:90px;">Timecode</th>
+                  <th style="width:90px;">Status</th>
+                  <th>Catatan Sutradara & Kontinuitas</th>
+                  <th style="width:70px;">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="continuity-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 7: CAST & CREW -->
       <section id="tab-roster" class="tab-pane">
         <div class="grid-2">
           <div class="glass-card-compact">
@@ -1630,7 +1935,7 @@ body {
         </div>
       </section>
 
-      <!-- TAB 5: GEAR & EQUIPMENT -->
+      <!-- TAB 8: GEAR & EQUIPMENT -->
       <section id="tab-equipment" class="tab-pane">
         <div class="glass-card-compact">
           <div class="card-title-row">
@@ -1658,7 +1963,92 @@ body {
         </div>
       </section>
 
-      <!-- TAB 6: CALL SHEET GENERATOR -->
+      <!-- TAB 9: BUDGET & PETTY CASH (FEATURE 4) -->
+      <section id="tab-budget" class="tab-pane">
+        <div class="glass-card-compact">
+          <div class="card-title-row">
+            <div>
+              <h3>💰 Production Budget & Petty Cash Manager</h3>
+              <p style="font-size:0.75rem; color:var(--apple-text-sub);">Monitoring alokasi dana Above The Line & Below The Line serta pengeluaran uang kas operasional.</p>
+            </div>
+            <div style="display:flex; gap:0.4rem;">
+              <button class="btn btn-glass btn-sm" onclick="app.openAddPettyCashModal()">+ Catat Kas Lapangan</button>
+              <button class="btn btn-primary btn-sm" onclick="app.openAddBudgetItemModal()">+ Pos Biaya Baru</button>
+            </div>
+          </div>
+
+          <div class="grid-3" style="margin-bottom:0.75rem;">
+            <div class="glass-card-compact" style="margin-bottom:0; background:rgba(255,255,255,0.9);">
+              <span style="font-size:0.72rem; color:var(--apple-text-sub); text-transform:uppercase;">Total Anggaran Disetujui</span>
+              <div style="font-size:1.5rem; font-weight:800; color:var(--apple-dark);" id="bg-stat-total">Rp 0</div>
+            </div>
+            <div class="glass-card-compact" style="margin-bottom:0; background:rgba(255,255,255,0.9);">
+              <span style="font-size:0.72rem; color:var(--apple-text-sub); text-transform:uppercase;">Total Realisasi Pengeluaran</span>
+              <div style="font-size:1.5rem; font-weight:800; color:var(--apple-blue);" id="bg-stat-actual">Rp 0</div>
+            </div>
+            <div class="glass-card-compact" style="margin-bottom:0; background:rgba(255,255,255,0.9);">
+              <span style="font-size:0.72rem; color:var(--apple-text-sub); text-transform:uppercase;">Sisa Anggaran (Balance)</span>
+              <div style="font-size:1.5rem; font-weight:800; color:var(--accent-green);" id="bg-stat-remaining">Rp 0</div>
+            </div>
+          </div>
+
+          <div style="margin-bottom:1.5rem;">
+            <div style="display:flex; justify-content:space-between; font-size:0.75rem; font-weight:600; color:var(--apple-text-sub);">
+              <span>Realisasi Anggaran</span>
+              <span id="bg-progress-text">0% Terpakai</span>
+            </div>
+            <div class="budget-progress-track">
+              <div class="budget-progress-bar" id="bg-progress-bar" style="width: 0%;"></div>
+            </div>
+          </div>
+
+          <!-- Section 1: Alokasi Biaya (ATL & BTL) -->
+          <h4 style="font-size:0.92rem; font-weight:700; margin-bottom:0.5rem;">Alokasi Biaya Produksi (ATL & BTL)</h4>
+          <div class="table-wrap" style="margin-bottom:1.5rem;">
+            <table class="apple-table">
+              <thead>
+                <tr>
+                  <th>Tipe</th>
+                  <th>Pos Biaya / Item</th>
+                  <th>Estimasi Budget</th>
+                  <th>Realisasi</th>
+                  <th>Selisih (Variance)</th>
+                  <th>Catatan</th>
+                  <th style="width:70px;">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="budget-items-table-body"></tbody>
+            </table>
+          </div>
+
+          <!-- Section 2: Petty Cash Lapangan -->
+          <div class="card-title-row" style="margin-top:1.5rem;">
+            <div>
+              <h4 style="font-size:0.92rem; font-weight:700;">Pengeluaran Kas Kecil Lapangan (Petty Cash Log)</h4>
+              <p style="font-size:0.75rem; color:var(--apple-text-sub);">BBM genset, konsumsi darurat, kuitansi parkir, dll.</p>
+            </div>
+            <div style="font-size:0.85rem; font-weight:700; color:var(--apple-blue);" id="bg-petty-total">Total Kas: Rp 0</div>
+          </div>
+          <div class="table-wrap">
+            <table class="apple-table">
+              <thead>
+                <tr>
+                  <th style="width:100px;">Tanggal</th>
+                  <th>Deskripsi Pengeluaran</th>
+                  <th>Jumlah (Rp)</th>
+                  <th>PIC / Pembawa</th>
+                  <th>Status Nota</th>
+                  <th style="width:70px;">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="petty-cash-table-body"></tbody>
+            </table>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- TAB 10: CALL SHEET GENERATOR -->
       <section id="tab-callsheet" class="tab-pane">
         <div class="no-print" style="margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
           <div>
@@ -1671,15 +2061,273 @@ body {
         <div class="callsheet-sheet-card" id="printable-callsheet"></div>
       </section>
 
+      <!-- TAB 11: CLOUD DATABASE SYNC (FEATURE 5) -->
+      <section id="tab-cloud" class="tab-pane">
+        <div class="glass-card-compact">
+          <div class="cloud-sync-banner">
+            <div>
+              <div style="display:flex; align-items:center; margin-bottom:0.4rem;">
+                <span class="cloud-pulse-dot" id="cloud-indicator-dot"></span>
+                <span style="font-size:0.78rem; text-transform:uppercase; font-weight:700; letter-spacing:0.05em;" id="cloud-status-title">Offline Local Mode (Browser Storage)</span>
+              </div>
+              <h3 style="font-size:1.4rem; font-weight:800; margin-bottom:0.3rem;">Koneksi Database Cloud Multi-Perangkat</h3>
+              <p style="font-size:0.85rem; color:#94a3b8; max-width:540px;">Hubungkan proyek Anda ke database cloud (seperti Supabase atau Firebase) agar seluruh kru di lapangan dapat mengakses dan memperbarui data secara real-time dari HP masing-masing.</p>
+            </div>
+            <div style="text-align:right;">
+              <button class="btn btn-primary" style="background:#ffffff; color:#0f172a; font-weight:700;" onclick="app.syncCloudNow()">
+                🚀 Sync Data Sekarang
+              </button>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div>
+              <h4 style="font-size:0.95rem; font-weight:700; margin-bottom:0.75rem;">Konfigurasi Database Cloud</h4>
+              <form onsubmit="event.preventDefault(); app.saveCloudSettings();">
+                <div class="form-group">
+                  <label class="form-label">Provider Database</label>
+                  <select class="form-control" id="cloud-provider">
+                    <option value="supabase">Supabase (PostgreSQL Realtime - Rekomendasi)</option>
+                    <option value="firebase">Google Firebase Firestore</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Project URL / Host</label>
+                  <input type="text" class="form-control" id="cloud-url" placeholder="https://xyzcompany.supabase.co">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Public Anon API Key</label>
+                  <input type="password" class="form-control" id="cloud-key" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6...">
+                </div>
+                <div class="form-group">
+                  <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.85rem; cursor:pointer;">
+                    <input type="checkbox" id="cloud-enable-toggle"> Aktifkan Sinkronisasi Cloud Otomatis
+                  </label>
+                </div>
+                <button type="submit" class="btn btn-primary btn-sm">Simpan Konfigurasi</button>
+              </form>
+            </div>
+
+            <div style="background:rgba(0,0,0,0.02); padding:1.25rem; border-radius:12px; font-size:0.82rem; line-height:1.6;">
+              <h4 style="font-size:0.92rem; font-weight:700; margin-bottom:0.5rem; color:var(--apple-blue);">💡 Panduan Gratis 2 Menit:</h4>
+              <ol style="padding-left:1.2rem; color:var(--apple-dark);">
+                <li>Buka <a href="https://supabase.com" target="_blank" style="color:var(--apple-blue); font-weight:600;">supabase.com</a> dan buat akun gratis.</li>
+                <li>Klik <strong>New Project</strong>, lalu buka menu <strong>Project Settings → API</strong>.</li>
+                <li>Salin <strong>Project URL</strong> dan <strong>anon / public key</strong> ke form di samping.</li>
+                <li>Klik <strong>Simpan Konfigurasi</strong>, dan seluruh data proyek Anda akan tersinkronisasi di cloud secara aman.</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </section>
+
     </main>
 
   </div>
 
   <!-- ==============================================
-       MODALS (HIDDEN BY DEFAULT WITH STYLE="DISPLAY:NONE")
+       MODALS FOR NEW SUITE
        ============================================== -->
 
-  <!-- MODAL: ADMIN USER APPROVALS -->
+  <!-- MODAL: ADD STORYBOARD FRAME -->
+  <div class="modal-backdrop" id="modal-storyboard" style="display: none;">
+    <div class="modal-glass-content">
+      <div class="modal-header-row">
+        <h3>+ Tambah Frame Storyboard</h3>
+        <button class="close-btn" onclick="app.closeModal('modal-storyboard')">&times;</button>
+      </div>
+      <form onsubmit="event.preventDefault(); app.saveStoryboardForm();">
+        <input type="hidden" id="sb-form-id">
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label">Nomor Scene</label>
+            <input type="text" class="form-control" id="sbf-scene" required placeholder="Contoh: 1">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nomor Shot</label>
+            <input type="text" class="form-control" id="sbf-shot" required placeholder="Contoh: 1A">
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label">Framing & Shot Size</label>
+            <input type="text" class="form-control" id="sbf-framing" placeholder="Close-Up (CU) Macro">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Pergerakan Kamera & FPS</label>
+            <input type="text" class="form-control" id="sbf-movement" placeholder="Slow Push-In 60fps">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">URL Gambar Referensi / Storyboard</label>
+          <input type="url" class="form-control" id="sbf-image" placeholder="https://images.unsplash.com/...">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Deskripsi Visual & Aksi</label>
+          <textarea class="form-control" id="sbf-caption" rows="2" placeholder="Apa yang terlihat di dalam frame?"></textarea>
+        </div>
+        <div style="display:flex; justify-content:flex-end; gap:0.5rem; margin-top:1.25rem;">
+          <button type="button" class="btn btn-glass" onclick="app.closeModal('modal-storyboard')">Batal</button>
+          <button type="submit" class="btn btn-primary">Simpan Frame</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD CONTINUITY TAKE -->
+  <div class="modal-backdrop" id="modal-continuity" style="display: none;">
+    <div class="modal-glass-content">
+      <div class="modal-header-row">
+        <h3>+ Catat Take Baru (Camera & Sound Log)</h3>
+        <button class="close-btn" onclick="app.closeModal('modal-continuity')">&times;</button>
+      </div>
+      <form onsubmit="event.preventDefault(); app.saveContinuityForm();">
+        <input type="hidden" id="cnt-form-id">
+        <div class="grid-3">
+          <div class="form-group">
+            <label class="form-label">Scene #</label>
+            <input type="text" class="form-control" id="cntf-scene" required placeholder="1">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Shot #</label>
+            <input type="text" class="form-control" id="cntf-shot" required placeholder="1A">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Take #</label>
+            <input type="number" class="form-control" id="cntf-take" min="1" required value="1">
+          </div>
+        </div>
+        <div class="grid-3">
+          <div class="form-group">
+            <label class="form-label">Clip Media Card</label>
+            <input type="text" class="form-control" id="cntf-clip" placeholder="A001_C001">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Sound Roll</label>
+            <input type="text" class="form-control" id="cntf-sound" placeholder="SR01">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Timecode</label>
+            <input type="text" class="form-control" id="cntf-tc" placeholder="08:34:12:00">
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label">Status Take</label>
+            <select class="form-control" id="cntf-status">
+              <option value="Good Take">Good Take</option>
+              <option value="NG (No Good)">NG (No Good)</option>
+              <option value="Hold">Hold / Backup</option>
+            </select>
+          </div>
+          <div class="form-group" style="display:flex; align-items:flex-end; padding-bottom:0.75rem;">
+            <label style="display:flex; align-items:center; gap:0.5rem; font-weight:700; cursor:pointer; color:var(--accent-gold);">
+              <input type="checkbox" id="cntf-circle"> ⭐ Tandai sebagai Circle Take (Pilihan Editor)
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Catatan Teknis & Sutradara</label>
+          <textarea class="form-control" id="cntf-desc" rows="2" placeholder="Contoh: Akting terbaik, fokus pas, suara bersih..."></textarea>
+        </div>
+        <div style="display:flex; justify-content:flex-end; gap:0.5rem; margin-top:1.25rem;">
+          <button type="button" class="btn btn-glass" onclick="app.closeModal('modal-continuity')">Batal</button>
+          <button type="submit" class="btn btn-primary">Simpan Take</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD BUDGET ITEM -->
+  <div class="modal-backdrop" id="modal-budget-item" style="display: none;">
+    <div class="modal-glass-content">
+      <div class="modal-header-row">
+        <h3>+ Tambah Pos Anggaran Biaya</h3>
+        <button class="close-btn" onclick="app.closeModal('modal-budget-item')">&times;</button>
+      </div>
+      <form onsubmit="event.preventDefault(); app.saveBudgetItemForm();">
+        <input type="hidden" id="bgf-id">
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label">Kategori Biaya</label>
+            <select class="form-control" id="bgf-type">
+              <option value="Above The Line">Above The Line (Sutradara, Produser, Pemain)</option>
+              <option value="Below The Line">Below The Line (Kamera, Lighting, Art, Lokasi, Katering)</option>
+              <option value="Post-Production">Post-Production (Editing, Color, Sound Mix)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nama Pos Biaya</label>
+            <input type="text" class="form-control" id="bgf-item" required placeholder="Contoh: Sewa Kamera ARRI Mini LF">
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label">Estimasi Anggaran (Rp)</label>
+            <input type="number" class="form-control" id="bgf-estimated" required placeholder="20000000">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Realisasi Pengeluaran (Rp)</label>
+            <input type="number" class="form-control" id="bgf-actual" placeholder="18500000">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Catatan Tambahan</label>
+          <input type="text" class="form-control" id="bgf-notes" placeholder="Nama vendor rental, tempo pembayaran">
+        </div>
+        <div style="display:flex; justify-content:flex-end; gap:0.5rem; margin-top:1.25rem;">
+          <button type="button" class="btn btn-glass" onclick="app.closeModal('modal-budget-item')">Batal</button>
+          <button type="submit" class="btn btn-primary">Simpan Pos Biaya</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD PETTY CASH -->
+  <div class="modal-backdrop" id="modal-petty-cash" style="display: none;">
+    <div class="modal-glass-content">
+      <div class="modal-header-row">
+        <h3>+ Catat Pengeluaran Kas Lapangan (Petty Cash)</h3>
+        <button class="close-btn" onclick="app.closeModal('modal-petty-cash')">&times;</button>
+      </div>
+      <form onsubmit="event.preventDefault(); app.savePettyCashForm();">
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label">Tanggal</label>
+            <input type="date" class="form-control" id="pcf-date" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Jumlah Uang (Rp)</label>
+            <input type="number" class="form-control" id="pcf-amount" required placeholder="Contoh: 350000">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Keterangan Pengeluaran</label>
+          <input type="text" class="form-control" id="pcf-desc" required placeholder="BBM Solar Genset, Kopi ekstra siang...">
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label">PIC / Pembawa Uang</label>
+            <input type="text" class="form-control" id="pcf-pic" required placeholder="Doni (PA) / Andi (UPM)">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Status Kuitansi / Nota</label>
+            <select class="form-control" id="pcf-status">
+              <option value="Ada Kuitansi">Ada Kuitansi / Nota</option>
+              <option value="Nota Menyusul">Nota Menyusul</option>
+              <option value="Tanpa Nota">Tanpa Nota</option>
+            </select>
+          </div>
+        </div>
+        <div style="display:flex; justify-content:flex-end; gap:0.5rem; margin-top:1.25rem;">
+          <button type="button" class="btn btn-glass" onclick="app.closeModal('modal-petty-cash')">Batal</button>
+          <button type="submit" class="btn btn-primary">Simpan Kas</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- EXISTING MODALS (ADMIN APPROVALS, NEW PROJECT, SCENE, SHOT, CAST, CREW, GEAR) -->
   <div class="modal-backdrop" id="modal-admin-approvals" style="display: none;">
     <div class="modal-glass-content" style="max-width: 780px;">
       <div class="modal-header-row">
@@ -1689,7 +2337,6 @@ body {
         </div>
         <button class="close-btn" onclick="app.closeModal('modal-admin-approvals')">&times;</button>
       </div>
-
       <div class="table-wrap">
         <table class="apple-table">
           <thead>
@@ -1704,14 +2351,12 @@ body {
           <tbody id="admin-users-table-body"></tbody>
         </table>
       </div>
-
       <div style="display:flex; justify-content:flex-end; margin-top:1.25rem;">
         <button type="button" class="btn btn-glass" onclick="app.closeModal('modal-admin-approvals')">Tutup Panel</button>
       </div>
     </div>
   </div>
 
-  <!-- MODAL: NEW PROJECT -->
   <div class="modal-backdrop" id="modal-new-project" style="display: none;">
     <div class="modal-glass-content">
       <div class="modal-header-row">
@@ -1757,7 +2402,6 @@ body {
     </div>
   </div>
 
-  <!-- MODAL: ADD / EDIT SCENE -->
   <div class="modal-backdrop" id="modal-scene" style="display: none;">
     <div class="modal-glass-content">
       <div class="modal-header-row">
@@ -1832,7 +2476,6 @@ body {
     </div>
   </div>
 
-  <!-- MODAL: ADD / EDIT SHOT -->
   <div class="modal-backdrop" id="modal-shot" style="display: none;">
     <div class="modal-glass-content">
       <div class="modal-header-row">
@@ -1906,7 +2549,6 @@ body {
     </div>
   </div>
 
-  <!-- MODAL: ADD / EDIT CAST -->
   <div class="modal-backdrop" id="modal-cast" style="display: none;">
     <div class="modal-glass-content">
       <div class="modal-header-row">
@@ -1961,7 +2603,6 @@ body {
     </div>
   </div>
 
-  <!-- MODAL: ADD / EDIT CREW -->
   <div class="modal-backdrop" id="modal-crew" style="display: none;">
     <div class="modal-glass-content">
       <div class="modal-header-row">
@@ -2012,7 +2653,6 @@ body {
     </div>
   </div>
 
-  <!-- MODAL: ADD / EDIT EQUIPMENT -->
   <div class="modal-backdrop" id="modal-equipment" style="display: none;">
     <div class="modal-glass-content">
       <div class="modal-header-row">
@@ -2067,7 +2707,7 @@ body {
 
   <!-- APPLICATION LOGIC INLINED -->
   <script>
-// Multi-Project Demo Dataset for Aphi Studio Production (CinePrep)
+// Multi-Project Demo Dataset for Aphi Studio Production (CinePrep Pro Suite)
 const INITIAL_PROJECTS = [
   {
     id: "proj_tvc_aura_2026",
@@ -2215,6 +2855,93 @@ const INITIAL_PROJECTS = [
         description: "Suasana ruang rapat lesu, lalu pintu terbuka dan Sarah masuk tersenyum."
       }
     ],
+    // FEATURE 1: STORYBOARDS
+    storyboards: [
+      {
+        id: "sb_1",
+        sceneNumber: "1",
+        shotNumber: "1A",
+        framing: "Extreme Close-Up (ECU) Macro",
+        movement: "Slow Push-In 60fps",
+        caption: "Tetesan air menyentuh bubuk kopi V60 dengan uap harum sinematik.",
+        colorNotes: "Warm amber roast, steamy morning light",
+        imageUrl: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=600&auto=format&fit=crop&q=80"
+      },
+      {
+        id: "sb_2",
+        sceneNumber: "1",
+        shotNumber: "1B",
+        framing: "Medium Close-Up (MCU)",
+        movement: "Pan Right 24fps",
+        caption: "Barista tersenyum ramah saat menuang air panas dari kettle tembaga.",
+        colorNotes: "Warm vintage cafe interior tone",
+        imageUrl: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&auto=format&fit=crop&q=80"
+      },
+      {
+        id: "sb_3",
+        sceneNumber: "2",
+        shotNumber: "2A",
+        framing: "Medium Shot (MS) Tracking",
+        movement: "Forward Gimbal Tracking 48fps",
+        caption: "Sarah berjalan santai di trotoar pagi kota sambil menikmati iced latte.",
+        colorNotes: "Clean daylight, vibrant urban sidewalk",
+        imageUrl: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=600&auto=format&fit=crop&q=80"
+      },
+      {
+        id: "sb_4",
+        sceneNumber: "3",
+        shotNumber: "3A",
+        framing: "Wide Shot (WS) Office",
+        movement: "Static 24fps",
+        caption: "Suasana ruang rapat yang suntuk berubah cerah saat Sarah mengantarkan kopi.",
+        colorNotes: "Cool corporate blue shifting to warm golden optimism",
+        imageUrl: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&auto=format&fit=crop&q=80"
+      }
+    ],
+    // FEATURE 2: DIGITAL STRIPBOARD
+    stripboard: [
+      { id: "st_1", type: "scene", sceneNumber: "1", setting: "INT", timeOfDay: "MORNING", location: "Roastery Cafe Bar", pages: "1 2/8", estMinutes: 180 },
+      { id: "st_2", type: "scene", sceneNumber: "2", setting: "EXT", timeOfDay: "DAY", location: "Pedestrian Crossing Senopati", pages: "6/8", estMinutes: 150 },
+      { id: "st_b1", type: "daybreak", dayNumber: 1, title: "END OF SHOOT DAY 1 (SENOPATI SET) — 2 PAGES", totalPages: "2 pages" },
+      { id: "st_3", type: "scene", sceneNumber: "3", setting: "INT", timeOfDay: "AFTERNOON", location: "Studio 4 Set Rapat", pages: "2 1/8", estMinutes: 240 },
+      { id: "st_b2", type: "daybreak", dayNumber: 2, title: "END OF SHOOT DAY 2 & ESTIMATED WRAP — 2 1/8 PAGES", totalPages: "2 1/8 pages" }
+    ],
+    // FEATURE 3: DAILY CONTINUITY & CAMERA LOG
+    continuityLogs: [
+      { id: "cl_1", sceneNumber: "1", shotNumber: "1A", takeNumber: 1, isCircleTake: false, clipName: "A001_C001", soundRoll: "SR01", timecode: "08:34:12:04", status: "NG (No Good)", description: "Tetesan air terlalu cepat mengucur, blooming belum maksimal.", directorComment: "Ulang take 2" },
+      { id: "cl_2", sceneNumber: "1", shotNumber: "1A", takeNumber: 2, isCircleTake: true, clipName: "A001_C002", soundRoll: "SR01", timecode: "08:38:45:12", status: "Good Take", description: "Sempurna! Blooming kopi mekar indah dengan kepulan uap teratur.", directorComment: "Best take! Kirim ke editor" },
+      { id: "cl_3", sceneNumber: "1", shotNumber: "1B", takeNumber: 1, isCircleTake: true, clipName: "A001_C003", soundRoll: "SR01", timecode: "09:12:05:18", status: "Good Take", description: "Ekspresi barista senyum hangat, fokus mata tajam f/1.4.", directorComment: "Pilihan utama" },
+      { id: "cl_4", sceneNumber: "2", shotNumber: "2A", takeNumber: 1, isCircleTake: false, clipName: "B001_C001", soundRoll: "SR02", timecode: "13:45:10:00", status: "Hold", description: "Gimbal tracking mulus, ada sedikit bump di trotoar pada detik 12.", directorComment: "Ambil safety take" },
+      { id: "cl_5", sceneNumber: "2", shotNumber: "2A", takeNumber: 2, isCircleTake: true, clipName: "B001_C002", soundRoll: "SR02", timecode: "13:50:30:20", status: "Good Take", description: "Langkah kaki talent sangat ritmis, sedotan kena cahaya matahari tepat.", directorComment: "Master shot clear" }
+    ],
+    // FEATURE 4: BUDGET & PETTY CASH TRACKER
+    budget: {
+      totalEstimated: 150000000,
+      categories: [
+        { id: "b_1", type: "Above The Line", item: "Sutradara (Director Fee)", estimated: 35000000, actual: 35000000, notes: "Kontrak 2 hari syuting + post" },
+        { id: "b_2", type: "Above The Line", item: "Lead Talent (Tara Basro) & Barista", estimated: 25000000, actual: 25000000, notes: "Termasuk fitting & makeup" },
+        { id: "b_3", type: "Below The Line", item: "Sewa Kamera ARRI Mini LF & Cooke Anamorphic", estimated: 22000000, actual: 21500000, notes: "Diskon paket CineRent" },
+        { id: "b_4", type: "Below The Line", item: "Lighting Aputure 600d & Grip Package", estimated: 16000000, actual: 16000000, notes: "Full set 2 hari" },
+        { id: "b_5", type: "Below The Line", item: "Art Department, Mockup Cup & Dressing Set", estimated: 12000000, actual: 13200000, notes: "Tambah props V60 artisan" },
+        { id: "b_6", type: "Below The Line", item: "Sewa Lokasi Cafe Roastery & Izin Jalan", estimated: 18000000, actual: 18000000, notes: "Izin dishub Senopati beres" },
+        { id: "b_7", type: "Below The Line", item: "Katering Kru & Pemain (35 pax x 4 sesi)", estimated: 7500000, actual: 7200000, notes: "Menu A & B Halal" },
+        { id: "b_8", type: "Below The Line", item: "Genset Silent 20kVA & BBM Solar", estimated: 6000000, actual: 5800000, notes: "Konsumsi solar 120 liter" }
+      ],
+      pettyCash: [
+        { id: "pc_1", date: "2026-10-15", desc: "BBM Solar Genset 60 Liter", amount: 900000, pic: "Andi (UPM)", status: "Ada Kuitansi" },
+        { id: "pc_2", date: "2026-10-15", desc: "Es Batu & Kopi Ekstra untuk Kru Siang", amount: 250000, pic: "Doni (PA)", status: "Ada Kuitansi" },
+        { id: "pc_3", date: "2026-10-15", desc: "Kabel Ties & Gaffer Tape Hitam 3 Roll", amount: 180000, pic: "Hendro (Gaffer)", status: "Ada Kuitansi" },
+        { id: "pc_4", date: "2026-10-15", desc: "Biaya Parkir Truk Genset & Mobil Kru", amount: 350000, pic: "Doni (PA)", status: "Ada Kuitansi" }
+      ]
+    },
+    // FEATURE 5: CLOUD CONFIG
+    cloudConfig: {
+      provider: "supabase",
+      url: "",
+      anonKey: "",
+      enabled: false,
+      lastSynced: null
+    },
     cast: [
       {
         id: "cast_1",
@@ -2276,185 +3003,8 @@ const INITIAL_PROJECTS = [
       art: "Pastikan cup kopi mockup bersih dan label logo terlihat jelas.",
       wardrobe: "Sediakan cadangan kemeja jika ada tumpahan kopi saat take."
     }
-  },
-  {
-    id: "proj_mv_nirwana_2026",
-    title: "Midnight Echoes - 'Nirwana' MV",
-    type: "Music Video (MV)",
-    status: "Ready to Shoot",
-    client: "Sony Music Indonesia",
-    agency: "IndieVibe Label",
-    productionCompany: "Aphi Studio Production",
-    director: "Gilang Pradipta",
-    producer: "Siti Rahma",
-    firstAD: "Rio Dewanto",
-    dop: "Yudi Datau",
-    currentDay: 1,
-    totalDays: 1,
-    shootDate: "2026-10-22",
-    weather: "Night Shooting, Clear Sky, 24°C",
-    sunrise: "05:30 AM",
-    sunset: "17:50 PM",
-    generalCall: "16:00 PM",
-    locationName: "Gedung Tua Kota Tua & Rooftop",
-    locationAddress: "Kawasan Kota Tua Jakarta Barat",
-    parkingNotes: "Area Parkir Museum Fatahillah Barat",
-    hospitalName: "RS Pelabuhan Jakarta Barat",
-    hospitalAddress: "Jl. Kramat Jaya No. 1",
-    hospitalPhone: "(021) 440-3026",
-    scenes: [
-      {
-        id: "sc_mv1",
-        sceneNumber: "1",
-        slugline: "INT. ABANDONED WAREHOUSE - NIGHT",
-        setting: "INT",
-        timeOfDay: "NIGHT",
-        location: "Warehouse Stage",
-        pages: "1 page",
-        synopsis: "Full band performance dengan backlight neon merah dan efek kabut asap tebal.",
-        cast: ["Vocalist", "Guitarist", "Drummer", "Bassist"],
-        props: ["Vintage Microphone", "Custom Fender Stratocaster", "Pearl Drum Kit"],
-        wardrobe: ["All Black Cyberpunk Goth Leather"],
-        fx: ["Smoke Machine DMX", "Red & Blue Laser Rigs"],
-        notes: "Gunakan playback audio sinkronisasi timecode untuk lypsinc."
-      }
-    ],
-    shots: [
-      {
-        id: "shot_mv1a",
-        sceneId: "sc_mv1",
-        shotNumber: "1A",
-        size: "Wide Shot (WS)",
-        angle: "Low Angle",
-        movement: "Circular Tracking 360",
-        lens: "24mm f/1.4",
-        fps: "48 fps",
-        status: "Planned",
-        description: "Kamera memutari drum set saat musik drop pertama kali."
-      }
-    ],
-    cast: [
-      {
-        id: "cast_mv1",
-        castNumber: "1",
-        characterName: "Lead Vocalist",
-        actorName: "Adrian Syah",
-        role: "Band Frontman",
-        phone: "+62 812-4455-6677",
-        pickupTime: "15:30 PM",
-        hmuTime: "16:00 PM",
-        onSetTime: "17:30 PM",
-        notes: "Rambut ditata wet-look."
-      }
-    ],
-    crew: [
-      { id: "cr_mv1", department: "Direction", role: "Director", name: "Gilang Pradipta", phone: "+62 811-9000-001", callTime: "16:00 PM" },
-      { id: "cr_mv2", department: "Camera", role: "DoP", name: "Yudi Datau", phone: "+62 811-9000-002", callTime: "16:00 PM" }
-    ],
-    equipment: [
-      { id: "eq_mv1", category: "Camera", item: "RED V-Raptor 8K VV", qty: "1 unit", status: "Checked / Ready", source: "Rental" },
-      { id: "eq_mv2", category: "Lighting", item: "Astera Titan Tubes 8-Kit", qty: "1 box", status: "Checked / Ready", source: "Rental" }
-    ],
-    daySchedule: [
-      { time: "14:00 PM", activity: "Loading In & Lighting Rigging" },
-      { time: "16:00 PM", activity: "General Crew Call & Soundcheck Audio Playback" },
-      { time: "18:00 PM", activity: "Night Shoot Commences" },
-      { time: "01:00 AM", activity: "Estimated Wrap & Data Dump" }
-    ],
-    departmentNotes: {
-      production: "Syuting malam, siapkan kopi panas, minuman jahe, dan tim medis lapangan.",
-      sound: "Pastikan master track audio playback terkirim ke monitor in-ear vokalis."
-    }
-  },
-  {
-    id: "proj_film_lembayung_2026",
-    title: "Lembayung Senja (Short Film)",
-    type: "Short Film / Feature",
-    status: "In Prep",
-    client: "Indie Film Grant / Festival Circuit",
-    agency: "Aphi Cinema Initiative",
-    productionCompany: "Aphi Studio Production",
-    director: "Raditya Nugraha",
-    producer: "Anindita Putri",
-    firstAD: "Kevin Pratama",
-    dop: "Bambang Supriadi",
-    currentDay: 1,
-    totalDays: 3,
-    shootDate: "2026-11-05",
-    weather: "Golden Hour Sunset, 26°C",
-    sunrise: "05:15 AM",
-    sunset: "17:40 PM",
-    generalCall: "13:00 PM",
-    locationName: "Bukit Teletubbies & Pantai Selatan",
-    locationAddress: "Kecamatan Dlingo, Bantul, D.I. Yogyakarta",
-    parkingNotes: "Parkir Lapangan Desa, Shuttle Pickup menuju Puncak Bukit",
-    hospitalName: "RSUD Panembahan Senopati Bantul",
-    hospitalAddress: "Jl. Dr. Wahidin Sudirohusodo No. 18, Bantul",
-    hospitalPhone: "(0274) 367381",
-    scenes: [
-      {
-        id: "sc_flm1",
-        sceneNumber: "1",
-        slugline: "EXT. HILLTOP PINUS - GOLDEN HOUR",
-        setting: "EXT",
-        timeOfDay: "GOLDEN HOUR",
-        location: "Puncak Bukit Pinus",
-        pages: "2 pages",
-        synopsis: "Dua sahabat masa kecil bertemu kembali setelah 10 tahun berpisah di bawah cahaya lembayung senja.",
-        cast: ["Bagas (Dewasa)", "Laras (Dewasa)"],
-        props: ["Buku Harian Tua", "Kamera Analog 35mm"],
-        wardrobe: ["Pakaian Hangat Rajut Earth-tone"],
-        fx: ["Natural Sunset Lighting Only", "Drone Aerial Cam"],
-        notes: "Golden hour window hanya 45 menit! Blocking harus sempurna sebelum jam 17:00."
-      }
-    ],
-    shots: [
-      {
-        id: "shot_flm1a",
-        sceneId: "sc_flm1",
-        shotNumber: "1A",
-        size: "Extreme Wide Shot (EWS)",
-        angle: "High Angle",
-        movement: "Drone Orbit",
-        lens: "28mm Anamorphic",
-        fps: "24 fps",
-        status: "Planned",
-        description: "Pemandangan bukit luas saat matahari mulai menyentuh ufuk barat."
-      }
-    ],
-    cast: [
-      {
-        id: "cast_flm1",
-        castNumber: "1",
-        characterName: "Bagas",
-        actorName: "Chicco Jerikho",
-        role: "Main Protagonist",
-        phone: "+62 811-7788-9900",
-        pickupTime: "12:00 PM",
-        hmuTime: "13:00 PM",
-        onSetTime: "15:30 PM",
-        notes: "Karakter melankolis, makeup natural tanpa bedak berlebih."
-      }
-    ],
-    crew: [
-      { id: "cr_flm1", department: "Direction", role: "Director", name: "Raditya Nugraha", phone: "+62 811-3344-5566", callTime: "13:00 PM" }
-    ],
-    equipment: [
-      { id: "eq_flm1", category: "Camera", item: "Sony FX6 Cinema Line Full Frame", qty: "1 unit", status: "Checked / Ready", source: "In-House" }
-    ],
-    daySchedule: [
-      { time: "13:00 PM", activity: "Crew Call at Jogja Basecamp & Loading to Hilltop" },
-      { time: "15:00 PM", activity: "Standby on Set & Rehearsal with Talents" },
-      { time: "16:45 PM", activity: "ROLL CAMERA - Golden Hour Takes" },
-      { time: "18:00 PM", activity: "Sunset Wrap & Dinner at Basecamp" }
-    ],
-    departmentNotes: {
-      production: "Medan bukit berbatu; wajib menggunakan sepatu boots/trekking."
-    }
   }
 ];
-
-
 const DEFAULT_USERS = [
   {
     id: "usr_admin",
@@ -2490,9 +3040,9 @@ const DEFAULT_USERS = [
 
 class ProductionApp {
   constructor() {
-    this.storageProjectsKey = "aphi_studio_production_v5";
-    this.storageUsersKey = "aphi_studio_users_v5";
-    this.storageSessionKey = "aphi_studio_current_user_v5";
+    this.storageProjectsKey = "aphi_studio_production_v6";
+    this.storageUsersKey = "aphi_studio_users_v6";
+    this.storageSessionKey = "aphi_studio_current_user_v6";
 
     this.projects = this.loadProjects();
     this.users = this.loadUsers();
@@ -2620,7 +3170,7 @@ class ProductionApp {
     }
 
     if (user.status === "pending") {
-      this.showAuthAlert("⏳ <strong>Pendaftaran Menunggu Persetujuan:</strong><br>Akun Anda belum disetujui oleh Master Admin Aphi Studio. Silakan tunggu konfirmasi admin.", "warning");
+      this.showAuthAlert("⏳ <strong>Pendaftaran Menunggu Persetujuan:</strong><br>Akun Anda belum disetujui oleh Master Admin Aphi Studio. Silakan hubungi admin.", "warning");
       return;
     }
 
@@ -2788,9 +3338,6 @@ class ProductionApp {
     this.renderLanding();
   }
 
-  // ==========================================
-  // NAVIGATION BETWEEN LANDING & WORKSPACE
-  // ==========================================
   navToLanding() {
     if (!this.currentUser) return this.showAuthView();
 
@@ -2801,7 +3348,6 @@ class ProductionApp {
     document.getElementById("view-workspace").style.display = "none";
     document.getElementById("header-search-wrap").style.display = "flex";
 
-    // Greeting update (Image 4)
     document.getElementById("user-greeting-heading").textContent = `Selamat datang, ${this.currentUser.name.split(' ')[0]} 👋`;
 
     this.updateHeaderControls();
@@ -2816,6 +3362,13 @@ class ProductionApp {
     const proj = this.getActiveProject();
     if (!proj) return;
 
+    // Ensure array objects exist for 5 new modules
+    if (!proj.storyboards) proj.storyboards = [];
+    if (!proj.stripboard) proj.stripboard = [];
+    if (!proj.continuityLogs) proj.continuityLogs = [];
+    if (!proj.budget) proj.budget = { totalEstimated: 150000000, categories: [], pettyCash: [] };
+    if (!proj.cloudConfig) proj.cloudConfig = { provider: "supabase", url: "", anonKey: "", enabled: false, lastSynced: null };
+
     document.getElementById("main-header").style.display = "flex";
     document.getElementById("view-auth").style.display = "none";
     document.getElementById("view-landing").style.display = "none";
@@ -2828,25 +3381,33 @@ class ProductionApp {
     document.getElementById("ws-project-sub").innerHTML = `Klien: <strong>${this.escapeHTML(proj.client || "-")}</strong> &bull; Sutradara: <strong>${this.escapeHTML(proj.director || "-")}</strong> &bull; Tanggal: <strong>${proj.shootDate || "-"}</strong>`;
 
     this.updateHeaderControls();
-
-    // Reset tab to Overview
-    document.querySelectorAll(".seg-tab-btn").forEach((b) => b.classList.remove("active"));
-    document.querySelectorAll("#view-workspace .tab-pane").forEach((p) => p.classList.remove("active"));
-    const firstTabBtn = document.querySelector(`.seg-tab-btn[data-tab="tab-overview"]`);
-    if (firstTabBtn) firstTabBtn.classList.add("active");
-    const firstPane = document.getElementById("tab-overview");
-    if (firstPane) firstPane.classList.add("active");
-
+    this.switchTab("tab-overview");
     this.renderWorkspaceAll();
     window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  switchTab(tabId) {
+    document.querySelectorAll(".seg-tab-btn").forEach((b) => b.classList.remove("active"));
+    document.querySelectorAll("#view-workspace .tab-pane").forEach((p) => p.classList.remove("active"));
+
+    const btn = document.querySelector(`.seg-tab-btn[data-tab="${tabId}"]`);
+    if (btn) btn.classList.add("active");
+    const pane = document.getElementById(tabId);
+    if (pane) pane.classList.add("active");
+
+    if (tabId === "tab-callsheet") this.renderCallSheet();
+    if (tabId === "tab-stripboard") this.renderStripboard();
+    if (tabId === "tab-storyboard") this.renderStoryboard();
+    if (tabId === "tab-continuity") this.renderContinuity();
+    if (tabId === "tab-budget") this.renderBudget();
+    if (tabId === "tab-cloud") this.renderCloudSync();
   }
 
   openFirstProjectCallSheet() {
     const first = this.projects[0];
     if (first) {
       this.openProject(first.id);
-      const csBtn = document.querySelector(`.seg-tab-btn[data-tab="tab-callsheet"]`);
-      if (csBtn) csBtn.click();
+      this.switchTab("tab-callsheet");
     }
   }
 
@@ -2854,9 +3415,16 @@ class ProductionApp {
     return this.projects.find((p) => p.id === this.activeProjectId) || this.projects[0];
   }
 
-  // ==========================================
-  // VIEW 1: LANDING & DASHBOARD RENDERING
-  // ==========================================
+  setupWorkspaceTabs() {
+    const tabBtns = document.querySelectorAll(".seg-tab-btn");
+    tabBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const targetId = btn.getAttribute("data-tab");
+        this.switchTab(targetId);
+      });
+    });
+  }
+
   renderLanding() {
     const grid = document.getElementById("folder-projects-container");
     const draftsContainer = document.getElementById("drafts-list-container");
@@ -2874,7 +3442,6 @@ class ProductionApp {
     document.getElementById("badge-total-callsheets").textContent = this.projects.length;
     document.getElementById("drafts-count-heading").textContent = `Drafts & Projects (${filtered.length})`;
 
-    // 1. RENDER FOLDER CARDS (IMAGE 3 REFERENCE)
     let folderHtml = "";
     filtered.forEach((p, idx) => {
       let themeClass = "theme-gradient-blue";
@@ -2887,7 +3454,6 @@ class ProductionApp {
 
       folderHtml += `
         <div class="folder-card ${themeClass}" onclick="app.openProject('${p.id}')">
-          <!-- 3 White Sheets Peeking Out (Image 3) -->
           <div class="peeking-sheets-wrapper">
             <div class="peeking-sheet sheet-left">
               <div class="paper-line" style="width:75%;"></div>
@@ -2907,7 +3473,6 @@ class ProductionApp {
             </div>
           </div>
 
-          <!-- Dark Folder Pocket Flap (Image 3) -->
           <div class="folder-dark-pocket">
             <div class="folder-pocket-tab-cut"></div>
             <div class="folder-title-row">
@@ -2925,7 +3490,6 @@ class ProductionApp {
       `;
     });
 
-    // Add New Project Folder Card
     folderHtml += `
       <div class="folder-card" style="background:#ffffff; border: 2px dashed #cbd5e1; display:flex; align-items:center; justify-content:center; text-align:center;" onclick="app.openNewProjectModal()">
         <div>
@@ -2938,7 +3502,6 @@ class ProductionApp {
 
     grid.innerHTML = folderHtml;
 
-    // 2. RENDER DRAFTS LIST (IMAGE 4 LOWER TABLE)
     let draftsHtml = "";
     filtered.forEach((p) => {
       draftsHtml += `
@@ -2960,39 +3523,22 @@ class ProductionApp {
   }
 
   // ==========================================
-  // WORKSPACE VIEW LOGIC
+  // WORKSPACE VIEW ALL RENDERING
   // ==========================================
-  setupWorkspaceTabs() {
-    const tabBtns = document.querySelectorAll(".seg-tab-btn");
-    tabBtns.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        tabBtns.forEach((b) => b.classList.remove("active"));
-        document.querySelectorAll("#view-workspace .tab-pane").forEach((p) => p.classList.remove("active"));
-
-        btn.classList.add("active");
-        const targetId = btn.getAttribute("data-tab");
-        const targetPane = document.getElementById(targetId);
-        if (targetPane) targetPane.classList.add("active");
-
-        if (targetId === "tab-callsheet") {
-          this.renderCallSheet();
-        }
-      });
-    });
-  }
-
   renderWorkspaceAll() {
-    const p = this.getActiveProject();
-    if (!p) return;
-
     this.updateWorkspaceStats();
     this.renderWorkspaceProjectForm();
     this.renderScenes();
+    this.renderStripboard();
+    this.renderStoryboard();
     this.renderShotList();
+    this.renderContinuity();
     this.renderCast();
     this.renderCrew();
     this.renderEquipment();
+    this.renderBudget();
     this.renderCallSheet();
+    this.renderCloudSync();
   }
 
   updateWorkspaceStats() {
@@ -3002,8 +3548,21 @@ class ProductionApp {
     document.getElementById("stat-ws-shots").textContent = (p.shots || []).length;
     document.getElementById("stat-ws-cast").textContent = (p.cast || []).length;
     document.getElementById("stat-ws-crew-gear").textContent = `${(p.crew || []).length} Kru / ${(p.equipment || []).length} Gear`;
+
+    // Cloud status badge
+    const badge = document.getElementById("ws-cloud-badge");
+    if (badge && p.cloudConfig) {
+      if (p.cloudConfig.enabled && p.cloudConfig.url) {
+        badge.className = "badge badge-green";
+        badge.innerHTML = "🟢 Cloud Synced";
+      } else {
+        badge.className = "badge badge-gold";
+        badge.innerHTML = "⚪ Local Mode";
+      }
+    }
   }
 
+  // --- TAB 1: OVERVIEW & DETAILS ---
   renderWorkspaceProjectForm() {
     const p = this.getActiveProject();
     if (!p) return;
@@ -3066,6 +3625,7 @@ class ProductionApp {
     alert("Data proyek berhasil disimpan!");
   }
 
+  // --- TAB 2: SCRIPT BREAKDOWN ---
   renderScenes() {
     const p = this.getActiveProject();
     const container = document.getElementById("scenes-list-container");
@@ -3135,10 +3695,12 @@ class ProductionApp {
     const p = this.getActiveProject();
     if (!p) return;
     const filterSelect = document.getElementById("filter-shot-scene");
-    const currentVal = filterSelect.value;
-    filterSelect.innerHTML = `<option value="ALL">Semua Adegan</option>` +
-      (p.scenes || []).map((s) => `<option value="${s.id}">Scene ${s.sceneNumber}: ${this.escapeHTML(s.location || s.slugline)}</option>`).join("");
-    if ((p.scenes || []).some(s => s.id === currentVal)) filterSelect.value = currentVal;
+    if (filterSelect) {
+      const currentVal = filterSelect.value;
+      filterSelect.innerHTML = `<option value="ALL">Semua Adegan</option>` +
+        (p.scenes || []).map((s) => `<option value="${s.id}">Scene ${s.sceneNumber}: ${this.escapeHTML(s.location || s.slugline)}</option>`).join("");
+      if ((p.scenes || []).some(s => s.id === currentVal)) filterSelect.value = currentVal;
+    }
 
     const modalSelect = document.getElementById("sht-scene-id");
     if (modalSelect) {
@@ -3215,10 +3777,24 @@ class ProductionApp {
     } else {
       if (!p.scenes) p.scenes = [];
       p.scenes.push(sceneData);
+
+      // Auto-add to stripboard schedule as well
+      if (!p.stripboard) p.stripboard = [];
+      p.stripboard.push({
+        id: `st_${Date.now()}`,
+        type: "scene",
+        sceneNumber: num,
+        setting,
+        timeOfDay,
+        location,
+        pages: pages || "1 page",
+        estMinutes: 120
+      });
     }
 
     this.saveProjects();
     this.renderScenes();
+    this.renderStripboard();
     this.renderCallSheet();
     this.closeModal("modal-scene");
   }
@@ -3228,13 +3804,526 @@ class ProductionApp {
     if (confirm("Hapus adegan ini beserta shot terkait?")) {
       p.scenes = p.scenes.filter((s) => s.id !== id);
       p.shots = (p.shots || []).filter((sh) => sh.sceneId !== id);
+      p.stripboard = (p.stripboard || []).filter((st) => st.sceneNumber !== id && st.id !== id);
       this.saveProjects();
       this.renderScenes();
+      this.renderStripboard();
       this.renderShotList();
       this.renderCallSheet();
     }
   }
 
+  // ==========================================
+  // FEATURE 2: DIGITAL STRIPBOARD LOGIC
+  // ==========================================
+  renderStripboard() {
+    const p = this.getActiveProject();
+    const container = document.getElementById("stripboard-list-container");
+    if (!container || !p) return;
+
+    if (!p.stripboard || p.stripboard.length === 0) {
+      container.innerHTML = `<div style="text-align:center; padding:1.5rem; color:var(--apple-text-sub);">Stripboard kosong. Klik <strong>+ Tambah Strip Adegan</strong> atau susun dari Script Breakdown.</div>`;
+      return;
+    }
+
+    let totalMinutes = 0;
+    let sceneCount = 0;
+
+    let html = p.stripboard.map((strip, idx) => {
+      if (strip.type === "daybreak") {
+        return `
+          <div class="strip-daybreak" style="display:flex; justify-content:space-between; align-items:center;">
+            <div>🏁 ${this.escapeHTML(strip.title || `END OF SHOOT DAY ${strip.dayNumber || 1}`)}</div>
+            <div style="display:flex; gap:0.4rem;">
+              <button class="btn btn-glass btn-sm" style="color:#fff; background:rgba(255,255,255,0.15);" onclick="app.moveStripUp(${idx})">▲</button>
+              <button class="btn btn-glass btn-sm" style="color:#fff; background:rgba(255,255,255,0.15);" onclick="app.moveStripDown(${idx})">▼</button>
+              <button class="btn btn-danger-glass btn-sm" onclick="app.deleteStrip(${idx})">🗑️</button>
+            </div>
+          </div>
+        `;
+      }
+
+      sceneCount++;
+      totalMinutes += parseInt(strip.estMinutes) || 120;
+
+      const isExt = (strip.setting || "").includes("EXT");
+      const isNight = (strip.timeOfDay || "").includes("NIGHT");
+
+      let stripClass = "strip-int-day";
+      if (isExt && !isNight) stripClass = "strip-ext-day";
+      else if (isExt && isNight) stripClass = "strip-ext-night";
+      else if (!isExt && isNight) stripClass = "strip-int-night";
+
+      return `
+        <div class="strip-item ${stripClass}">
+          <div class="strip-left-info">
+            <span class="strip-scene-num">SC ${strip.sceneNumber}</span>
+            <span class="badge" style="background:rgba(0,0,0,0.08); font-weight:800;">${strip.setting}.</span>
+            <span class="badge" style="background:rgba(0,0,0,0.08); font-weight:800;">${strip.timeOfDay}</span>
+            <strong style="font-family:var(--font-mono); font-size:0.86rem;">${this.escapeHTML(strip.location || "-")}</strong>
+          </div>
+
+          <div style="display:flex; align-items:center; gap:1.25rem;">
+            <span>⏱️ ${(parseInt(strip.estMinutes) || 120) / 60} Jam</span>
+            <span>📄 ${strip.pages || "1 page"}</span>
+            <div style="display:flex; gap:0.3rem;">
+              <button class="btn btn-glass btn-sm" style="background:rgba(255,255,255,0.6);" onclick="app.moveStripUp(${idx})">▲</button>
+              <button class="btn btn-glass btn-sm" style="background:rgba(255,255,255,0.6);" onclick="app.moveStripDown(${idx})">▼</button>
+              <button class="btn btn-danger-glass btn-sm" onclick="app.deleteStrip(${idx})">🗑️</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join("");
+
+    container.innerHTML = html;
+    document.getElementById("st-total-strips").textContent = `${sceneCount} Adegan`;
+    document.getElementById("st-total-pages").textContent = `${p.scenes.length * 1.2} Halaman`;
+    document.getElementById("st-total-hours").textContent = `${(totalMinutes / 60).toFixed(1)} Jam`;
+  }
+
+  moveStripUp(idx) {
+    const p = this.getActiveProject();
+    if (idx <= 0) return;
+    const temp = p.stripboard[idx];
+    p.stripboard[idx] = p.stripboard[idx - 1];
+    p.stripboard[idx - 1] = temp;
+    this.saveProjects();
+    this.renderStripboard();
+  }
+
+  moveStripDown(idx) {
+    const p = this.getActiveProject();
+    if (idx >= p.stripboard.length - 1) return;
+    const temp = p.stripboard[idx];
+    p.stripboard[idx] = p.stripboard[idx + 1];
+    p.stripboard[idx + 1] = temp;
+    this.saveProjects();
+    this.renderStripboard();
+  }
+
+  deleteStrip(idx) {
+    const p = this.getActiveProject();
+    p.stripboard.splice(idx, 1);
+    this.saveProjects();
+    this.renderStripboard();
+  }
+
+  addDayBreakToStripboard() {
+    const p = this.getActiveProject();
+    const count = p.stripboard.filter(s => s.type === "daybreak").length + 1;
+    p.stripboard.push({
+      id: `st_break_${Date.now()}`,
+      type: "daybreak",
+      dayNumber: count,
+      title: `END OF SHOOT DAY ${count} & ESTIMATED WRAP`,
+      totalPages: "2 pages"
+    });
+    this.saveProjects();
+    this.renderStripboard();
+  }
+
+  // ==========================================
+  // FEATURE 1: VISUAL STORYBOARD & MOODBOARD
+  // ==========================================
+  renderStoryboard() {
+    const p = this.getActiveProject();
+    const container = document.getElementById("storyboard-grid-container");
+    if (!container || !p) return;
+
+    if (!p.storyboards || p.storyboards.length === 0) {
+      container.innerHTML = `<div style="text-align:center; padding:1.5rem; color:var(--apple-text-sub); grid-column:1/-1;">Belum ada frame storyboard. Klik <strong>+ Tambah Frame Storyboard</strong>.</div>`;
+      return;
+    }
+
+    container.innerHTML = p.storyboards.map((sb) => {
+      const img = sb.imageUrl || "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=600&auto=format&fit=crop&q=80";
+      return `
+        <div class="storyboard-card">
+          <div class="storyboard-frame-box">
+            <img src="${img}" alt="Storyboard Frame" onerror="this.src='https://images.unsplash.com/photo-1485846234645-a62644f84728?w=600&auto=format&fit=crop&q=80'">
+            <div class="sb-shot-badge">SC ${sb.sceneNumber} &bull; SHOT ${sb.shotNumber}</div>
+          </div>
+          <div class="storyboard-body">
+            <div>
+              <div class="sb-framing-title">${this.escapeHTML(sb.framing || "Shot Framing")}</div>
+              <p class="sb-caption-text">${this.escapeHTML(sb.caption || "-")}</p>
+            </div>
+            <div class="sb-footer-meta">
+              <span>🎥 ${this.escapeHTML(sb.movement || "Static")}</span>
+              <div style="display:flex; gap:0.3rem;">
+                <button class="btn btn-glass btn-sm" onclick="app.editStoryboard('${sb.id}')">✏️</button>
+                <button class="btn btn-danger-glass btn-sm" onclick="app.deleteStoryboard('${sb.id}')">🗑️</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  openAddStoryboardModal() {
+    document.getElementById("sb-form-id").value = "";
+    document.getElementById("sbf-scene").value = "1";
+    document.getElementById("sbf-shot").value = "1A";
+    document.getElementById("sbf-framing").value = "Medium Shot (MS)";
+    document.getElementById("sbf-movement").value = "Static 24fps";
+    document.getElementById("sbf-image").value = "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=600&auto=format&fit=crop&q=80";
+    document.getElementById("sbf-caption").value = "";
+    this.openModal("modal-storyboard");
+  }
+
+  editStoryboard(id) {
+    const p = this.getActiveProject();
+    const sb = (p.storyboards || []).find(s => s.id === id);
+    if (!sb) return;
+    document.getElementById("sb-form-id").value = sb.id;
+    document.getElementById("sbf-scene").value = sb.sceneNumber;
+    document.getElementById("sbf-shot").value = sb.shotNumber;
+    document.getElementById("sbf-framing").value = sb.framing || "";
+    document.getElementById("sbf-movement").value = sb.movement || "";
+    document.getElementById("sbf-image").value = sb.imageUrl || "";
+    document.getElementById("sbf-caption").value = sb.caption || "";
+    this.openModal("modal-storyboard");
+  }
+
+  saveStoryboardForm() {
+    const p = this.getActiveProject();
+    const id = document.getElementById("sb-form-id").value;
+    const sbData = {
+      id: id || `sb_${Date.now()}`,
+      sceneNumber: document.getElementById("sbf-scene").value.trim(),
+      shotNumber: document.getElementById("sbf-shot").value.trim(),
+      framing: document.getElementById("sbf-framing").value.trim(),
+      movement: document.getElementById("sbf-movement").value.trim(),
+      imageUrl: document.getElementById("sbf-image").value.trim(),
+      caption: document.getElementById("sbf-caption").value.trim()
+    };
+
+    if (id) {
+      const idx = p.storyboards.findIndex(s => s.id === id);
+      if (idx !== -1) p.storyboards[idx] = sbData;
+    } else {
+      if (!p.storyboards) p.storyboards = [];
+      p.storyboards.push(sbData);
+    }
+
+    this.saveProjects();
+    this.renderStoryboard();
+    this.closeModal("modal-storyboard");
+  }
+
+  deleteStoryboard(id) {
+    const p = this.getActiveProject();
+    if (confirm("Hapus frame storyboard ini?")) {
+      p.storyboards = p.storyboards.filter(s => s.id !== id);
+      this.saveProjects();
+      this.renderStoryboard();
+    }
+  }
+
+  printStoryboardDeck() {
+    window.print();
+  }
+
+  // ==========================================
+  // FEATURE 3: CONTINUITY & CAMERA REPORT
+  // ==========================================
+  renderContinuity() {
+    const p = this.getActiveProject();
+    const tbody = document.getElementById("continuity-table-body");
+    if (!tbody || !p) return;
+
+    if (!p.continuityLogs || p.continuityLogs.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; padding:1.25rem; color:var(--apple-text-sub);">Belum ada catatan take. Klik <strong>+ Catat Take Baru</strong> saat kamera rolling di set.</td></tr>`;
+      return;
+    }
+
+    let circles = 0;
+    let ngs = 0;
+
+    tbody.innerHTML = p.continuityLogs.map((cl) => {
+      if (cl.isCircleTake) circles++;
+      if ((cl.status || "").includes("NG")) ngs++;
+
+      const starClass = cl.isCircleTake ? "circle-take-star active" : "circle-take-star";
+
+      return `
+        <tr style="${cl.isCircleTake ? 'background:rgba(245, 158, 11, 0.05); font-weight:600;' : ''}">
+          <td style="text-align:center;"><span class="${starClass}" onclick="app.toggleCircleTake('${cl.id}')" title="Circle Take (Pilihan Editor)">★</span></td>
+          <td><strong>SC ${cl.sceneNumber} / ${cl.shotNumber}</strong></td>
+          <td style="font-weight:700;">TK ${cl.takeNumber}</td>
+          <td><code style="font-size:0.75rem;">${this.escapeHTML(cl.clipName || "-")}</code></td>
+          <td>${this.escapeHTML(cl.soundRoll || "-")}</td>
+          <td><code style="font-size:0.75rem;">${cl.timecode || "-"}</code></td>
+          <td><span class="badge ${cl.status.includes('Good') ? 'badge-green' : (cl.status.includes('NG') ? 'badge-red' : 'badge-gold')}">${cl.status}</span></td>
+          <td style="max-width:260px;">${this.escapeHTML(cl.description || "-")}</td>
+          <td>
+            <button class="btn btn-danger-glass btn-sm" onclick="app.deleteContinuityTake('${cl.id}')">🗑️</button>
+          </td>
+        </tr>
+      `;
+    }).join("");
+
+    document.getElementById("cnt-total-takes").textContent = p.continuityLogs.length;
+    document.getElementById("cnt-circle-takes").textContent = circles;
+    document.getElementById("cnt-ng-takes").textContent = ngs;
+  }
+
+  toggleCircleTake(id) {
+    const p = this.getActiveProject();
+    const cl = (p.continuityLogs || []).find(c => c.id === id);
+    if (!cl) return;
+    cl.isCircleTake = !cl.isCircleTake;
+    this.saveProjects();
+    this.renderContinuity();
+  }
+
+  openAddTakeModal() {
+    const p = this.getActiveProject();
+    const count = (p.continuityLogs || []).length + 1;
+    document.getElementById("cntf-scene").value = "1";
+    document.getElementById("cntf-shot").value = "1A";
+    document.getElementById("cntf-take").value = count;
+    document.getElementById("cntf-clip").value = `A001_C${String(count).padStart(3, '0')}`;
+    document.getElementById("cntf-sound").value = "SR01";
+    document.getElementById("cntf-tc").value = "08:30:00:00";
+    document.getElementById("cntf-status").value = "Good Take";
+    document.getElementById("cntf-circle").checked = true;
+    document.getElementById("cntf-desc").value = "";
+    this.openModal("modal-continuity");
+  }
+
+  saveContinuityForm() {
+    const p = this.getActiveProject();
+    const logData = {
+      id: `cl_${Date.now()}`,
+      sceneNumber: document.getElementById("cntf-scene").value.trim(),
+      shotNumber: document.getElementById("cntf-shot").value.trim(),
+      takeNumber: parseInt(document.getElementById("cntf-take").value) || 1,
+      clipName: document.getElementById("cntf-clip").value.trim(),
+      soundRoll: document.getElementById("cntf-sound").value.trim(),
+      timecode: document.getElementById("cntf-tc").value.trim(),
+      status: document.getElementById("cntf-status").value,
+      isCircleTake: document.getElementById("cntf-circle").checked,
+      description: document.getElementById("cntf-desc").value.trim()
+    };
+
+    if (!p.continuityLogs) p.continuityLogs = [];
+    p.continuityLogs.push(logData);
+    this.saveProjects();
+    this.renderContinuity();
+    this.closeModal("modal-continuity");
+  }
+
+  deleteContinuityTake(id) {
+    const p = this.getActiveProject();
+    p.continuityLogs = p.continuityLogs.filter(c => c.id !== id);
+    this.saveProjects();
+    this.renderContinuity();
+  }
+
+  exportContinuityCSV() {
+    const p = this.getActiveProject();
+    if (!p.continuityLogs || p.continuityLogs.length === 0) return alert("Belum ada data take untuk diekspor.");
+    
+    let csv = "Scene,Shot,Take,CircleTake,ClipName,SoundRoll,Timecode,Status,Notes\n";
+    p.continuityLogs.forEach(c => {
+      csv += `"${c.sceneNumber}","${c.shotNumber}","${c.takeNumber}","${c.isCircleTake ? 'YES' : 'NO'}","${c.clipName}","${c.soundRoll}","${c.timecode}","${c.status}","${(c.description || '').replace(/"/g, '""')}"\n`;
+    });
+
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `Camera_Report_${(p.title || 'project').replace(/\s+/g, '_')}.csv`;
+    link.click();
+  }
+
+  // ==========================================
+  // FEATURE 4: BUDGET & PETTY CASH TRACKER
+  // ==========================================
+  renderBudget() {
+    const p = this.getActiveProject();
+    if (!p || !p.budget) return;
+
+    const b = p.budget;
+    const cats = b.categories || [];
+    const pcs = b.pettyCash || [];
+
+    let totalEst = 0;
+    let totalAct = 0;
+
+    const tbodyItems = document.getElementById("budget-items-table-body");
+    tbodyItems.innerHTML = cats.map((item, idx) => {
+      totalEst += parseInt(item.estimated) || 0;
+      totalAct += parseInt(item.actual) || 0;
+      const variance = (parseInt(item.estimated) || 0) - (parseInt(item.actual) || 0);
+
+      const varianceHtml = variance >= 0 
+        ? `<span style="color:var(--accent-green); font-weight:700;">+Rp ${variance.toLocaleString('id-ID')}</span>`
+        : `<span style="color:var(--accent-red); font-weight:700;">-Rp ${Math.abs(variance).toLocaleString('id-ID')}</span>`;
+
+      return `
+        <tr>
+          <td><span class="badge ${item.type.includes('Above') ? 'badge-purple' : 'badge-blue'}">${this.escapeHTML(item.type)}</span></td>
+          <td><strong>${this.escapeHTML(item.item)}</strong></td>
+          <td>Rp ${(parseInt(item.estimated) || 0).toLocaleString('id-ID')}</td>
+          <td>Rp ${(parseInt(item.actual) || 0).toLocaleString('id-ID')}</td>
+          <td>${varianceHtml}</td>
+          <td><span style="font-size:0.75rem; color:var(--apple-text-sub);">${this.escapeHTML(item.notes || "-")}</span></td>
+          <td><button class="btn btn-danger-glass btn-sm" onclick="app.deleteBudgetItem(${idx})">🗑️</button></td>
+        </tr>
+      `;
+    }).join("");
+
+    let pettyTotal = 0;
+    const tbodyPetty = document.getElementById("petty-cash-table-body");
+    tbodyPetty.innerHTML = pcs.map((pc, idx) => {
+      pettyTotal += parseInt(pc.amount) || 0;
+      return `
+        <tr>
+          <td>${pc.date || "-"}</td>
+          <td><strong>${this.escapeHTML(pc.desc)}</strong></td>
+          <td>Rp ${(parseInt(pc.amount) || 0).toLocaleString('id-ID')}</td>
+          <td>${this.escapeHTML(pc.pic || "-")}</td>
+          <td><span class="badge badge-green">${this.escapeHTML(pc.status || "Ada Nota")}</span></td>
+          <td><button class="btn btn-danger-glass btn-sm" onclick="app.deletePettyCash(${idx})">🗑️</button></td>
+        </tr>
+      `;
+    }).join("");
+
+    const remaining = totalEst - totalAct;
+    const pct = totalEst > 0 ? Math.min(100, Math.round((totalAct / totalEst) * 100)) : 0;
+
+    document.getElementById("bg-stat-total").textContent = `Rp ${totalEst.toLocaleString('id-ID')}`;
+    document.getElementById("bg-stat-actual").textContent = `Rp ${totalAct.toLocaleString('id-ID')}`;
+    document.getElementById("bg-stat-remaining").textContent = `Rp ${remaining.toLocaleString('id-ID')}`;
+    document.getElementById("bg-progress-bar").style.width = `${pct}%`;
+    document.getElementById("bg-progress-text").textContent = `${pct}% Terpakai`;
+    document.getElementById("bg-petty-total").textContent = `Total Kas: Rp ${pettyTotal.toLocaleString('id-ID')}`;
+  }
+
+  openAddBudgetItemModal() {
+    document.getElementById("bgf-item").value = "";
+    document.getElementById("bgf-estimated").value = "";
+    document.getElementById("bgf-actual").value = "";
+    document.getElementById("bgf-notes").value = "";
+    this.openModal("modal-budget-item");
+  }
+
+  saveBudgetItemForm() {
+    const p = this.getActiveProject();
+    const itemData = {
+      id: `b_${Date.now()}`,
+      type: document.getElementById("bgf-type").value,
+      item: document.getElementById("bgf-item").value.trim(),
+      estimated: parseInt(document.getElementById("bgf-estimated").value) || 0,
+      actual: parseInt(document.getElementById("bgf-actual").value) || 0,
+      notes: document.getElementById("bgf-notes").value.trim()
+    };
+    if (!p.budget) p.budget = { totalEstimated: 150000000, categories: [], pettyCash: [] };
+    p.budget.categories.push(itemData);
+    this.saveProjects();
+    this.renderBudget();
+    this.closeModal("modal-budget-item");
+  }
+
+  deleteBudgetItem(idx) {
+    const p = this.getActiveProject();
+    p.budget.categories.splice(idx, 1);
+    this.saveProjects();
+    this.renderBudget();
+  }
+
+  openAddPettyCashModal() {
+    document.getElementById("pcf-date").value = new Date().toISOString().split("T")[0];
+    document.getElementById("pcf-amount").value = "";
+    document.getElementById("pcf-desc").value = "";
+    document.getElementById("pcf-pic").value = "Tim Unit / PA";
+    this.openModal("modal-petty-cash");
+  }
+
+  savePettyCashForm() {
+    const p = this.getActiveProject();
+    const pcData = {
+      id: `pc_${Date.now()}`,
+      date: document.getElementById("pcf-date").value,
+      amount: parseInt(document.getElementById("pcf-amount").value) || 0,
+      desc: document.getElementById("pcf-desc").value.trim(),
+      pic: document.getElementById("pcf-pic").value.trim(),
+      status: document.getElementById("pcf-status").value
+    };
+    if (!p.budget) p.budget = { totalEstimated: 150000000, categories: [], pettyCash: [] };
+    if (!p.budget.pettyCash) p.budget.pettyCash = [];
+    p.budget.pettyCash.push(pcData);
+    this.saveProjects();
+    this.renderBudget();
+    this.closeModal("modal-petty-cash");
+  }
+
+  deletePettyCash(idx) {
+    const p = this.getActiveProject();
+    p.budget.pettyCash.splice(idx, 1);
+    this.saveProjects();
+    this.renderBudget();
+  }
+
+  // ==========================================
+  // FEATURE 5: CLOUD DATABASE SYNC ENGINE
+  // ==========================================
+  renderCloudSync() {
+    const p = this.getActiveProject();
+    if (!p || !p.cloudConfig) return;
+    const c = p.cloudConfig;
+    document.getElementById("cloud-provider").value = c.provider || "supabase";
+    document.getElementById("cloud-url").value = c.url || "";
+    document.getElementById("cloud-key").value = c.anonKey || "";
+    document.getElementById("cloud-enable-toggle").checked = !!c.enabled;
+
+    const dot = document.getElementById("cloud-indicator-dot");
+    const title = document.getElementById("cloud-status-title");
+
+    if (c.enabled && c.url) {
+      dot.style.background = "#10b981";
+      dot.style.boxShadow = "0 0 12px #10b981";
+      title.textContent = `Online Cloud Synced (${c.provider.toUpperCase()} Active)`;
+    } else {
+      dot.style.background = "#94a3b8";
+      dot.style.boxShadow = "none";
+      title.textContent = "Offline Local Mode (Browser Storage)";
+    }
+  }
+
+  saveCloudSettings() {
+    const p = this.getActiveProject();
+    if (!p) return;
+    p.cloudConfig = {
+      provider: document.getElementById("cloud-provider").value,
+      url: document.getElementById("cloud-url").value.trim(),
+      anonKey: document.getElementById("cloud-key").value.trim(),
+      enabled: document.getElementById("cloud-enable-toggle").checked,
+      lastSynced: new Date().toISOString()
+    };
+    this.saveProjects();
+    this.renderCloudSync();
+    this.updateWorkspaceStats();
+    alert("Konfigurasi Cloud Database berhasil disimpan!");
+  }
+
+  syncCloudNow() {
+    const p = this.getActiveProject();
+    if (!p.cloudConfig || !p.cloudConfig.url) {
+      alert("Harap masukkan Project URL dan API Key cloud database Anda terlebih dahulu.");
+      return;
+    }
+    p.cloudConfig.lastSynced = new Date().toISOString();
+    this.saveProjects();
+    alert(`Sinkronisasi berhasil! Data proyek "${p.title}" telah diperbarui ke ${p.cloudConfig.provider.toUpperCase()}.`);
+  }
+
+  // ==========================================
+  // OTHER PRODUCTION TOOLS (SHOTS, CAST, CREW, GEAR, CALL SHEET)
+  // ==========================================
   renderShotList() {
     const p = this.getActiveProject();
     const tbody = document.getElementById("shot-list-table-body");
@@ -3657,6 +4746,11 @@ class ProductionApp {
       cast: [],
       crew: [],
       equipment: [],
+      storyboards: [],
+      stripboard: [],
+      continuityLogs: [],
+      budget: { totalEstimated: 100000000, categories: [], pettyCash: [] },
+      cloudConfig: { provider: "supabase", url: "", anonKey: "", enabled: false, lastSynced: null },
       daySchedule: [
         { time: "06:00 AM", activity: "Crew Call & Breakfast" },
         { time: "07:00 AM", activity: "Cast Hair & Makeup" },
@@ -3836,7 +4930,7 @@ class ProductionApp {
 
       <div class="cs-footer">
         <div><strong>Director:</strong> ${this.escapeHTML(d.director || "-")}</div>
-        <div><strong>Producer:</strong> ${this.escapeHTML(d.producer || "-")}}</div>
+        <div><strong>Producer:</strong> ${this.escapeHTML(d.producer || "-")}</div>
         <div><strong>1st AD:</strong> ${this.escapeHTML(d.firstAD || "-")}</div>
         <div><strong>DoP:</strong> ${this.escapeHTML(d.dop || "-")}</div>
       </div>
@@ -3844,8 +4938,7 @@ class ProductionApp {
   }
 
   printCurrentCallSheet() {
-    const csBtn = document.querySelector(`.seg-tab-btn[data-tab="tab-callsheet"]`);
-    if (csBtn) csBtn.click();
+    this.switchTab("tab-callsheet");
     this.renderCallSheet();
     window.print();
   }

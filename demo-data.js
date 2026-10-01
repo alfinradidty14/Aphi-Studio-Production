@@ -1,4 +1,4 @@
-// Multi-Project Demo Dataset for Aphi Studio Production (CinePrep)
+// Multi-Project Demo Dataset for Aphi Studio Production (CinePrep Pro Suite)
 const INITIAL_PROJECTS = [
   {
     id: "proj_tvc_aura_2026",
@@ -146,6 +146,93 @@ const INITIAL_PROJECTS = [
         description: "Suasana ruang rapat lesu, lalu pintu terbuka dan Sarah masuk tersenyum."
       }
     ],
+    // FEATURE 1: STORYBOARDS
+    storyboards: [
+      {
+        id: "sb_1",
+        sceneNumber: "1",
+        shotNumber: "1A",
+        framing: "Extreme Close-Up (ECU) Macro",
+        movement: "Slow Push-In 60fps",
+        caption: "Tetesan air menyentuh bubuk kopi V60 dengan uap harum sinematik.",
+        colorNotes: "Warm amber roast, steamy morning light",
+        imageUrl: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=600&auto=format&fit=crop&q=80"
+      },
+      {
+        id: "sb_2",
+        sceneNumber: "1",
+        shotNumber: "1B",
+        framing: "Medium Close-Up (MCU)",
+        movement: "Pan Right 24fps",
+        caption: "Barista tersenyum ramah saat menuang air panas dari kettle tembaga.",
+        colorNotes: "Warm vintage cafe interior tone",
+        imageUrl: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&auto=format&fit=crop&q=80"
+      },
+      {
+        id: "sb_3",
+        sceneNumber: "2",
+        shotNumber: "2A",
+        framing: "Medium Shot (MS) Tracking",
+        movement: "Forward Gimbal Tracking 48fps",
+        caption: "Sarah berjalan santai di trotoar pagi kota sambil menikmati iced latte.",
+        colorNotes: "Clean daylight, vibrant urban sidewalk",
+        imageUrl: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=600&auto=format&fit=crop&q=80"
+      },
+      {
+        id: "sb_4",
+        sceneNumber: "3",
+        shotNumber: "3A",
+        framing: "Wide Shot (WS) Office",
+        movement: "Static 24fps",
+        caption: "Suasana ruang rapat yang suntuk berubah cerah saat Sarah mengantarkan kopi.",
+        colorNotes: "Cool corporate blue shifting to warm golden optimism",
+        imageUrl: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&auto=format&fit=crop&q=80"
+      }
+    ],
+    // FEATURE 2: DIGITAL STRIPBOARD
+    stripboard: [
+      { id: "st_1", type: "scene", sceneNumber: "1", setting: "INT", timeOfDay: "MORNING", location: "Roastery Cafe Bar", pages: "1 2/8", estMinutes: 180 },
+      { id: "st_2", type: "scene", sceneNumber: "2", setting: "EXT", timeOfDay: "DAY", location: "Pedestrian Crossing Senopati", pages: "6/8", estMinutes: 150 },
+      { id: "st_b1", type: "daybreak", dayNumber: 1, title: "END OF SHOOT DAY 1 (SENOPATI SET) — 2 PAGES", totalPages: "2 pages" },
+      { id: "st_3", type: "scene", sceneNumber: "3", setting: "INT", timeOfDay: "AFTERNOON", location: "Studio 4 Set Rapat", pages: "2 1/8", estMinutes: 240 },
+      { id: "st_b2", type: "daybreak", dayNumber: 2, title: "END OF SHOOT DAY 2 & ESTIMATED WRAP — 2 1/8 PAGES", totalPages: "2 1/8 pages" }
+    ],
+    // FEATURE 3: DAILY CONTINUITY & CAMERA LOG
+    continuityLogs: [
+      { id: "cl_1", sceneNumber: "1", shotNumber: "1A", takeNumber: 1, isCircleTake: false, clipName: "A001_C001", soundRoll: "SR01", timecode: "08:34:12:04", status: "NG (No Good)", description: "Tetesan air terlalu cepat mengucur, blooming belum maksimal.", directorComment: "Ulang take 2" },
+      { id: "cl_2", sceneNumber: "1", shotNumber: "1A", takeNumber: 2, isCircleTake: true, clipName: "A001_C002", soundRoll: "SR01", timecode: "08:38:45:12", status: "Good Take", description: "Sempurna! Blooming kopi mekar indah dengan kepulan uap teratur.", directorComment: "Best take! Kirim ke editor" },
+      { id: "cl_3", sceneNumber: "1", shotNumber: "1B", takeNumber: 1, isCircleTake: true, clipName: "A001_C003", soundRoll: "SR01", timecode: "09:12:05:18", status: "Good Take", description: "Ekspresi barista senyum hangat, fokus mata tajam f/1.4.", directorComment: "Pilihan utama" },
+      { id: "cl_4", sceneNumber: "2", shotNumber: "2A", takeNumber: 1, isCircleTake: false, clipName: "B001_C001", soundRoll: "SR02", timecode: "13:45:10:00", status: "Hold", description: "Gimbal tracking mulus, ada sedikit bump di trotoar pada detik 12.", directorComment: "Ambil safety take" },
+      { id: "cl_5", sceneNumber: "2", shotNumber: "2A", takeNumber: 2, isCircleTake: true, clipName: "B001_C002", soundRoll: "SR02", timecode: "13:50:30:20", status: "Good Take", description: "Langkah kaki talent sangat ritmis, sedotan kena cahaya matahari tepat.", directorComment: "Master shot clear" }
+    ],
+    // FEATURE 4: BUDGET & PETTY CASH TRACKER
+    budget: {
+      totalEstimated: 150000000,
+      categories: [
+        { id: "b_1", type: "Above The Line", item: "Sutradara (Director Fee)", estimated: 35000000, actual: 35000000, notes: "Kontrak 2 hari syuting + post" },
+        { id: "b_2", type: "Above The Line", item: "Lead Talent (Tara Basro) & Barista", estimated: 25000000, actual: 25000000, notes: "Termasuk fitting & makeup" },
+        { id: "b_3", type: "Below The Line", item: "Sewa Kamera ARRI Mini LF & Cooke Anamorphic", estimated: 22000000, actual: 21500000, notes: "Diskon paket CineRent" },
+        { id: "b_4", type: "Below The Line", item: "Lighting Aputure 600d & Grip Package", estimated: 16000000, actual: 16000000, notes: "Full set 2 hari" },
+        { id: "b_5", type: "Below The Line", item: "Art Department, Mockup Cup & Dressing Set", estimated: 12000000, actual: 13200000, notes: "Tambah props V60 artisan" },
+        { id: "b_6", type: "Below The Line", item: "Sewa Lokasi Cafe Roastery & Izin Jalan", estimated: 18000000, actual: 18000000, notes: "Izin dishub Senopati beres" },
+        { id: "b_7", type: "Below The Line", item: "Katering Kru & Pemain (35 pax x 4 sesi)", estimated: 7500000, actual: 7200000, notes: "Menu A & B Halal" },
+        { id: "b_8", type: "Below The Line", item: "Genset Silent 20kVA & BBM Solar", estimated: 6000000, actual: 5800000, notes: "Konsumsi solar 120 liter" }
+      ],
+      pettyCash: [
+        { id: "pc_1", date: "2026-10-15", desc: "BBM Solar Genset 60 Liter", amount: 900000, pic: "Andi (UPM)", status: "Ada Kuitansi" },
+        { id: "pc_2", date: "2026-10-15", desc: "Es Batu & Kopi Ekstra untuk Kru Siang", amount: 250000, pic: "Doni (PA)", status: "Ada Kuitansi" },
+        { id: "pc_3", date: "2026-10-15", desc: "Kabel Ties & Gaffer Tape Hitam 3 Roll", amount: 180000, pic: "Hendro (Gaffer)", status: "Ada Kuitansi" },
+        { id: "pc_4", date: "2026-10-15", desc: "Biaya Parkir Truk Genset & Mobil Kru", amount: 350000, pic: "Doni (PA)", status: "Ada Kuitansi" }
+      ]
+    },
+    // FEATURE 5: CLOUD CONFIG
+    cloudConfig: {
+      provider: "supabase",
+      url: "",
+      anonKey: "",
+      enabled: false,
+      lastSynced: null
+    },
     cast: [
       {
         id: "cast_1",
@@ -206,181 +293,6 @@ const INITIAL_PROJECTS = [
       sound: "Potensi ambient noise jalan raya; gunakan wireless lav tersembunyi.",
       art: "Pastikan cup kopi mockup bersih dan label logo terlihat jelas.",
       wardrobe: "Sediakan cadangan kemeja jika ada tumpahan kopi saat take."
-    }
-  },
-  {
-    id: "proj_mv_nirwana_2026",
-    title: "Midnight Echoes - 'Nirwana' MV",
-    type: "Music Video (MV)",
-    status: "Ready to Shoot",
-    client: "Sony Music Indonesia",
-    agency: "IndieVibe Label",
-    productionCompany: "Aphi Studio Production",
-    director: "Gilang Pradipta",
-    producer: "Siti Rahma",
-    firstAD: "Rio Dewanto",
-    dop: "Yudi Datau",
-    currentDay: 1,
-    totalDays: 1,
-    shootDate: "2026-10-22",
-    weather: "Night Shooting, Clear Sky, 24°C",
-    sunrise: "05:30 AM",
-    sunset: "17:50 PM",
-    generalCall: "16:00 PM",
-    locationName: "Gedung Tua Kota Tua & Rooftop",
-    locationAddress: "Kawasan Kota Tua Jakarta Barat",
-    parkingNotes: "Area Parkir Museum Fatahillah Barat",
-    hospitalName: "RS Pelabuhan Jakarta Barat",
-    hospitalAddress: "Jl. Kramat Jaya No. 1",
-    hospitalPhone: "(021) 440-3026",
-    scenes: [
-      {
-        id: "sc_mv1",
-        sceneNumber: "1",
-        slugline: "INT. ABANDONED WAREHOUSE - NIGHT",
-        setting: "INT",
-        timeOfDay: "NIGHT",
-        location: "Warehouse Stage",
-        pages: "1 page",
-        synopsis: "Full band performance dengan backlight neon merah dan efek kabut asap tebal.",
-        cast: ["Vocalist", "Guitarist", "Drummer", "Bassist"],
-        props: ["Vintage Microphone", "Custom Fender Stratocaster", "Pearl Drum Kit"],
-        wardrobe: ["All Black Cyberpunk Goth Leather"],
-        fx: ["Smoke Machine DMX", "Red & Blue Laser Rigs"],
-        notes: "Gunakan playback audio sinkronisasi timecode untuk lypsinc."
-      }
-    ],
-    shots: [
-      {
-        id: "shot_mv1a",
-        sceneId: "sc_mv1",
-        shotNumber: "1A",
-        size: "Wide Shot (WS)",
-        angle: "Low Angle",
-        movement: "Circular Tracking 360",
-        lens: "24mm f/1.4",
-        fps: "48 fps",
-        status: "Planned",
-        description: "Kamera memutari drum set saat musik drop pertama kali."
-      }
-    ],
-    cast: [
-      {
-        id: "cast_mv1",
-        castNumber: "1",
-        characterName: "Lead Vocalist",
-        actorName: "Adrian Syah",
-        role: "Band Frontman",
-        phone: "+62 812-4455-6677",
-        pickupTime: "15:30 PM",
-        hmuTime: "16:00 PM",
-        onSetTime: "17:30 PM",
-        notes: "Rambut ditata wet-look."
-      }
-    ],
-    crew: [
-      { id: "cr_mv1", department: "Direction", role: "Director", name: "Gilang Pradipta", phone: "+62 811-9000-001", callTime: "16:00 PM" },
-      { id: "cr_mv2", department: "Camera", role: "DoP", name: "Yudi Datau", phone: "+62 811-9000-002", callTime: "16:00 PM" }
-    ],
-    equipment: [
-      { id: "eq_mv1", category: "Camera", item: "RED V-Raptor 8K VV", qty: "1 unit", status: "Checked / Ready", source: "Rental" },
-      { id: "eq_mv2", category: "Lighting", item: "Astera Titan Tubes 8-Kit", qty: "1 box", status: "Checked / Ready", source: "Rental" }
-    ],
-    daySchedule: [
-      { time: "14:00 PM", activity: "Loading In & Lighting Rigging" },
-      { time: "16:00 PM", activity: "General Crew Call & Soundcheck Audio Playback" },
-      { time: "18:00 PM", activity: "Night Shoot Commences" },
-      { time: "01:00 AM", activity: "Estimated Wrap & Data Dump" }
-    ],
-    departmentNotes: {
-      production: "Syuting malam, siapkan kopi panas, minuman jahe, dan tim medis lapangan.",
-      sound: "Pastikan master track audio playback terkirim ke monitor in-ear vokalis."
-    }
-  },
-  {
-    id: "proj_film_lembayung_2026",
-    title: "Lembayung Senja (Short Film)",
-    type: "Short Film / Feature",
-    status: "In Prep",
-    client: "Indie Film Grant / Festival Circuit",
-    agency: "Aphi Cinema Initiative",
-    productionCompany: "Aphi Studio Production",
-    director: "Raditya Nugraha",
-    producer: "Anindita Putri",
-    firstAD: "Kevin Pratama",
-    dop: "Bambang Supriadi",
-    currentDay: 1,
-    totalDays: 3,
-    shootDate: "2026-11-05",
-    weather: "Golden Hour Sunset, 26°C",
-    sunrise: "05:15 AM",
-    sunset: "17:40 PM",
-    generalCall: "13:00 PM",
-    locationName: "Bukit Teletubbies & Pantai Selatan",
-    locationAddress: "Kecamatan Dlingo, Bantul, D.I. Yogyakarta",
-    parkingNotes: "Parkir Lapangan Desa, Shuttle Pickup menuju Puncak Bukit",
-    hospitalName: "RSUD Panembahan Senopati Bantul",
-    hospitalAddress: "Jl. Dr. Wahidin Sudirohusodo No. 18, Bantul",
-    hospitalPhone: "(0274) 367381",
-    scenes: [
-      {
-        id: "sc_flm1",
-        sceneNumber: "1",
-        slugline: "EXT. HILLTOP PINUS - GOLDEN HOUR",
-        setting: "EXT",
-        timeOfDay: "GOLDEN HOUR",
-        location: "Puncak Bukit Pinus",
-        pages: "2 pages",
-        synopsis: "Dua sahabat masa kecil bertemu kembali setelah 10 tahun berpisah di bawah cahaya lembayung senja.",
-        cast: ["Bagas (Dewasa)", "Laras (Dewasa)"],
-        props: ["Buku Harian Tua", "Kamera Analog 35mm"],
-        wardrobe: ["Pakaian Hangat Rajut Earth-tone"],
-        fx: ["Natural Sunset Lighting Only", "Drone Aerial Cam"],
-        notes: "Golden hour window hanya 45 menit! Blocking harus sempurna sebelum jam 17:00."
-      }
-    ],
-    shots: [
-      {
-        id: "shot_flm1a",
-        sceneId: "sc_flm1",
-        shotNumber: "1A",
-        size: "Extreme Wide Shot (EWS)",
-        angle: "High Angle",
-        movement: "Drone Orbit",
-        lens: "28mm Anamorphic",
-        fps: "24 fps",
-        status: "Planned",
-        description: "Pemandangan bukit luas saat matahari mulai menyentuh ufuk barat."
-      }
-    ],
-    cast: [
-      {
-        id: "cast_flm1",
-        castNumber: "1",
-        characterName: "Bagas",
-        actorName: "Chicco Jerikho",
-        role: "Main Protagonist",
-        phone: "+62 811-7788-9900",
-        pickupTime: "12:00 PM",
-        hmuTime: "13:00 PM",
-        onSetTime: "15:30 PM",
-        notes: "Karakter melankolis, makeup natural tanpa bedak berlebih."
-      }
-    ],
-    crew: [
-      { id: "cr_flm1", department: "Direction", role: "Director", name: "Raditya Nugraha", phone: "+62 811-3344-5566", callTime: "13:00 PM" }
-    ],
-    equipment: [
-      { id: "eq_flm1", category: "Camera", item: "Sony FX6 Cinema Line Full Frame", qty: "1 unit", status: "Checked / Ready", source: "In-House" }
-    ],
-    daySchedule: [
-      { time: "13:00 PM", activity: "Crew Call at Jogja Basecamp & Loading to Hilltop" },
-      { time: "15:00 PM", activity: "Standby on Set & Rehearsal with Talents" },
-      { time: "16:45 PM", activity: "ROLL CAMERA - Golden Hour Takes" },
-      { time: "18:00 PM", activity: "Sunset Wrap & Dinner at Basecamp" }
-    ],
-    departmentNotes: {
-      production: "Medan bukit berbatu; wajib menggunakan sepatu boots/trekking."
     }
   }
 ];
