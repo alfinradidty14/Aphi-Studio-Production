@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CinePrep — Film, TVC & Video Production Prep Hub</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header class="top-nav">
+    <div class="brand">
+      <div class="brand-icon">🎬</div>
+      <div class="brand-text">
+        <h1 id="nav-brand-title">CinePrep Studio</h1>
+        <p>Pre-Production & Production Management Hub</p>
+      </div>
+    </div>
+
+    <div class="project-quick-info">
+      <div>
+        <strong id="top-project-title">Loading...</strong>
+        <span class="badge badge-gold" id="top-project-type">TVC</span>
+      </div>
+      <div class="badge badge-cyan" id="top-day-badge">Day 1 of 2</div>
+      <div style="font-size: 0.8rem; color: var(--text-muted);">
+        📅 <span id="top-shoot-date">2026-10-15</span>
+      </div>
+    </div>
+
+    <div class="header-actions no-print">
+      <button class="btn btn-secondary btn-sm" onclick="app.exportProjectJSON()" title="Export JSON Project">💾 Export</button>
+      <label class="btn btn-secondary btn-sm" style="margin:0; cursor:pointer;" title="Import JSON Project">
+        📂 Import <input type="file" id="import-json-input" accept=".json" style="display:none" onchange="app.importProjectJSON(event)">
+      </label>
+      <button class="btn btn-danger btn-sm" onclick="app.resetToDemoData()" title="Reset ke Demo Project">🔄 Reset Demo</button>
+      <button class="btn btn-primary btn-sm" onclick="app.printCallSheet()">🖨️ Cetak Call Sheet (PDF)</button>
+    </div>
+  </header>
+
+  <!-- Navigation Tabs -->
+  <nav class="tabs-bar no-print">
+    <button class="tab-btn active" data-tab="tab-overview">📊 Project Overview</button>
+    <button class="tab-btn" data-tab="tab-breakdown">📄 Script Breakdown</button>
+    <button class="tab-btn" data-tab="tab-shotlist">🎥 Shot List</button>
+    <button class="tab-btn" data-tab="tab-roster">👥 Cast & Crew</button>
+    <button class="tab-btn" data-tab="tab-equipment">📦 Gear & Equipment</button>
+    <button class="tab-btn" data-tab="tab-callsheet">📋 Call Sheet Generator</button>
+  </nav>
+
+  <!-- Main Content Areas -->
+  <main class="main-content">
+
+    <!-- TAB 1: OVERVIEW & PROJECT SETUP -->
+    <section id="tab-overview" class="tab-pane active">
+      <div class="grid-4" style="margin-bottom: 1.5rem;">
+        <div class="stat-card">
+          <span class="stat-label">Total Scenes</span>
+          <span class="stat-value" id="stat-total-scenes">0</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Total Planned Shots</span>
+          <span class="stat-value" id="stat-total-shots">0</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Total Cast Members</span>
+          <span class="stat-value" id="stat-total-cast">0</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Total Crew & Gear</span>
+          <span class="stat-value" id="stat-total-crew-gear">0</span>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <!-- Project Info Form -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">📝 Project Information</h2>
+            <button class="btn btn-primary btn-sm" onclick="app.saveProjectDetails()">Simpan Perubahan</button>
+          </div>
+          <form id="project-form" onsubmit="event.preventDefault(); app.saveProjectDetails();">
+            <div class="form-group">
+              <label class="form-label">Judul Proyek / Kampanye</label>
+              <input type="text" class="form-input" id="inp-title" required>
+            </div>
+            <div class="grid-2">
+              <div class="form-group">
+                <label class="form-label">Tipe Produksi</label>
+                <select class="form-select" id="inp-type">
+                  <option value="Commercial (TVC & Digital)">Commercial (TVC & Digital)</option>
+                  <option value="Music Video (MV)">Music Video (MV)</option>
+                  <option value="Short Film / Feature">Short Film / Feature</option>
+                  <option value="Brand Documentary">Brand Documentary</option>
+                  <option value="Corporate / Company Profile">Corporate / Company Profile</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Production House</label>
+                <input type="text" class="form-input" id="inp-production-co">
+              </div>
+            </div>
+            <div class="grid-2">
+              <div class="form-group">
+                <label class="form-label">Klien / Brand</label>
+                <input type="text" class="form-input" id="inp-client">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Agency / Label</label>
+                <input type="text" class="form-input" id="inp-agency">
+              </div>
+            </div>
+            <div class="grid-2">
+              <div class="form-group">
+                <label class="form-label">Director</label>
+                <input type="text" class="form-input" id="inp-director">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Producer</label>
+                <input type="text" class="form-input" id="inp-producer">
+              </div>
+            </div>
+            <div class="grid-2">
+              <div class="form-group">
+                <label class="form-label">1st AD</label>
+                <input type="text" class="form-input" id="inp-first-ad">
+              </div>
+              <div class="form-group">
+                <label class="form-label">DoP (Cinematographer)</label>
+                <input type="text" class="form-input" id="inp-dop">
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!-- Shooting Day & Location Parameters -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">📍 Day & Location Setup (Untuk Call Sheet)</h2>
+          </div>
+          <div class="grid-2">
+            <div class="form-group">
+              <label class="form-label">Tanggal Syuting</label>
+              <input type="date" class="form-input" id="inp-shoot-date">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Hari ke / Total Hari</label>
+              <div style="display:flex; gap:0.5rem; align-items:center;">
+                <input type="number" class="form-input" id="inp-current-day" min="1" style="width: 80px;">
+                <span>dari</span>
+                <input type="number" class="form-input" id="inp-total-days" min="1" style="width: 80px;">
+              </div>
+            </div>
+          </div>
+          <div class="grid-3">
+            <div class="form-group">
+              <label class="form-label">General Crew Call</label>
+              <input type="text" class="form-input" id="inp-general-call" placeholder="06:00 AM">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Sunrise</label>
+              <input type="text" class="form-input" id="inp-sunrise" placeholder="05:30 AM">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Sunset</label>
+              <input type="text" class="form-input" id="inp-sunset" placeholder="17:45 PM">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Prakiraan Cuaca</label>
+            <input type="text" class="form-input" id="inp-weather" placeholder="Cerah Berawan, 29°C">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nama & Alamat Set Utama</label>
+            <input type="text" class="form-input" id="inp-location-name" placeholder="Nama Studio/Lokasi">
+            <input type="text" class="form-input" id="inp-location-address" placeholder="Alamat lengkap lokasi" style="margin-top:0.35rem;">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Catatan Parkir & Basecamp</label>
+            <input type="text" class="form-input" id="inp-parking-notes">
+          </div>
+          <div class="form-group">
+            <label class="form-label" style="color:var(--accent-red)">⚠️ RS Terdekat (Nearest Emergency Hospital)</label>
+            <input type="text" class="form-input" id="inp-hospital-name" placeholder="Nama RS">
+            <input type="text" class="form-input" id="inp-hospital-address" placeholder="Alamat RS" style="margin-top:0.35rem;">
+            <input type="text" class="form-input" id="inp-hospital-phone" placeholder="No Telp Darurat IGD" style="margin-top:0.35rem;">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: SCRIPT BREAKDOWN -->
+    <section id="tab-breakdown" class="tab-pane">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">📄 Breakdown Adegan (Scene Breakdown)</h2>
+            <p style="font-size:0.8rem; color:var(--text-muted);">Membedah naskah menjadi elemen produksi: Karakter, Properti, Wardrobe, dan Efek/Lighting.</p>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="app.openAddSceneModal()">+ Tambah Adegan</button>
+        </div>
+        <div id="scenes-list-container">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: SHOT LIST PLANNER -->
+    <section id="tab-shotlist" class="tab-pane">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">🎥 Shot List Planner</h2>
+            <p style="font-size:0.8rem; color:var(--text-muted);">Daftar rencana pengambilan gambar, pergerakan kamera, lensa, dan status di set.</p>
+          </div>
+          <div style="display:flex; gap:0.5rem; align-items:center;">
+            <select class="form-select" id="filter-shot-scene" onchange="app.renderShotList()" style="width: auto;">
+              <option value="ALL">Semua Adegan</option>
+            </select>
+            <button class="btn btn-primary btn-sm" onclick="app.openAddShotModal()">+ Tambah Shot</button>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th style="width:60px;">Status</th>
+                <th style="width:70px;">Shot #</th>
+                <th style="width:90px;">Scene #</th>
+                <th>Shot Size & Type</th>
+                <th>Camera Movement</th>
+                <th>Lens / Gear</th>
+                <th>FPS</th>
+                <th>Deskripsi Shot & Framing</th>
+                <th style="width:80px;">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="shot-list-table-body">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: CAST & CREW ROSTER -->
+    <section id="tab-roster" class="tab-pane">
+      <div class="grid-2">
+        <!-- Cast Roster -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">🎭 Cast & Talent Roster</h2>
+              <p style="font-size:0.75rem; color:var(--text-muted);">Pemain utama, pemeran pendukung, dan jadwal panggilan (*call time*).</p>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="app.openAddCastModal()">+ Tambah Cast</button>
+          </div>
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Karakter / Peran</th>
+                  <th>Nama Aktor</th>
+                  <th>Call Time</th>
+                  <th>H&MU</th>
+                  <th>On Set</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="cast-table-body">
+                <!-- Rendered via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Crew Roster -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">🎬 Crew Roster (Departemen)</h2>
+              <p style="font-size:0.75rem; color:var(--text-muted);">Daftar tim teknis per divisi dan waktu standby.</p>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="app.openAddCrewModal()">+ Tambah Kru</button>
+          </div>
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Departemen</th>
+                  <th>Posisi / Role</th>
+                  <th>Nama</th>
+                  <th>Kontak</th>
+                  <th>Call</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="crew-table-body">
+                <!-- Rendered via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: GEAR & EQUIPMENT -->
+    <section id="tab-equipment" class="tab-pane">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">📦 Equipment & Rental Checklist</h2>
+            <p style="font-size:0.8rem; color:var(--text-muted);">Memastikan kamera, lensa, lighting, sound, dan genset siap sebelum syuting dan tidak tertinggal saat loading-out.</p>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="app.openAddEquipmentModal()">+ Tambah Peralatan</button>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th style="width: 140px;">Kategori</th>
+                <th>Nama Alat & Spesifikasi</th>
+                <th style="width: 90px;">Jumlah</th>
+                <th style="width: 160px;">Sumber (Rental/In-House)</th>
+                <th style="width: 130px;">Status</th>
+                <th style="width: 80px;">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="equipment-table-body">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 6: CALL SHEET GENERATOR -->
+    <section id="tab-callsheet" class="tab-pane">
+      <div class="no-print" style="margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <h2 style="font-size: 1.2rem; font-weight: 700;">📋 Lembar Call Sheet Resmi Harian</h2>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Tampilan dokumen standar industri yang siap dicetak atau disimpan ke PDF.</p>
+        </div>
+        <button class="btn btn-primary" onclick="app.printCallSheet()">🖨️ Cetak / Download PDF</button>
+      </div>
+
+      <!-- Call Sheet Document Container -->
+      <div class="callsheet-doc-container" id="printable-callsheet">
+        <!-- Rendered dynamically by app.renderCallSheet() -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL: ADD / EDIT SCENE -->
+  <div class="modal-overlay" id="modal-scene">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-scene-title">Tambah Adegan (Scene)</h3>
+        <button class="modal-close" onclick="app.closeModal('modal-scene')">&times;</button>
+      </div>
+      <form id="form-scene" onsubmit="event.preventDefault(); app.saveSceneForm();">
+        <input type="hidden" id="scene-form-id">
+        <div class="grid-3">
+          <div class="form-group">
+            <label class="form-label">Scene #</label>
+            <input type="text" class="form-input" id="sf-num" required placeholder="Contoh: 1, 2A">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Setting</label>
+            <select class="form-select" id="sf-setting">
+              <option value="INT">INT (Interior)</option>
+              <option value="EXT">EXT (Eksterior)</option>
+              <option value="INT/EXT">INT/EXT</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Waktu</label>
+            <select class="form-select" id="sf-time">
+              <option value="MORNING">MORNING (Pagi)</option>
+              <option value="DAY">DAY (Siang)</option>
+              <option value="AFTERNOON">AFTERNOON (Sore)</option>
+              <option value="NIGHT">NIGHT (Malam)</option>
+              <option value="GOLDEN HOUR">GOLDEN HOUR</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label">Nama Lokasi Set</label>
+            <input type="text" class="form-input" id="sf-location" required placeholder="Contoh: Roastery Cafe Bar">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Panjang Halaman Script</label>
+            <input type="text" class="form-input" id="sf-pages" placeholder="Contoh: 1 2/8 pages">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Deskripsi / Sinopsis Adegan</label>
+          <textarea class="form-textarea" id="sf-synopsis" rows="2" placeholder="Apa yang terjadi di adegan ini?"></textarea>
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label">Karakter / Cast Terlibat (Pisahkan dengan koma)</label>
+            <input type="text" class="form-input" id="sf-cast" placeholder="Sarah, Barista, Extras">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Properti Khusus (Props)</label>
+            <input type="text" class="form-input" id="sf-props" placeholder="V60, Cup, Koper">
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label">Wardrobe / Kostum</label>
+            <input type="text" class="form-input" id="sf-wardrobe" placeholder="Apron kulit, blazer abu">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Special FX / Lighting / Grip Note</label>
+            <input type="text" class="form-input" id="sf-fx" placeholder="Hazer smoke, Tracking gimbal">
+          </div>
+        </div>
+        <div style="text-align: right; margin-top: 1rem;">
+          <button type="button" class="btn btn-secondary" onclick="app.closeModal('modal-scene')">Batal</button>
+          <button type="submit" class="btn btn-primary">Simpan Adegan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD / EDIT SHOT -->
+  <div class="modal-overlay" id="modal-shot">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-shot-title">Tambah Shot</h3>
+        <button class="modal-close" onclick="app.closeModal('modal-shot')">&times;</button>
+      </div>
+      <form id="form-shot" onsubmit="event.preventDefault(); app.saveShotForm();">
+        <input type="hidden" id="shot-form-id">
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label">Pilih Adegan (Scene)</label>
+            <select class="form-select" id="sht-scene-id" required>
+              <!-- Filled via JS -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nomor Shot</label>
+            <input type="text" class="form-input" id="sht-num" required placeholder="Contoh: 1A, 2B">
+          </div>
+        </div>
+        <div class="grid-3">
+          <div class="form-group">
+            <label class="form-label">Shot Size</label>
+            <select class="form-select" id="sht-size">
+              <option value="Wide Shot (WS)">Wide Shot (WS)</option>
+              <option value="Medium Shot (MS)">Medium Shot (MS)</option>
+              <option value="Medium Close-Up (MCU)">Medium Close-Up (MCU)</option>
+              <option value="Close-Up (CU)">Close-Up (CU)</option>
+              <option value="Extreme Close-Up (ECU)">Extreme Close-Up (ECU)</option>
+              <option value="Over-the-Shoulder (OTS)">Over-the-Shoulder (OTS)</option>
+              <option value="Point of View (POV)">Point of View (POV)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Camera Angle</label>
+            <select class="form-select" id="sht-angle">
+              <option value="Eye Level">Eye Level</option>
+              <option value="Low Angle">Low Angle</option>
+              <option value="High Angle">High Angle</option>
+              <option value="Dutch Angle">Dutch Angle / Canted</option>
+              <option value="Birds Eye / Overhead">Birds Eye / Overhead</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Movement</label>
+            <input type="text" class="form-input" id="sht-movement" placeholder="Static, Pan, Tracking, Gimbal">
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label">Lensa / Filter</label>
+            <input type="text" class="form-input" id="sht-lens" placeholder="Contoh: 35mm f/1.8, 100mm Macro">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Frame Rate (FPS)</label>
+            <select class="form-select" id="sht-fps">
+              <option value="24 fps">24 fps (Standard Cinema)</option>
+              <option value="25 fps">25 fps (PAL)</option>
+              <option value="48 fps">48 fps (Slow Motion)</option>
+              <option value="60 fps">60 fps (Smooth Slow-Mo)</option>
+              <option value="120 fps">120 fps (Ultra Slow-Mo)</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Deskripsi Visual & Framing</label>
+          <textarea class="form-textarea" id="sht-desc" rows="2" placeholder="Komposisi gambar, aksi karakter, atau arahan kamera..."></textarea>
+        </div>
+        <div style="text-align: right; margin-top: 1rem;">
+          <button type="button" class="btn btn-secondary" onclick="app.closeModal('modal-shot')">Batal</button>
+          <button type="submit" class="btn btn-primary">Simpan Shot</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD / EDIT CAST -->
+  <div class="modal-overlay" id="modal-cast">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Tambah Cast / Pemain</h3>
+        <button class="modal-close" onclick="app.closeModal('modal-cast')">&times;</button>
+      </div>
+      <form id="form-cast" onsubmit="event.preventDefault(); app.saveCastForm();">
+        <input type="hidden" id="cast-form-id">
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label">Nama Karakter</label>
+            <input type="text" class="form-input" id="cst-character" required placeholder="Contoh: Sarah (Hero)">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nama Aktor</label>
+            <input type="text" class="form-input" id="cst-actor" required placeholder="Nama asli aktor">
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label">Role / Tipe</label>
+            <input type="text" class="form-input" id="cst-role" placeholder="Lead Talent, Supporting, Extra">
+          </div>
+          <div class="form-group">
+            <label class="form-label">No. Telepon / WhatsApp</label>
+            <input type="text" class="form-input" id="cst-phone" placeholder="+62 811...">
+          </div>
+        </div>
+        <div class="grid-3">
+          <div class="form-group">
+            <label class="form-label">Pickup Time</label>
+            <input type="text" class="form-input" id="cst-pickup" placeholder="06:30 AM">
+          </div>
+          <div class="form-group">
+            <label class="form-label">H&MU Call</label>
+            <input type="text" class="form-input" id="cst-hmu" placeholder="07:00 AM">
+          </div>
+          <div class="form-group">
+            <label class="form-label">On Set Call</label>
+            <input type="text" class="form-input" id="cst-onset" placeholder="08:00 AM">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Catatan Tambahan (Diet, Kostum)</label>
+          <input type="text" class="form-input" id="cst-notes">
+        </div>
+        <div style="text-align: right; margin-top: 1rem;">
+          <button type="button" class="btn btn-secondary" onclick="app.closeModal('modal-cast')">Batal</button>
+          <button type="submit" class="btn btn-primary">Simpan Cast</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD / EDIT CREW -->
+  <div class="modal-overlay" id="modal-crew">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Tambah Kru Produksi</h3>
+        <button class="modal-close" onclick="app.closeModal('modal-crew')">&times;</button>
+      </div>
+      <form id="form-crew" onsubmit="event.preventDefault(); app.saveCrewForm();">
+        <input type="hidden" id="crew-form-id">
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label">Departemen</label>
+            <select class="form-select" id="crw-dept">
+              <option value="Direction">Direction</option>
+              <option value="Production">Production</option>
+              <option value="Camera">Camera</option>
+              <option value="Lighting & Grip">Lighting & Grip</option>
+              <option value="Sound">Sound</option>
+              <option value="Art Department">Art Department</option>
+              <option value="Wardrobe & MUA">Wardrobe & MUA</option>
+              <option value="Post-Production / DIT">Post-Production / DIT</option>
+              <option value="Logistics & Catering">Logistics & Catering</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Posisi / Role</label>
+            <input type="text" class="form-input" id="crw-role" required placeholder="DoP, 1st AC, Gaffer, etc.">
+          </div>
+        </div>
+        <div class="grid-3">
+          <div class="form-group">
+            <label class="form-label">Nama Kru</label>
+            <input type="text" class="form-input" id="crw-name" required placeholder="Nama lengkap">
+          </div>
+          <div class="form-group">
+            <label class="form-label">No. Telepon / WhatsApp</label>
+            <input type="text" class="form-input" id="crw-phone" placeholder="+62 811...">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Call Time</label>
+            <input type="text" class="form-input" id="crw-call" placeholder="06:00 AM">
+          </div>
+        </div>
+        <div style="text-align: right; margin-top: 1rem;">
+          <button type="button" class="btn btn-secondary" onclick="app.closeModal('modal-crew')">Batal</button>
+          <button type="submit" class="btn btn-primary">Simpan Kru</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD / EDIT EQUIPMENT -->
+  <div class="modal-overlay" id="modal-equipment">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Tambah Peralatan (Gear)</h3>
+        <button class="modal-close" onclick="app.closeModal('modal-equipment')">&times;</button>
+      </div>
+      <form id="form-equipment" onsubmit="event.preventDefault(); app.saveEquipmentForm();">
+        <input type="hidden" id="eq-form-id">
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label">Kategori</label>
+            <select class="form-select" id="eqf-category">
+              <option value="Camera">Camera Body & Support</option>
+              <option value="Lenses">Lenses & Filters</option>
+              <option value="Lighting">Lighting & Electric</option>
+              <option value="Grip & Support">Grip & Rigs</option>
+              <option value="Sound">Audio & Wireless</option>
+              <option value="Power & Utility">Power, Genset & Cables</option>
+              <option value="Monitoring / DIT">Monitoring / Video Village</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nama Barang & Spesifikasi</label>
+            <input type="text" class="form-input" id="eqf-name" required placeholder="Contoh: ARRI Alexa Mini LF">
+          </div>
+        </div>
+        <div class="grid-3">
+          <div class="form-group">
+            <label class="form-label">Jumlah / Satuan</label>
+            <input type="text" class="form-input" id="eqf-qty" placeholder="1 set, 2 units">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Sumber Alat</label>
+            <input type="text" class="form-input" id="eqf-source" placeholder="Rental / In-House / Owner">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Status Checklist</label>
+            <select class="form-select" id="eqf-status">
+              <option value="Checked / Ready">Checked / Ready</option>
+              <option value="To Be Picked Up">To Be Picked Up</option>
+              <option value="Loaded on Van">Loaded on Van</option>
+            </select>
+          </div>
+        </div>
+        <div style="text-align: right; margin-top: 1rem;">
+          <button type="button" class="btn btn-secondary" onclick="app.closeModal('modal-equipment')">Batal</button>
+          <button type="submit" class="btn btn-primary">Simpan Alat</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="demo-data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
