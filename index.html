@@ -5,14 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Aphi Studio Production — Pre-Production & Production Hub</title>
   <style>
-
 :root {
   --bg-canvas: #f8fafc;
-  --glass-surface: rgba(255, 255, 255, 0.82);
+  --glass-surface: rgba(255, 255, 255, 0.85);
   --glass-surface-hover: rgba(255, 255, 255, 0.95);
-  --glass-card: rgba(255, 255, 255, 0.75);
   --glass-border: rgba(255, 255, 255, 0.9);
-  --glass-border-subtle: rgba(0, 0, 0, 0.07);
   --glass-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
   --glass-shadow-hover: 0 20px 40px -6px rgba(0, 0, 0, 0.09), 0 4px 12px 0 rgba(0, 0, 0, 0.03);
   
@@ -75,7 +72,7 @@ body {
   overflow: hidden;
 }
 
-/* App Header */
+/* Header */
 .app-header {
   position: sticky;
   top: 0;
@@ -140,6 +137,19 @@ body {
   gap: 0.6rem;
 }
 
+/* User Profile in Header */
+.user-profile-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(0, 0, 0, 0.04);
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.82rem;
+  font-weight: 600;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
 /* Buttons */
 .btn {
   display: inline-flex;
@@ -182,6 +192,16 @@ body {
   border-color: rgba(0, 0, 0, 0.15);
 }
 
+.btn-admin-glass {
+  background: var(--accent-purple-bg);
+  color: var(--accent-purple);
+  border: 1px solid rgba(124, 58, 237, 0.25);
+  box-shadow: 0 2px 6px rgba(124, 58, 237, 0.08);
+}
+.btn-admin-glass:hover {
+  background: rgba(124, 58, 237, 0.18);
+}
+
 .btn-danger-glass {
   background: var(--accent-red-bg);
   color: var(--accent-red);
@@ -219,6 +239,101 @@ body {
   max-width: 1360px;
   margin: 1.5rem auto;
   padding: 0 1.5rem 3rem 1.5rem;
+}
+
+/* ========================================================
+   AUTHENTICATION VIEW (GATEKEEPER LOGIN & SIGNUP)
+   ======================================================== */
+.auth-container {
+  max-width: 480px;
+  margin: 4rem auto;
+  padding: 2.5rem 2rem;
+  text-align: center;
+}
+
+.auth-header {
+  margin-bottom: 1.75rem;
+}
+
+.auth-logo {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 1rem auto;
+  background: linear-gradient(135deg, #ffffff, #f0f4f9);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06), inset 0 1px 0 #ffffff;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+}
+
+.auth-header h2 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--apple-dark);
+}
+
+.auth-header p {
+  font-size: 0.85rem;
+  color: var(--apple-text-sub);
+  margin-top: 0.35rem;
+}
+
+.auth-toggle-tabs {
+  background: rgba(0, 0, 0, 0.05);
+  padding: 0.25rem;
+  border-radius: var(--radius-pill);
+  display: inline-flex;
+  gap: 0.25rem;
+  margin-bottom: 1.75rem;
+  width: 100%;
+}
+
+.auth-tab-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 0.55rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: var(--radius-pill);
+  color: var(--apple-text-sub);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: inherit;
+}
+
+.auth-tab-btn.active {
+  background: #ffffff;
+  color: var(--apple-dark);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.auth-alert {
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  font-size: 0.82rem;
+  margin-bottom: 1.25rem;
+  text-align: left;
+  display: none;
+}
+.auth-alert-error {
+  background: var(--accent-red-bg);
+  color: var(--accent-red);
+  border: 1px solid rgba(225, 29, 72, 0.2);
+}
+.auth-alert-warning {
+  background: var(--accent-gold-bg);
+  color: var(--accent-gold);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+}
+.auth-alert-success {
+  background: var(--accent-green-bg);
+  color: var(--accent-green);
+  border: 1px solid rgba(16, 185, 129, 0.25);
 }
 
 /* Landing Hero */
@@ -544,6 +659,7 @@ body {
 /* Forms */
 .form-group {
   margin-bottom: 0.85rem;
+  text-align: left;
 }
 
 .form-label {
@@ -573,9 +689,9 @@ body {
   background: #ffffff;
 }
 
-/* CRITICAL: Modals MUST BE HIDDEN BY DEFAULT */
+/* Modals */
 .modal-backdrop {
-  display: none; /* Default hidden */
+  display: none;
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.35);
@@ -586,10 +702,6 @@ body {
   justify-content: center;
 }
 
-.modal-backdrop.open {
-  display: flex !important; /* Opened via JS */
-}
-
 .modal-glass-content {
   background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(30px);
@@ -598,7 +710,7 @@ body {
   box-shadow: 0 24px 64px rgba(0, 0, 0, 0.15);
   border-radius: var(--radius-lg);
   width: 90%;
-  max-width: 620px;
+  max-width: 680px;
   max-height: 88vh;
   overflow-y: auto;
   padding: 1.5rem;
@@ -655,7 +767,7 @@ body {
   body { background: #ffffff !important; }
   .no-print, .app-header, .segmented-tabs-bar, .modal-backdrop, .btn { display: none !important; }
   .app-wrapper { margin: 0 !important; padding: 0 !important; max-width: 100% !important; }
-  #view-landing { display: none !important; }
+  #view-auth, #view-landing { display: none !important; }
   #view-workspace { display: block !important; }
   .tab-pane { display: none !important; }
   #tab-callsheet { display: block !important; }
@@ -664,8 +776,7 @@ body {
   .cs-hospital-box { background: #fff5f5 !important; border: 2px solid #b91c1c !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   @page { size: A4 portrait; margin: 10mm; }
 }
-
-</style>
+  </style>
 </head>
 <body>
 
@@ -679,27 +790,109 @@ body {
       </div>
     </div>
 
-    <!-- Dynamic Workspace Breadcrumb or Landing Title -->
+    <!-- Dynamic Workspace Breadcrumb or Studio Status -->
     <div id="header-context-container" style="display: flex; align-items: center; gap: 0.6rem;">
-      <!-- Populated via JS -->
+      <span class="badge badge-blue">Studio Management</span>
     </div>
 
-    <div class="header-controls no-print">
-      <button class="btn btn-glass btn-sm" onclick="app.exportAllJSON()" title="Export Semua Proyek ke JSON">💾 Export</button>
-      <label class="btn btn-glass btn-sm" style="margin:0; cursor:pointer;" title="Import Proyek JSON">
-        📂 Import <input type="file" id="import-json-input" accept=".json" style="display:none" onchange="app.importAllJSON(event)">
-      </label>
-      <button class="btn btn-primary btn-sm" id="btn-header-primary" onclick="app.openNewProjectModal()">+ Proyek Baru</button>
+    <!-- Header Controls & User Session -->
+    <div class="header-controls no-print" id="header-user-controls">
+      <!-- Populated via JS -->
     </div>
   </header>
 
-  <!-- Main Container -->
+  <!-- Main Application Wrapper -->
   <div class="app-wrapper">
+
+    <!-- ==============================================
+         VIEW 0: AUTHENTICATION (LOGIN & SIGN UP)
+         ============================================== -->
+    <section id="view-auth" class="auth-container glass-panel">
+      <div class="auth-header">
+        <div class="auth-logo">🎬</div>
+        <h2>Aphi Studio Production</h2>
+        <p>Silakan masuk atau buat akun baru untuk mengakses portal persiapan produksi.</p>
+      </div>
+
+      <!-- Tab Switcher Login vs Sign Up -->
+      <div class="auth-toggle-tabs">
+        <button class="auth-tab-btn active" id="btn-tab-login" onclick="app.switchAuthTab('login')">Masuk (Log In)</button>
+        <button class="auth-tab-btn" id="btn-tab-signup" onclick="app.switchAuthTab('signup')">Daftar Akun Baru</button>
+      </div>
+
+      <!-- Auth Alert Box -->
+      <div class="auth-alert" id="auth-alert-box"></div>
+
+      <!-- FORM LOGIN -->
+      <form id="form-login" onsubmit="event.preventDefault(); app.handleLogin();">
+        <div class="form-group">
+          <label class="form-label">Alamat Email</label>
+          <input type="email" class="form-control" id="login-email" required placeholder="nama@email.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input type="password" class="form-control" id="login-password" required placeholder="••••••••">
+        </div>
+        <div style="margin-top: 1.25rem;">
+          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.65rem;">Masuk ke Studio →</button>
+        </div>
+        
+        <div style="margin-top: 1.25rem; font-size: 0.76rem; color: var(--apple-text-sub); background: rgba(0,0,0,0.02); padding: 0.6rem; border-radius: 8px;">
+          💡 <strong>Akun Master Admin bawaan:</strong><br>
+          Email: <code style="color:var(--apple-blue);">admin@aphistudio.com</code> &bull; Password: <code>admin123</code>
+        </div>
+      </form>
+
+      <!-- FORM SIGN UP -->
+      <form id="form-signup" style="display: none;" onsubmit="event.preventDefault(); app.handleSignUp();">
+        <div class="form-group">
+          <label class="form-label">Nama Lengkap</label>
+          <input type="text" class="form-control" id="signup-name" required placeholder="Nama lengkap Anda">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Alamat Email</label>
+          <input type="email" class="form-control" id="signup-email" required placeholder="nama@email.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Posisi / Departemen di Produksi</label>
+          <select class="form-control" id="signup-role">
+            <option value="Sutradara (Director)">Sutradara (Director)</option>
+            <option value="Produser (Producer)">Produser (Producer)</option>
+            <option value="1st / 2nd Assistant Director">1st / 2nd Assistant Director</option>
+            <option value="Kamera (DoP / AC / Operator)">Kamera (DoP / AC / Operator)</option>
+            <option value="Lighting & Grip (Gaffer / Key Grip)">Lighting & Grip (Gaffer / Key Grip)</option>
+            <option value="Audio & Sound Recordist">Audio & Sound Recordist</option>
+            <option value="Art Department & Props">Art Department & Props</option>
+            <option value="Wardrobe & Makeup Artist">Wardrobe & Makeup Artist</option>
+            <option value="Aktor / Cast / Talent">Aktor / Cast / Talent</option>
+            <option value="Unit & Logistik Produksi">Unit & Logistik Produksi</option>
+            <option value="Klien / Agensi Periklanan">Klien / Agensi Periklanan</option>
+          </select>
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <input type="password" class="form-control" id="signup-password" required placeholder="Minimal 6 karakter">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Ulangi Password</label>
+            <input type="password" class="form-control" id="signup-password-confirm" required placeholder="Konfirmasi password">
+          </div>
+        </div>
+
+        <p style="font-size: 0.75rem; color: var(--apple-text-sub); text-align: left; margin: 0.5rem 0 1rem 0;">
+          ℹ️ <strong>Catatan Approval:</strong> Setiap pendaftaran baru memerlukan persetujuan dari <strong>Master Admin</strong> sebelum akun aktif dan dapat digunakan untuk masuk.
+        </p>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.65rem;">Daftar Akun Baru (Menunggu Approval)</button>
+      </form>
+    </section>
+
 
     <!-- ==============================================
          VIEW 1: LANDING PAGE & PROJECTS DASHBOARD
          ============================================== -->
-    <main id="view-landing">
+    <main id="view-landing" style="display: none;">
       <!-- Landing Hero Glass Banner -->
       <section class="landing-hero glass-panel">
         <div class="landing-hero-left">
@@ -1096,11 +1289,45 @@ body {
   </div>
 
   <!-- ==============================================
-       MODALS
+       MODALS (HIDDEN BY DEFAULT WITH STYLE="DISPLAY:NONE")
        ============================================== -->
 
+  <!-- MODAL: ADMIN USER APPROVALS -->
+  <div class="modal-backdrop" id="modal-admin-approvals" style="display: none;">
+    <div class="modal-glass-content" style="max-width: 780px;">
+      <div class="modal-header-row">
+        <div>
+          <h3>🛡️ Manajemen Pengguna & Persetujuan Akun</h3>
+          <p style="font-size:0.75rem; color:var(--apple-text-sub);">Sebagai Master Admin, Anda dapat menyetujui atau menolak pendaftaran akun kru studio.</p>
+        </div>
+        <button class="close-btn" onclick="app.closeModal('modal-admin-approvals')">&times;</button>
+      </div>
+
+      <div class="table-wrap">
+        <table class="apple-table">
+          <thead>
+            <tr>
+              <th>Nama Kru</th>
+              <th>Email</th>
+              <th>Posisi / Divisi</th>
+              <th>Status</th>
+              <th style="width: 170px;">Aksi Admin</th>
+            </tr>
+          </thead>
+          <tbody id="admin-users-table-body">
+            <!-- Rendered via JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <div style="display:flex; justify-content:flex-end; margin-top:1.25rem;">
+        <button type="button" class="btn btn-glass" onclick="app.closeModal('modal-admin-approvals')">Tutup Panel</button>
+      </div>
+    </div>
+  </div>
+
   <!-- MODAL: NEW PROJECT -->
-  <div class="modal-backdrop" style="display: none;" style="display: none;" id="modal-new-project">
+  <div class="modal-backdrop" id="modal-new-project" style="display: none;">
     <div class="modal-glass-content">
       <div class="modal-header-row">
         <h3>✨ Buat Proyek Produksi Baru</h3>
@@ -1146,7 +1373,7 @@ body {
   </div>
 
   <!-- MODAL: ADD / EDIT SCENE -->
-  <div class="modal-backdrop" style="display: none;" style="display: none;" id="modal-scene">
+  <div class="modal-backdrop" id="modal-scene" style="display: none;">
     <div class="modal-glass-content">
       <div class="modal-header-row">
         <h3 id="modal-scene-title">Tambah Adegan (Scene)</h3>
@@ -1221,7 +1448,7 @@ body {
   </div>
 
   <!-- MODAL: ADD / EDIT SHOT -->
-  <div class="modal-backdrop" style="display: none;" style="display: none;" id="modal-shot">
+  <div class="modal-backdrop" id="modal-shot" style="display: none;">
     <div class="modal-glass-content">
       <div class="modal-header-row">
         <h3 id="modal-shot-title">Tambah Shot</h3>
@@ -1295,7 +1522,7 @@ body {
   </div>
 
   <!-- MODAL: ADD / EDIT CAST -->
-  <div class="modal-backdrop" style="display: none;" style="display: none;" id="modal-cast">
+  <div class="modal-backdrop" id="modal-cast" style="display: none;">
     <div class="modal-glass-content">
       <div class="modal-header-row">
         <h3>Tambah Cast / Pemain</h3>
@@ -1350,7 +1577,7 @@ body {
   </div>
 
   <!-- MODAL: ADD / EDIT CREW -->
-  <div class="modal-backdrop" style="display: none;" style="display: none;" id="modal-crew">
+  <div class="modal-backdrop" id="modal-crew" style="display: none;">
     <div class="modal-glass-content">
       <div class="modal-header-row">
         <h3>Tambah Kru Produksi</h3>
@@ -1401,7 +1628,7 @@ body {
   </div>
 
   <!-- MODAL: ADD / EDIT EQUIPMENT -->
-  <div class="modal-backdrop" style="display: none;" style="display: none;" id="modal-equipment">
+  <div class="modal-backdrop" id="modal-equipment" style="display: none;">
     <div class="modal-glass-content">
       <div class="modal-header-row">
         <h3>Tambah Peralatan (Gear)</h3>
@@ -1453,8 +1680,7 @@ body {
     </div>
   </div>
 
-  <!-- Scripts -->
-  
+  <!-- Application Logic -->
   <script>
 // Multi-Project Demo Dataset for Aphi Studio Production (CinePrep)
 const INITIAL_PROJECTS = [
@@ -1843,37 +2069,388 @@ const INITIAL_PROJECTS = [
   }
 ];
 
-  </script>
-  <script>
-// Aphi Studio Production - Apple Liquid Glass Application Logic
+
+// Master User Database Definition
+const DEFAULT_USERS = [
+  {
+    id: "usr_admin",
+    name: "Aphi Master Admin",
+    email: "admin@aphistudio.com",
+    password: "admin123",
+    role: "Studio Owner & Executive Producer",
+    status: "approved",
+    isAdmin: true,
+    registeredAt: "2026-10-01"
+  },
+  {
+    id: "usr_crew_budi",
+    name: "Budi Santoso",
+    email: "budi@aphistudio.com",
+    password: "budi123",
+    role: "1st Assistant Director",
+    status: "approved",
+    isAdmin: false,
+    registeredAt: "2026-10-01"
+  },
+  {
+    id: "usr_pending_rian",
+    name: "Rian Hidayat",
+    email: "rian@gmail.com",
+    password: "rian123",
+    role: "Lighting & Grip Crew",
+    status: "pending",
+    isAdmin: false,
+    registeredAt: "2026-10-01"
+  }
+];
+
 class ProductionApp {
   constructor() {
-    this.storageKey = "aphi_studio_production_v2";
+    this.storageProjectsKey = "aphi_studio_production_v4";
+    this.storageUsersKey = "aphi_studio_users_v4";
+    this.storageSessionKey = "aphi_studio_current_user_v4";
+
     this.projects = this.loadProjects();
+    this.users = this.loadUsers();
+    this.currentUser = this.loadSession();
     this.activeProjectId = null;
+
     this.initDOM();
   }
 
   loadProjects() {
-    const saved = localStorage.getItem(this.storageKey);
+    const saved = localStorage.getItem(this.storageProjectsKey);
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) return parsed;
-      } catch (e) {
-        console.error("Failed to parse saved projects, loading default demo", e);
-      }
+      } catch (e) {}
     }
     return JSON.parse(JSON.stringify(INITIAL_PROJECTS));
   }
 
   saveProjects() {
-    localStorage.setItem(this.storageKey, JSON.stringify(this.projects));
+    localStorage.setItem(this.storageProjectsKey, JSON.stringify(this.projects));
     if (this.activeProjectId) {
       this.updateWorkspaceStats();
     } else {
       this.renderLanding();
     }
+  }
+
+  loadUsers() {
+    const saved = localStorage.getItem(this.storageUsersKey);
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      } catch (e) {}
+    }
+    return JSON.parse(JSON.stringify(DEFAULT_USERS));
+  }
+
+  saveUsers() {
+    localStorage.setItem(this.storageUsersKey, JSON.stringify(this.users));
+    this.updateHeaderControls();
+    this.renderAdminUsersList();
+  }
+
+  loadSession() {
+    const saved = localStorage.getItem(this.storageSessionKey);
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {}
+    }
+    return null; // Not logged in
+  }
+
+  saveSession(user) {
+    this.currentUser = user;
+    if (user) {
+      localStorage.setItem(this.storageSessionKey, JSON.stringify(user));
+    } else {
+      localStorage.removeItem(this.storageSessionKey);
+    }
+    this.updateHeaderControls();
+  }
+
+  initDOM() {
+    this.setupWorkspaceTabs();
+    if (!this.currentUser) {
+      this.showAuthView();
+    } else {
+      this.navToLanding();
+    }
+  }
+
+  // ==========================================
+  // AUTHENTICATION LOGIC (LOGIN & SIGNUP)
+  // ==========================================
+  showAuthView() {
+    document.getElementById("view-auth").style.display = "block";
+    document.getElementById("view-landing").style.display = "none";
+    document.getElementById("view-workspace").style.display = "none";
+    this.updateHeaderControls();
+  }
+
+  switchAuthTab(tab) {
+    this.hideAuthAlert();
+    const btnLogin = document.getElementById("btn-tab-login");
+    const btnSignup = document.getElementById("btn-tab-signup");
+    const formLogin = document.getElementById("form-login");
+    const formSignup = document.getElementById("form-signup");
+
+    if (tab === "login") {
+      btnLogin.classList.add("active");
+      btnSignup.classList.remove("active");
+      formLogin.style.display = "block";
+      formSignup.style.display = "none";
+    } else {
+      btnLogin.classList.remove("active");
+      btnSignup.classList.add("active");
+      formLogin.style.display = "none";
+      formSignup.style.display = "block";
+    }
+  }
+
+  showAuthAlert(message, type = "error") {
+    const box = document.getElementById("auth-alert-box");
+    box.className = `auth-alert auth-alert-${type}`;
+    box.innerHTML = message;
+    box.style.display = "block";
+  }
+
+  hideAuthAlert() {
+    const box = document.getElementById("auth-alert-box");
+    if (box) box.style.display = "none";
+  }
+
+  handleLogin() {
+    const email = document.getElementById("login-email").value.trim().toLowerCase();
+    const password = document.getElementById("login-password").value;
+
+    const user = this.users.find((u) => u.email.toLowerCase() === email && u.password === password);
+    if (!user) {
+      this.showAuthAlert("❌ Email atau password salah. Silakan coba lagi.", "error");
+      return;
+    }
+
+    // Check approval status
+    if (user.status === "pending") {
+      this.showAuthAlert("⏳ <strong>Pendaftaran Masih Menunggu Persetujuan:</strong><br>Akun Anda belum disetujui oleh Master Admin Aphi Studio. Silakan tunggu konfirmasi admin.", "warning");
+      return;
+    }
+
+    if (user.status === "rejected") {
+      this.showAuthAlert("🚫 <strong>Akses Ditolak:</strong> Akun ini telah dinonaktifkan atau ditolak oleh Admin.", "error");
+      return;
+    }
+
+    // Approved! Login successful
+    this.saveSession(user);
+    this.hideAuthAlert();
+    document.getElementById("form-login").reset();
+    this.navToLanding();
+  }
+
+  handleSignUp() {
+    const name = document.getElementById("signup-name").value.trim();
+    const email = document.getElementById("signup-email").value.trim().toLowerCase();
+    const role = document.getElementById("signup-role").value;
+    const password = document.getElementById("signup-password").value;
+    const confirmPass = document.getElementById("signup-password-confirm").value;
+
+    if (password !== confirmPass) {
+      this.showAuthAlert("❌ Password dan Konfirmasi Password tidak cocok.", "error");
+      return;
+    }
+
+    if (this.users.some((u) => u.email.toLowerCase() === email)) {
+      this.showAuthAlert("⚠️ Email ini sudah terdaftar. Silakan gunakan email lain atau hubungi admin.", "warning");
+      return;
+    }
+
+    const newUser = {
+      id: `usr_${Date.now()}`,
+      name,
+      email,
+      password,
+      role,
+      status: "pending", // Waiting for admin approval!
+      isAdmin: false,
+      registeredAt: new Date().toISOString().split("T")[0]
+    };
+
+    this.users.push(newUser);
+    this.saveUsers();
+
+    document.getElementById("form-signup").reset();
+    this.switchAuthTab("login");
+    this.showAuthAlert("🎉 <strong>Pendaftaran Berhasil!</strong><br>Akun Anda telah terdaftar dan berstatus <strong>Pending Approval</strong>. Anda baru dapat masuk setelah Master Admin menyetujui akun Anda.", "success");
+  }
+
+  logout() {
+    if (confirm("Keluar dari sesi Aphi Studio Production?")) {
+      this.saveSession(null);
+      this.activeProjectId = null;
+      this.showAuthView();
+    }
+  }
+
+  // ==========================================
+  // ADMIN APPROVAL LOGIC
+  // ==========================================
+  openAdminApprovalsModal() {
+    if (!this.currentUser || !this.currentUser.isAdmin) {
+      alert("Hanya Master Admin yang memiliki hak akses persetujuan akun.");
+      return;
+    }
+    this.renderAdminUsersList();
+    this.openModal("modal-admin-approvals");
+  }
+
+  renderAdminUsersList() {
+    const tbody = document.getElementById("admin-users-table-body");
+    if (!tbody) return;
+
+    tbody.innerHTML = this.users.map((u) => {
+      let statusBadge = "";
+      if (u.status === "approved") {
+        statusBadge = `<span class="badge badge-green">✓ Disetujui</span>`;
+      } else if (u.status === "rejected") {
+        statusBadge = `<span class="badge badge-red">✕ Ditolak</span>`;
+      } else {
+        statusBadge = `<span class="badge badge-gold">⏳ Menunggu (Pending)</span>`;
+      }
+
+      let actionButtons = "";
+      if (u.isAdmin) {
+        actionButtons = `<span style="font-size:0.75rem; color:var(--apple-blue); font-weight:bold;">👑 Master Admin</span>`;
+      } else {
+        actionButtons = `
+          <div style="display:flex; gap:0.3rem;">
+            ${u.status !== 'approved' ? `<button class="btn btn-primary btn-sm" onclick="app.approveUser('${u.id}')">Setujui</button>` : ''}
+            ${u.status !== 'rejected' ? `<button class="btn btn-danger-glass btn-sm" onclick="app.rejectUser('${u.id}')">Tolak</button>` : ''}
+            <button class="btn btn-glass btn-sm" onclick="app.deleteUser('${u.id}')" title="Hapus User">🗑️</button>
+          </div>
+        `;
+      }
+
+      return `
+        <tr style="${u.status === 'pending' ? 'background: rgba(245, 158, 11, 0.05); font-weight:600;' : ''}">
+          <td><strong>${this.escapeHTML(u.name)}</strong></td>
+          <td>${this.escapeHTML(u.email)}</td>
+          <td>${this.escapeHTML(u.role)}</td>
+          <td>${statusBadge}</td>
+          <td>${actionButtons}</td>
+        </tr>
+      `;
+    }).join("");
+  }
+
+  approveUser(id) {
+    const user = this.users.find((u) => u.id === id);
+    if (!user) return;
+    user.status = "approved";
+    this.saveUsers();
+    alert(`Akun "${user.name}" berhasil disetujui! Pengguna sekarang sudah bisa masuk.`);
+  }
+
+  rejectUser(id) {
+    const user = this.users.find((u) => u.id === id);
+    if (!user) return;
+    user.status = "rejected";
+    this.saveUsers();
+    alert(`Akun "${user.name}" ditolak.`);
+  }
+
+  deleteUser(id) {
+    const user = this.users.find((u) => u.id === id);
+    if (!user) return;
+    if (confirm(`Hapus akun "${user.name}"?`)) {
+      this.users = this.users.filter((u) => u.id !== id);
+      this.saveUsers();
+    }
+  }
+
+  updateHeaderControls() {
+    const container = document.getElementById("header-user-controls");
+    if (!container) return;
+
+    if (!this.currentUser) {
+      container.innerHTML = `
+        <span class="badge badge-gold">Sesi Terkunci</span>
+      `;
+      return;
+    }
+
+    const pendingCount = this.users.filter((u) => u.status === "pending").length;
+    const adminBtn = this.currentUser.isAdmin ? `
+      <button class="btn btn-admin-glass btn-sm" onclick="app.openAdminApprovalsModal()" title="Persetujuan Akun">
+        🛡️ Persetujuan Kru ${pendingCount > 0 ? `<span class="badge badge-gold" style="background:#b45309; color:#fff; font-size:0.68rem; padding:0.1rem 0.4rem; margin-left:0.2rem;">${pendingCount} Pending</span>` : ''}
+      </button>
+    ` : '';
+
+    container.innerHTML = `
+      <div class="user-profile-badge">
+        <span>👤 <strong>${this.escapeHTML(this.currentUser.name)}</strong></span>
+        ${this.currentUser.isAdmin ? '<span class="badge badge-purple">Admin</span>' : `<span style="font-size:0.75rem; color:var(--apple-text-sub);">${this.escapeHTML(this.currentUser.role)}</span>`}
+      </div>
+      ${adminBtn}
+      <button class="btn btn-glass btn-sm" onclick="app.exportAllJSON()" title="Export JSON">💾 Export</button>
+      <button class="btn btn-danger-glass btn-sm" onclick="app.logout()">Keluar</button>
+    `;
+  }
+
+  // ==========================================
+  // NAVIGATION BETWEEN LANDING & WORKSPACE
+  // ==========================================
+  navToLanding() {
+    if (!this.currentUser) return this.showAuthView();
+
+    this.activeProjectId = null;
+    document.getElementById("view-auth").style.display = "none";
+    document.getElementById("view-landing").style.display = "block";
+    document.getElementById("view-workspace").style.display = "none";
+    document.getElementById("header-context-container").innerHTML = `
+      <span class="badge badge-blue">Studio Management</span>
+    `;
+    this.updateHeaderControls();
+    this.renderLanding();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  openProject(projectId) {
+    if (!this.currentUser) return this.showAuthView();
+
+    this.activeProjectId = projectId;
+    const proj = this.getActiveProject();
+    if (!proj) return;
+
+    document.getElementById("view-auth").style.display = "none";
+    document.getElementById("view-landing").style.display = "none";
+    document.getElementById("view-workspace").style.display = "block";
+
+    document.getElementById("header-context-container").innerHTML = `
+      <div class="header-project-pill">
+        <strong>${this.escapeHTML(proj.title)}</strong>
+        <span class="badge badge-gold">Day ${proj.currentDay || 1}/${proj.totalDays || 1}</span>
+      </div>
+    `;
+
+    this.updateHeaderControls();
+
+    // Reset active tab to Overview
+    document.querySelectorAll(".seg-tab-btn").forEach((b) => b.classList.remove("active"));
+    document.querySelectorAll("#view-workspace .tab-pane").forEach((p) => p.classList.remove("active"));
+    const firstTabBtn = document.querySelector(`.seg-tab-btn[data-tab="tab-overview"]`);
+    if (firstTabBtn) firstTabBtn.classList.add("active");
+    const firstPane = document.getElementById("tab-overview");
+    if (firstPane) firstPane.classList.add("active");
+
+    this.renderWorkspaceAll();
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   getActiveProject() {
@@ -1891,10 +2468,13 @@ class ProductionApp {
   }
 
   exportAllJSON() {
-    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.projects, null, 2));
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({
+      projects: this.projects,
+      users: this.users
+    }, null, 2));
     const downloadAnchor = document.createElement("a");
     downloadAnchor.setAttribute("href", dataStr);
-    downloadAnchor.setAttribute("download", `aphi_studio_projects_${Date.now()}.json`);
+    downloadAnchor.setAttribute("download", `aphi_studio_backup_${Date.now()}.json`);
     document.body.appendChild(downloadAnchor);
     downloadAnchor.click();
     downloadAnchor.remove();
@@ -1907,25 +2487,22 @@ class ProductionApp {
     reader.onload = (e) => {
       try {
         const imported = JSON.parse(e.target.result);
-        if (Array.isArray(imported) && imported.length > 0) {
+        if (Array.isArray(imported)) {
           this.projects = imported;
-          this.saveProjects();
-          this.navToLanding();
-          alert("Data proyek berhasil di-import!");
-        } else {
-          alert("Format file JSON tidak sesuai.");
+        } else if (imported && Array.isArray(imported.projects)) {
+          this.projects = imported.projects;
+          if (Array.isArray(imported.users)) this.users = imported.users;
         }
+        this.saveProjects();
+        this.saveUsers();
+        this.navToLanding();
+        alert("Data proyek berhasil di-import!");
       } catch (err) {
         alert("Gagal membaca file JSON: " + err.message);
       }
     };
     reader.readAsText(file);
     event.target.value = "";
-  }
-
-  initDOM() {
-    this.setupWorkspaceTabs();
-    this.navToLanding();
   }
 
   setupWorkspaceTabs() {
@@ -1948,58 +2525,9 @@ class ProductionApp {
   }
 
   // ==========================================
-  // NAVIGATION BETWEEN LANDING & WORKSPACE
-  // ==========================================
-  navToLanding() {
-    this.activeProjectId = null;
-    document.getElementById("view-landing").style.display = "block";
-    document.getElementById("view-workspace").style.display = "none";
-    document.getElementById("header-context-container").innerHTML = `
-      <span class="badge badge-blue">Studio Management</span>
-    `;
-    document.getElementById("btn-header-primary").style.display = "inline-flex";
-    document.getElementById("btn-header-primary").textContent = "+ Proyek Baru";
-    document.getElementById("btn-header-primary").onclick = () => this.openNewProjectModal();
-    this.renderLanding();
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
-
-  openProject(projectId) {
-    this.activeProjectId = projectId;
-    const proj = this.getActiveProject();
-    if (!proj) return;
-
-    document.getElementById("view-landing").style.display = "none";
-    document.getElementById("view-workspace").style.display = "block";
-
-    document.getElementById("header-context-container").innerHTML = `
-      <div class="header-project-pill">
-        <strong>${this.escapeHTML(proj.title)}</strong>
-        <span class="badge badge-gold">Day ${proj.currentDay || 1}/${proj.totalDays || 1}</span>
-      </div>
-    `;
-
-    document.getElementById("btn-header-primary").style.display = "inline-flex";
-    document.getElementById("btn-header-primary").textContent = "🖨️ Cetak Call Sheet";
-    document.getElementById("btn-header-primary").onclick = () => this.printCurrentCallSheet();
-
-    // Reset active tab to Overview
-    document.querySelectorAll(".seg-tab-btn").forEach((b) => b.classList.remove("active"));
-    document.querySelectorAll("#view-workspace .tab-pane").forEach((p) => p.classList.remove("active"));
-    const firstTabBtn = document.querySelector(`.seg-tab-btn[data-tab="tab-overview"]`);
-    if (firstTabBtn) firstTabBtn.classList.add("active");
-    const firstPane = document.getElementById("tab-overview");
-    if (firstPane) firstPane.classList.add("active");
-
-    this.renderWorkspaceAll();
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
-
-  // ==========================================
   // VIEW 1: LANDING PAGE RENDERING
   // ==========================================
   renderLanding() {
-    // Stats calculation
     let totalScenes = 0;
     let totalShots = 0;
     let totalGear = 0;
@@ -2153,7 +2681,6 @@ class ProductionApp {
     const p = this.getActiveProject();
     if (!p) return;
 
-    // Header info
     document.getElementById("ws-project-title").textContent = p.title || "Untitled";
     document.getElementById("ws-project-type").textContent = p.type || "Film/Video";
     document.getElementById("ws-day-badge").textContent = `Day ${p.currentDay || 1} of ${p.totalDays || 1}`;
@@ -2178,7 +2705,6 @@ class ProductionApp {
     document.getElementById("stat-ws-crew-gear").textContent = `${(p.crew || []).length} Kru / ${(p.equipment || []).length} Gear`;
   }
 
-  // --- TAB 1: OVERVIEW & DETAILS ---
   renderWorkspaceProjectForm() {
     const p = this.getActiveProject();
     if (!p) return;
@@ -2959,12 +3485,18 @@ class ProductionApp {
   // --- MODAL UTILS ---
   openModal(modalId) {
     const el = document.getElementById(modalId);
-    if (el) el.classList.add("open");
+    if (el) {
+      el.style.display = "flex";
+      el.classList.add("open");
+    }
   }
 
   closeModal(modalId) {
     const el = document.getElementById(modalId);
-    if (el) el.classList.remove("open");
+    if (el) {
+      el.style.display = "none";
+      el.classList.remove("open");
+    }
   }
 
   escapeHTML(str) {
@@ -2978,13 +3510,11 @@ class ProductionApp {
   }
 }
 
-// Instantiate globally
+// Global App Initialization
 let app;
 window.addEventListener("DOMContentLoaded", () => {
   app = new ProductionApp();
 });
-
   </script>
-
 </body>
 </html>
