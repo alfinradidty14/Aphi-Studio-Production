@@ -4,7 +4,7 @@ const DEFAULT_USERS = [
     name: "Aphi Master Admin",
     email: "admin@aphistudio.com",
     password: "admin123",
-    role: "Studio Owner & Executive Producer",
+    role: "Executive Producer & Studio Owner",
     status: "approved",
     isAdmin: true,
     registeredAt: "2026-10-01"
@@ -20,12 +20,12 @@ const DEFAULT_USERS = [
     registeredAt: "2026-10-01"
   },
   {
-    id: "usr_pending_rian",
-    name: "Rian Hidayat",
-    email: "rian@gmail.com",
-    password: "rian123",
-    role: "Lighting & Grip Crew",
-    status: "pending",
+    id: "usr_crew_reza",
+    name: "Reza Rahardian",
+    email: "reza@aphistudio.com",
+    password: "reza123",
+    role: "Director of Photography",
+    status: "approved",
     isAdmin: false,
     registeredAt: "2026-10-01"
   }
@@ -33,9 +33,9 @@ const DEFAULT_USERS = [
 
 class ProductionApp {
   constructor() {
-    this.storageProjectsKey = "aphi_studio_production_v6";
-    this.storageUsersKey = "aphi_studio_users_v6";
-    this.storageSessionKey = "aphi_studio_current_user_v6";
+    this.storageProjectsKey = "aphi_studio_production_v7";
+    this.storageUsersKey = "aphi_studio_users_v7";
+    this.storageSessionKey = "aphi_studio_current_user_v7";
 
     this.projects = this.loadProjects();
     this.users = this.loadUsers();
@@ -81,6 +81,9 @@ class ProductionApp {
     localStorage.setItem(this.storageUsersKey, JSON.stringify(this.users));
     this.updateHeaderControls();
     this.renderAdminUsersList();
+    if (this.activeProjectId) {
+      this.renderRegisteredUsersDirectory();
+    }
   }
 
   loadSession() {
@@ -158,17 +161,12 @@ class ProductionApp {
 
     const user = this.users.find((u) => u.email.toLowerCase() === email && u.password === password);
     if (!user) {
-      this.showAuthAlert("❌ Email atau password salah.", "error");
-      return;
-    }
-
-    if (user.status === "pending") {
-      this.showAuthAlert("⏳ <strong>Pendaftaran Menunggu Persetujuan:</strong><br>Akun Anda belum disetujui oleh Master Admin Aphi Studio. Silakan hubungi admin.", "warning");
+      this.showAuthAlert("❌ Invalid email or password.", "error");
       return;
     }
 
     if (user.status === "rejected") {
-      this.showAuthAlert("🚫 Akun ini telah ditolak atau dinonaktifkan oleh Admin.", "error");
+      this.showAuthAlert("🚫 This account has been deactivated by Studio Admin.", "error");
       return;
     }
 
@@ -186,14 +184,25 @@ class ProductionApp {
     const confirmPass = document.getElementById("signup-password-confirm").value;
 
     if (password !== confirmPass) {
-      this.showAuthAlert("❌ Password dan Konfirmasi Password tidak sama.", "error");
+      this.showAuthAlert("❌ Passwords do not match. Please re-enter.", "error");
       return;
     }
 
     if (this.users.some((u) => u.email.toLowerCase() === email)) {
-      this.showAuthAlert("⚠️ Email ini sudah terdaftar. Silakan log in.", "warning");
+      this.showAuthAlert("⚠️ This email address is already registered. Please log in.", "warning");
       return;
     }
+
+    // Determine crew department from role
+    let dept = "Production";
+    const r = role.toLowerCase();
+    if (r.includes("director") || r.includes("ad")) dept = "Direction";
+    else if (r.includes("camera") || r.includes("dop") || r.includes("ac") || r.includes("operator")) dept = "Camera";
+    else if (r.includes("lighting") || r.includes("grip") || r.includes("gaffer")) dept = "Lighting & Grip";
+    else if (r.includes("sound") || r.includes("audio")) dept = "Sound";
+    else if (r.includes("art") || r.includes("designer") || r.includes("props")) dept = "Art Department";
+    else if (r.includes("wardrobe") || r.includes("makeup") || r.includes("mua")) dept = "Wardrobe & MUA";
+    else if (r.includes("producer") || r.includes("manager") || r.includes("logistics")) dept = "Production";
 
     const newUser = {
       id: `usr_${Date.now()}`,
@@ -201,7 +210,8 @@ class ProductionApp {
       email,
       password,
       role,
-      status: "pending",
+      department: dept,
+      status: "approved", // Automatically active so they can participate immediately
       isAdmin: false,
       registeredAt: new Date().toISOString().split("T")[0]
     };
@@ -209,9 +219,29 @@ class ProductionApp {
     this.users.push(newUser);
     this.saveUsers();
 
+    // AUTO-ADD TO CREW ROSTER IN ALL PROJECTS SO THEY ARE IMMEDIATELY VISIBLE!
+    this.projects.forEach((proj) => {
+      if (!proj.crew) proj.crew = [];
+      const exists = proj.crew.some((c) => c.name.toLowerCase() === name.toLowerCase());
+      if (!exists) {
+        proj.crew.push({
+          id: `cr_${Date.now()}_${Math.random().toString(36).substr(2, 4)}`,
+          department: dept,
+          role: role,
+          name: name,
+          phone: email,
+          callTime: proj.generalCall || "06:00 AM"
+        });
+      }
+    });
+    this.saveProjects();
+
+    // Auto-login the newly registered crew member!
+    this.saveSession(newUser);
     document.getElementById("form-signup").reset();
-    this.switchAuthTab("login");
-    this.showAuthAlert("🎉 <strong>Pendaftaran Berhasil!</strong><br>Akun Anda berstatus <strong>Pending Approval</strong>. Harap tunggu persetujuan Master Admin sebelum masuk.", "success");
+    this.hideAuthAlert();
+    this.navToLanding();
+    alert(`🎉 Welcome to Aphi Studio, ${name}! Your account is active and you have been added to the production crew roster.`);
   }
 
   quickDemoAdminLogin() {
@@ -224,7 +254,7 @@ class ProductionApp {
   }
 
   logout() {
-    if (confirm("Keluar dari sesi Aphi Studio Production?")) {
+    if (confirm("Log out from Aphi Studio Production?")) {
       this.saveSession(null);
       this.activeProjectId = null;
       this.showAuthView();
@@ -244,11 +274,11 @@ class ProductionApp {
     tbody.innerHTML = this.users.map((u) => {
       let statusBadge = "";
       if (u.status === "approved") {
-        statusBadge = `<span class="badge badge-green">✓ Disetujui</span>`;
+        statusBadge = `<span class="badge badge-green">✓ Active</span>`;
       } else if (u.status === "rejected") {
-        statusBadge = `<span class="badge badge-red">✕ Ditolak</span>`;
+        statusBadge = `<span class="badge badge-red">✕ Suspended</span>`;
       } else {
-        statusBadge = `<span class="badge badge-gold">⏳ Menunggu (Pending)</span>`;
+        statusBadge = `<span class="badge badge-gold">⏳ Pending</span>`;
       }
 
       let actionButtons = "";
@@ -257,15 +287,15 @@ class ProductionApp {
       } else {
         actionButtons = `
           <div style="display:flex; gap:0.3rem;">
-            ${u.status !== 'approved' ? `<button class="btn btn-primary btn-sm" onclick="app.approveUser('${u.id}')">Setujui</button>` : ''}
-            ${u.status !== 'rejected' ? `<button class="btn btn-danger-glass btn-sm" onclick="app.rejectUser('${u.id}')">Tolak</button>` : ''}
-            <button class="btn btn-glass btn-sm" onclick="app.deleteUser('${u.id}')" title="Hapus User">🗑️</button>
+            ${u.status !== 'approved' ? `<button class="btn btn-primary btn-sm" onclick="app.approveUser('${u.id}')">Approve</button>` : ''}
+            ${u.status !== 'rejected' ? `<button class="btn btn-danger-glass btn-sm" onclick="app.rejectUser('${u.id}')">Suspend</button>` : ''}
+            <button class="btn btn-glass btn-sm" onclick="app.deleteUser('${u.id}')" title="Delete User">🗑️</button>
           </div>
         `;
       }
 
       return `
-        <tr style="${u.status === 'pending' ? 'background: rgba(245, 158, 11, 0.05); font-weight:600;' : ''}">
+        <tr>
           <td><strong>${this.escapeHTML(u.name)}</strong></td>
           <td>${this.escapeHTML(u.email)}</td>
           <td>${this.escapeHTML(u.role)}</td>
@@ -280,6 +310,23 @@ class ProductionApp {
     const user = this.users.find((u) => u.id === id);
     if (!user) return;
     user.status = "approved";
+
+    // Ensure they are in project crew
+    this.projects.forEach((proj) => {
+      if (!proj.crew) proj.crew = [];
+      const exists = proj.crew.some((c) => c.name.toLowerCase() === user.name.toLowerCase());
+      if (!exists) {
+        proj.crew.push({
+          id: `cr_${Date.now()}_${Math.random().toString(36).substr(2, 4)}`,
+          department: user.department || "Production",
+          role: user.role,
+          name: user.name,
+          phone: user.email,
+          callTime: proj.generalCall || "06:00 AM"
+        });
+      }
+    });
+    this.saveProjects();
     this.saveUsers();
   }
 
@@ -293,7 +340,7 @@ class ProductionApp {
   deleteUser(id) {
     const user = this.users.find((u) => u.id === id);
     if (!user) return;
-    if (confirm(`Hapus akun "${user.name}"?`)) {
+    if (confirm(`Remove user account "${user.name}"?`)) {
       this.users = this.users.filter((u) => u.id !== id);
       this.saveUsers();
     }
@@ -310,8 +357,8 @@ class ProductionApp {
 
     const pendingCount = this.users.filter((u) => u.status === "pending").length;
     const adminBtn = this.currentUser.isAdmin ? `
-      <button class="btn btn-admin-glass btn-sm" onclick="app.openAdminApprovalsModal()" title="Persetujuan Akun">
-        🛡️ Kru ${pendingCount > 0 ? `<span class="badge badge-gold" style="background:#b45309; color:#fff; font-size:0.68rem; padding:0.1rem 0.4rem; margin-left:0.2rem;">${pendingCount} Pending</span>` : ''}
+      <button class="btn btn-admin-glass btn-sm" onclick="app.openAdminApprovalsModal()" title="Team Access Management">
+        🛡️ Team ${pendingCount > 0 ? `<span class="badge badge-gold" style="background:#b45309; color:#fff; font-size:0.68rem; padding:0.1rem 0.4rem; margin-left:0.2rem;">${pendingCount} Pending</span>` : ''}
       </button>
     ` : '';
 
@@ -321,8 +368,8 @@ class ProductionApp {
         ${this.currentUser.isAdmin ? '<span class="badge badge-purple">Admin</span>' : `<span style="font-size:0.75rem; color:var(--apple-text-sub);">${this.escapeHTML(this.currentUser.role)}</span>`}
       </div>
       ${adminBtn}
-      <button class="btn btn-glass btn-sm" onclick="app.exportAllJSON()" title="Export Backup">💾</button>
-      <button class="btn btn-danger-glass btn-sm" onclick="app.logout()">Keluar</button>
+      <button class="btn btn-glass btn-sm" onclick="app.exportAllJSON()" title="Export JSON Backup">💾</button>
+      <button class="btn btn-danger-glass btn-sm" onclick="app.logout()">Log Out</button>
     `;
   }
 
@@ -341,7 +388,7 @@ class ProductionApp {
     document.getElementById("view-workspace").style.display = "none";
     document.getElementById("header-search-wrap").style.display = "flex";
 
-    document.getElementById("user-greeting-heading").textContent = `Selamat datang, ${this.currentUser.name.split(' ')[0]} 👋`;
+    document.getElementById("user-greeting-heading").textContent = `Good morning, ${this.currentUser.name.split(' ')[0]} 👋`;
 
     this.updateHeaderControls();
     this.renderLanding();
@@ -355,7 +402,6 @@ class ProductionApp {
     const proj = this.getActiveProject();
     if (!proj) return;
 
-    // Ensure array objects exist for 5 new modules
     if (!proj.storyboards) proj.storyboards = [];
     if (!proj.stripboard) proj.stripboard = [];
     if (!proj.continuityLogs) proj.continuityLogs = [];
@@ -370,8 +416,8 @@ class ProductionApp {
 
     document.getElementById("ws-project-title").textContent = proj.title || "Untitled";
     document.getElementById("ws-project-type").textContent = proj.type || "Film/Video";
-    document.getElementById("ws-day-badge").textContent = `Day ${proj.currentDay || 1}/${proj.totalDays || 1}`;
-    document.getElementById("ws-project-sub").innerHTML = `Klien: <strong>${this.escapeHTML(proj.client || "-")}</strong> &bull; Sutradara: <strong>${this.escapeHTML(proj.director || "-")}</strong> &bull; Tanggal: <strong>${proj.shootDate || "-"}</strong>`;
+    document.getElementById("ws-day-badge").textContent = `Day ${proj.currentDay || 1} of ${proj.totalDays || 1}`;
+    document.getElementById("ws-project-sub").innerHTML = `Client: <strong>${this.escapeHTML(proj.client || "-")}</strong> &bull; Director: <strong>${this.escapeHTML(proj.director || "-")}</strong> &bull; Date: <strong>${proj.shootDate || "-"}</strong>`;
 
     this.updateHeaderControls();
     this.switchTab("tab-overview");
@@ -393,6 +439,7 @@ class ProductionApp {
     if (tabId === "tab-storyboard") this.renderStoryboard();
     if (tabId === "tab-continuity") this.renderContinuity();
     if (tabId === "tab-budget") this.renderBudget();
+    if (tabId === "tab-roster") this.renderRegisteredUsersDirectory();
     if (tabId === "tab-cloud") this.renderCloudSync();
   }
 
@@ -470,13 +517,13 @@ class ProductionApp {
             <div class="folder-pocket-tab-cut"></div>
             <div class="folder-title-row">
               <h4>${this.escapeHTML(p.title)}</h4>
-              <span style="cursor:pointer; font-size:1.1rem; opacity:0.8;" onclick="event.stopPropagation(); app.deleteProject('${p.id}')" title="Hapus Proyek">•••</span>
+              <span style="cursor:pointer; font-size:1.1rem; opacity:0.8;" onclick="event.stopPropagation(); app.deleteProject('${p.id}')" title="Delete Project">•••</span>
             </div>
             <div class="folder-subtext">${this.escapeHTML(p.type)} &bull; ${this.escapeHTML(p.status || "In Prep")}</div>
 
             <div class="folder-footer-stats">
               <span>📄 ${sceneCount} Scenes &bull; ${shotCount} Shots</span>
-              <span style="font-weight:600; color:#ffffff;">Day ${p.currentDay || 1}/${p.totalDays || 1}</span>
+              <span style="font-weight:600; color:#ffffff;">Day ${p.currentDay || 1} of ${p.totalDays || 1}</span>
             </div>
           </div>
         </div>
@@ -503,7 +550,7 @@ class ProductionApp {
             <div class="draft-icon-box">📁</div>
             <div>
               <div style="font-weight:700; font-size:0.86rem; color:var(--apple-dark);">${this.escapeHTML(p.title)}</div>
-              <div style="font-size:0.74rem; color:var(--apple-text-tertiary);">${this.escapeHTML(p.type)} &bull; ${p.shootDate || "No date"}</div>
+              <div style="font-size:0.74rem; color:var(--apple-text-tertiary);">${this.escapeHTML(p.type)} &bull; ${p.shootDate || "No date set"}</div>
             </div>
           </div>
           <button class="btn btn-glass btn-sm" style="font-size:0.75rem;" onclick="event.stopPropagation(); app.openProject('${p.id}')">
@@ -528,6 +575,7 @@ class ProductionApp {
     this.renderContinuity();
     this.renderCast();
     this.renderCrew();
+    this.renderRegisteredUsersDirectory();
     this.renderEquipment();
     this.renderBudget();
     this.renderCallSheet();
@@ -540,9 +588,8 @@ class ProductionApp {
     document.getElementById("stat-ws-scenes").textContent = (p.scenes || []).length;
     document.getElementById("stat-ws-shots").textContent = (p.shots || []).length;
     document.getElementById("stat-ws-cast").textContent = (p.cast || []).length;
-    document.getElementById("stat-ws-crew-gear").textContent = `${(p.crew || []).length} Kru / ${(p.equipment || []).length} Gear`;
+    document.getElementById("stat-ws-crew-gear").textContent = `${(p.crew || []).length} Crew / ${(p.equipment || []).length} Gear`;
 
-    // Cloud status badge
     const badge = document.getElementById("ws-cloud-badge");
     if (badge && p.cloudConfig) {
       if (p.cloudConfig.enabled && p.cloudConfig.url) {
@@ -615,7 +662,7 @@ class ProductionApp {
 
     this.saveProjects();
     this.renderWorkspaceAll();
-    alert("Data proyek berhasil disimpan!");
+    alert("Project details saved successfully!");
   }
 
   // --- TAB 2: SCRIPT BREAKDOWN ---
@@ -623,7 +670,7 @@ class ProductionApp {
     const p = this.getActiveProject();
     const container = document.getElementById("scenes-list-container");
     if (!p || !p.scenes || p.scenes.length === 0) {
-      container.innerHTML = `<div style="text-align:center; padding:1.5rem; color:var(--apple-text-sub);">Belum ada adegan. Klik <strong>+ Tambah Adegan</strong>.</div>`;
+      container.innerHTML = `<div style="text-align:center; padding:1.5rem; color:var(--apple-text-sub);">No scenes breakdown yet. Click <strong>+ Add Scene</strong> to start.</div>`;
       return;
     }
 
@@ -650,12 +697,12 @@ class ProductionApp {
             <div style="display:flex; align-items:center; gap:0.4rem;">
               <span style="font-size:0.75rem; color:var(--apple-text-sub);">${sc.pages || "1 page"}</span>
               <button class="btn btn-glass btn-sm" onclick="app.editScene('${sc.id}')">Edit</button>
-              <button class="btn btn-danger-glass btn-sm" onclick="app.deleteScene('${sc.id}')">Hapus</button>
+              <button class="btn btn-danger-glass btn-sm" onclick="app.deleteScene('${sc.id}')">Delete</button>
             </div>
           </div>
           <div class="scene-strip-body">
             <p style="font-size:0.83rem; margin-bottom:0.6rem; color:var(--apple-dark);">
-              <strong>Sinopsis:</strong> ${this.escapeHTML(sc.synopsis || "-")}
+              <strong>Synopsis:</strong> ${this.escapeHTML(sc.synopsis || "-")}
             </p>
             <div class="grid-4" style="background:rgba(0,0,0,0.02); padding:0.6rem; border-radius:8px;">
               <div>
@@ -690,7 +737,7 @@ class ProductionApp {
     const filterSelect = document.getElementById("filter-shot-scene");
     if (filterSelect) {
       const currentVal = filterSelect.value;
-      filterSelect.innerHTML = `<option value="ALL">Semua Adegan</option>` +
+      filterSelect.innerHTML = `<option value="ALL">All Scenes</option>` +
         (p.scenes || []).map((s) => `<option value="${s.id}">Scene ${s.sceneNumber}: ${this.escapeHTML(s.location || s.slugline)}</option>`).join("");
       if ((p.scenes || []).some(s => s.id === currentVal)) filterSelect.value = currentVal;
     }
@@ -703,7 +750,7 @@ class ProductionApp {
 
   openAddSceneModal() {
     const p = this.getActiveProject();
-    document.getElementById("modal-scene-title").textContent = "Tambah Adegan (Scene)";
+    document.getElementById("modal-scene-title").textContent = "Add Scene Breakdown";
     document.getElementById("scene-form-id").value = "";
     document.getElementById("sf-num").value = ((p.scenes || []).length + 1).toString();
     document.getElementById("sf-setting").value = "INT";
@@ -771,7 +818,6 @@ class ProductionApp {
       if (!p.scenes) p.scenes = [];
       p.scenes.push(sceneData);
 
-      // Auto-add to stripboard schedule as well
       if (!p.stripboard) p.stripboard = [];
       p.stripboard.push({
         id: `st_${Date.now()}`,
@@ -794,7 +840,7 @@ class ProductionApp {
 
   deleteScene(id) {
     const p = this.getActiveProject();
-    if (confirm("Hapus adegan ini beserta shot terkait?")) {
+    if (confirm("Delete this scene and its related shots?")) {
       p.scenes = p.scenes.filter((s) => s.id !== id);
       p.shots = (p.shots || []).filter((sh) => sh.sceneId !== id);
       p.stripboard = (p.stripboard || []).filter((st) => st.sceneNumber !== id && st.id !== id);
@@ -815,7 +861,7 @@ class ProductionApp {
     if (!container || !p) return;
 
     if (!p.stripboard || p.stripboard.length === 0) {
-      container.innerHTML = `<div style="text-align:center; padding:1.5rem; color:var(--apple-text-sub);">Stripboard kosong. Klik <strong>+ Tambah Strip Adegan</strong> atau susun dari Script Breakdown.</div>`;
+      container.innerHTML = `<div style="text-align:center; padding:1.5rem; color:var(--apple-text-sub);">Stripboard schedule is empty. Click <strong>+ Add Day Break</strong> or add scenes from Script Breakdown.</div>`;
       return;
     }
 
@@ -857,7 +903,7 @@ class ProductionApp {
           </div>
 
           <div style="display:flex; align-items:center; gap:1.25rem;">
-            <span>⏱️ ${(parseInt(strip.estMinutes) || 120) / 60} Jam</span>
+            <span>⏱️ ${(parseInt(strip.estMinutes) || 120) / 60} hrs</span>
             <span>📄 ${strip.pages || "1 page"}</span>
             <div style="display:flex; gap:0.3rem;">
               <button class="btn btn-glass btn-sm" style="background:rgba(255,255,255,0.6);" onclick="app.moveStripUp(${idx})">▲</button>
@@ -870,9 +916,9 @@ class ProductionApp {
     }).join("");
 
     container.innerHTML = html;
-    document.getElementById("st-total-strips").textContent = `${sceneCount} Adegan`;
-    document.getElementById("st-total-pages").textContent = `${p.scenes.length * 1.2} Halaman`;
-    document.getElementById("st-total-hours").textContent = `${(totalMinutes / 60).toFixed(1)} Jam`;
+    document.getElementById("st-total-strips").textContent = `${sceneCount} Scenes`;
+    document.getElementById("st-total-pages").textContent = `${(p.scenes.length * 1.2).toFixed(1)} Pages`;
+    document.getElementById("st-total-hours").textContent = `${(totalMinutes / 60).toFixed(1)} Hours`;
   }
 
   moveStripUp(idx) {
@@ -917,15 +963,26 @@ class ProductionApp {
   }
 
   // ==========================================
-  // FEATURE 1: VISUAL STORYBOARD & MOODBOARD
+  // FEATURE 1: VISUAL STORYBOARD & PRINT FIX
   // ==========================================
   renderStoryboard() {
     const p = this.getActiveProject();
     const container = document.getElementById("storyboard-grid-container");
     if (!container || !p) return;
 
+    // Populate dedicated print header
+    const pTitle = document.getElementById("sb-print-project-title");
+    const pMeta = document.getElementById("sb-print-meta");
+    const pFrames = document.getElementById("sb-print-total-frames");
+    const pDate = document.getElementById("sb-print-date");
+
+    if (pTitle) pTitle.textContent = p.title || "UNTITLED PROJECT";
+    if (pMeta) pMeta.innerHTML = `Director: <strong>${this.escapeHTML(p.director || "-")}</strong> &bull; DoP: <strong>${this.escapeHTML(p.dop || "-")}</strong> &bull; Client: <strong>${this.escapeHTML(p.client || "-")}</strong>`;
+    if (pFrames) pFrames.textContent = `${(p.storyboards || []).length} FRAMES`;
+    if (pDate) pDate.textContent = `Date: ${p.shootDate || new Date().toISOString().split('T')[0]}`;
+
     if (!p.storyboards || p.storyboards.length === 0) {
-      container.innerHTML = `<div style="text-align:center; padding:1.5rem; color:var(--apple-text-sub); grid-column:1/-1;">Belum ada frame storyboard. Klik <strong>+ Tambah Frame Storyboard</strong>.</div>`;
+      container.innerHTML = `<div style="text-align:center; padding:1.5rem; color:var(--apple-text-sub); grid-column:1/-1;">No storyboard frames yet. Click <strong>+ Add Storyboard Frame</strong> to start.</div>`;
       return;
     }
 
@@ -1008,15 +1065,31 @@ class ProductionApp {
 
   deleteStoryboard(id) {
     const p = this.getActiveProject();
-    if (confirm("Hapus frame storyboard ini?")) {
+    if (confirm("Delete this storyboard frame?")) {
       p.storyboards = p.storyboards.filter(s => s.id !== id);
       this.saveProjects();
       this.renderStoryboard();
     }
   }
 
+  // EXPLICIT DUAL PRINT HANDLER: PRINTS STORYBOARD DECK WITHOUT CALL SHEET
   printStoryboardDeck() {
-    window.print();
+    this.switchTab("tab-storyboard");
+    this.renderStoryboard();
+
+    // Attach printing class to body
+    document.body.classList.remove("printing-callsheet");
+    document.body.classList.add("printing-storyboard");
+
+    const onPrintDone = () => {
+      document.body.classList.remove("printing-storyboard");
+      window.removeEventListener("afterprint", onPrintDone);
+    };
+    window.addEventListener("afterprint", onPrintDone);
+
+    setTimeout(() => {
+      window.print();
+    }, 150);
   }
 
   // ==========================================
@@ -1028,7 +1101,7 @@ class ProductionApp {
     if (!tbody || !p) return;
 
     if (!p.continuityLogs || p.continuityLogs.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; padding:1.25rem; color:var(--apple-text-sub);">Belum ada catatan take. Klik <strong>+ Catat Take Baru</strong> saat kamera rolling di set.</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; padding:1.25rem; color:var(--apple-text-sub);">No take logs recorded yet. Click <strong>+ Log New Take</strong> when camera is rolling on set.</td></tr>`;
       return;
     }
 
@@ -1043,7 +1116,7 @@ class ProductionApp {
 
       return `
         <tr style="${cl.isCircleTake ? 'background:rgba(245, 158, 11, 0.05); font-weight:600;' : ''}">
-          <td style="text-align:center;"><span class="${starClass}" onclick="app.toggleCircleTake('${cl.id}')" title="Circle Take (Pilihan Editor)">★</span></td>
+          <td style="text-align:center;"><span class="${starClass}" onclick="app.toggleCircleTake('${cl.id}')" title="Circle Take (Editor's Pick)">★</span></td>
           <td><strong>SC ${cl.sceneNumber} / ${cl.shotNumber}</strong></td>
           <td style="font-weight:700;">TK ${cl.takeNumber}</td>
           <td><code style="font-size:0.75rem;">${this.escapeHTML(cl.clipName || "-")}</code></td>
@@ -1118,7 +1191,7 @@ class ProductionApp {
 
   exportContinuityCSV() {
     const p = this.getActiveProject();
-    if (!p.continuityLogs || p.continuityLogs.length === 0) return alert("Belum ada data take untuk diekspor.");
+    if (!p.continuityLogs || p.continuityLogs.length === 0) return alert("No take data available to export.");
     
     let csv = "Scene,Shot,Take,CircleTake,ClipName,SoundRoll,Timecode,Status,Notes\n";
     p.continuityLogs.forEach(c => {
@@ -1179,7 +1252,7 @@ class ProductionApp {
           <td><strong>${this.escapeHTML(pc.desc)}</strong></td>
           <td>Rp ${(parseInt(pc.amount) || 0).toLocaleString('id-ID')}</td>
           <td>${this.escapeHTML(pc.pic || "-")}</td>
-          <td><span class="badge badge-green">${this.escapeHTML(pc.status || "Ada Nota")}</span></td>
+          <td><span class="badge badge-green">${this.escapeHTML(pc.status || "Receipt Verified")}</span></td>
           <td><button class="btn btn-danger-glass btn-sm" onclick="app.deletePettyCash(${idx})">🗑️</button></td>
         </tr>
       `;
@@ -1192,8 +1265,8 @@ class ProductionApp {
     document.getElementById("bg-stat-actual").textContent = `Rp ${totalAct.toLocaleString('id-ID')}`;
     document.getElementById("bg-stat-remaining").textContent = `Rp ${remaining.toLocaleString('id-ID')}`;
     document.getElementById("bg-progress-bar").style.width = `${pct}%`;
-    document.getElementById("bg-progress-text").textContent = `${pct}% Terpakai`;
-    document.getElementById("bg-petty-total").textContent = `Total Kas: Rp ${pettyTotal.toLocaleString('id-ID')}`;
+    document.getElementById("bg-progress-text").textContent = `${pct}% Spent`;
+    document.getElementById("bg-petty-total").textContent = `Total Petty Cash: Rp ${pettyTotal.toLocaleString('id-ID')}`;
   }
 
   openAddBudgetItemModal() {
@@ -1232,7 +1305,7 @@ class ProductionApp {
     document.getElementById("pcf-date").value = new Date().toISOString().split("T")[0];
     document.getElementById("pcf-amount").value = "";
     document.getElementById("pcf-desc").value = "";
-    document.getElementById("pcf-pic").value = "Tim Unit / PA";
+    document.getElementById("pcf-pic").value = "Unit Team / PA";
     this.openModal("modal-petty-cash");
   }
 
@@ -1300,23 +1373,197 @@ class ProductionApp {
     this.saveProjects();
     this.renderCloudSync();
     this.updateWorkspaceStats();
-    alert("Konfigurasi Cloud Database berhasil disimpan!");
+    alert("Cloud database settings saved successfully!");
   }
 
   syncCloudNow() {
     const p = this.getActiveProject();
     if (!p.cloudConfig || !p.cloudConfig.url) {
-      alert("Harap masukkan Project URL dan API Key cloud database Anda terlebih dahulu.");
+      alert("Please enter your Project URL and API Key in the Cloud DB tab first.");
       return;
     }
     p.cloudConfig.lastSynced = new Date().toISOString();
     this.saveProjects();
-    alert(`Sinkronisasi berhasil! Data proyek "${p.title}" telah diperbarui ke ${p.cloudConfig.provider.toUpperCase()}.`);
+    alert(`Sync successful! Project data for "${p.title}" is synchronized with ${p.cloudConfig.provider.toUpperCase()}.`);
   }
 
   // ==========================================
-  // OTHER PRODUCTION TOOLS (SHOTS, CAST, CREW, GEAR, CALL SHEET)
+  // PRODUCTION CREW & REGISTERED DIRECTORY
   // ==========================================
+  renderRegisteredUsersDirectory() {
+    const tbody = document.getElementById("registered-users-table-body");
+    if (!tbody) return;
+
+    const p = this.getActiveProject();
+    const currentCrewNames = (p && p.crew) ? p.crew.map(c => c.name.toLowerCase()) : [];
+
+    tbody.innerHTML = this.users.map((u) => {
+      const isAssigned = currentCrewNames.includes(u.name.toLowerCase());
+      const assignButton = isAssigned
+        ? `<span class="badge badge-green">✓ Assigned to Shoot</span>`
+        : `<button class="btn btn-primary btn-sm" onclick="app.assignUserToProject('${u.id}')">+ Add to Call Sheet</button>`;
+
+      return `
+        <tr>
+          <td><strong>${this.escapeHTML(u.name)}</strong></td>
+          <td><span class="badge badge-purple">${this.escapeHTML(u.role)}</span></td>
+          <td>${this.escapeHTML(u.email)}</td>
+          <td><span class="badge badge-blue">${this.escapeHTML(u.status)}</span></td>
+          <td>${assignButton}</td>
+        </tr>
+      `;
+    }).join("");
+
+    // Also populate quick select in Add Crew modal
+    const crewSelect = document.getElementById("crw-quick-user-select");
+    if (crewSelect) {
+      crewSelect.innerHTML = `<option value="">-- Quick Select from Registered Team --</option>` +
+        this.users.map(u => `<option value="${u.id}">${u.name} (${u.role})</option>`).join("");
+    }
+  }
+
+  handleQuickCrewSelect(userId) {
+    if (!userId) return;
+    const user = this.users.find(u => u.id === userId);
+    if (!user) return;
+
+    document.getElementById("crw-name").value = user.name;
+    document.getElementById("crw-role").value = user.role;
+    document.getElementById("crw-phone").value = user.email;
+
+    // Auto-select department
+    const r = user.role.toLowerCase();
+    const deptSelect = document.getElementById("crw-dept");
+    if (r.includes("director") || r.includes("ad")) deptSelect.value = "Direction";
+    else if (r.includes("camera") || r.includes("dop") || r.includes("ac") || r.includes("operator")) deptSelect.value = "Camera";
+    else if (r.includes("lighting") || r.includes("grip") || r.includes("gaffer")) deptSelect.value = "Lighting & Grip";
+    else if (r.includes("sound") || r.includes("audio")) deptSelect.value = "Sound";
+    else if (r.includes("art") || r.includes("designer") || r.includes("props")) deptSelect.value = "Art Department";
+    else if (r.includes("wardrobe") || r.includes("makeup") || r.includes("mua")) deptSelect.value = "Wardrobe & MUA";
+    else deptSelect.value = "Production";
+  }
+
+  assignUserToProject(userId) {
+    const user = this.users.find(u => u.id === userId);
+    const p = this.getActiveProject();
+    if (!user || !p) return;
+
+    if (!p.crew) p.crew = [];
+    const exists = p.crew.some(c => c.name.toLowerCase() === user.name.toLowerCase());
+    if (exists) {
+      alert(`${user.name} is already assigned to this project's crew roster.`);
+      return;
+    }
+
+    let dept = user.department || "Production";
+    const r = user.role.toLowerCase();
+    if (r.includes("director") || r.includes("ad")) dept = "Direction";
+    else if (r.includes("camera") || r.includes("dop") || r.includes("ac") || r.includes("operator")) dept = "Camera";
+    else if (r.includes("lighting") || r.includes("grip") || r.includes("gaffer")) dept = "Lighting & Grip";
+    else if (r.includes("sound") || r.includes("audio")) dept = "Sound";
+    else if (r.includes("art") || r.includes("designer") || r.includes("props")) dept = "Art Department";
+    else if (r.includes("wardrobe") || r.includes("makeup") || r.includes("mua")) dept = "Wardrobe & MUA";
+
+    p.crew.push({
+      id: `cr_${Date.now()}`,
+      department: dept,
+      role: user.role,
+      name: user.name,
+      phone: user.email,
+      callTime: p.generalCall || "06:00 AM"
+    });
+
+    this.saveProjects();
+    this.renderCrew();
+    this.renderRegisteredUsersDirectory();
+    this.renderCallSheet();
+    alert(`✓ ${user.name} added to project crew!`);
+  }
+
+  renderCrew() {
+    const p = this.getActiveProject();
+    const tbody = document.getElementById("crew-table-body");
+    if (!p.crew || p.crew.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:1.25rem; color:var(--apple-text-sub);">No crew members assigned yet. Click <strong>+ Add Crew</strong> or assign from Registered Team below.</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = p.crew.map((cr) => `
+      <tr>
+        <td><span class="badge badge-purple">${this.escapeHTML(cr.department)}</span></td>
+        <td><strong>${this.escapeHTML(cr.role)}</strong></td>
+        <td>${this.escapeHTML(cr.name)}</td>
+        <td><span class="badge badge-gold">${cr.callTime || "-"}</span></td>
+        <td>
+          <button class="btn btn-glass btn-sm" onclick="app.editCrew('${cr.id}')">✏️</button>
+          <button class="btn btn-danger-glass btn-sm" onclick="app.deleteCrew('${cr.id}')">🗑️</button>
+        </td>
+      </tr>
+    `).join("");
+  }
+
+  openAddCrewModal() {
+    document.getElementById("crew-form-id").value = "";
+    document.getElementById("crw-name").value = "";
+    document.getElementById("crw-phone").value = "";
+    document.getElementById("crw-call").value = "06:00 AM";
+    const select = document.getElementById("crw-quick-user-select");
+    if (select) select.value = "";
+    this.openModal("modal-crew");
+  }
+
+  editCrew(id) {
+    const p = this.getActiveProject();
+    const cr = (p.crew || []).find((c) => c.id === id);
+    if (!cr) return;
+    document.getElementById("crew-form-id").value = cr.id;
+    document.getElementById("crw-dept").value = cr.department;
+    document.getElementById("crw-role").value = cr.role;
+    document.getElementById("crw-name").value = cr.name;
+    document.getElementById("crw-phone").value = cr.phone || "";
+    document.getElementById("crw-call").value = cr.callTime || "";
+    this.openModal("modal-crew");
+  }
+
+  saveCrewForm() {
+    const p = this.getActiveProject();
+    const id = document.getElementById("crew-form-id").value;
+    const crewData = {
+      id: id || `cr_${Date.now()}`,
+      department: document.getElementById("crw-dept").value,
+      role: document.getElementById("crw-role").value.trim(),
+      name: document.getElementById("crw-name").value.trim(),
+      phone: document.getElementById("crw-phone").value.trim(),
+      callTime: document.getElementById("crw-call").value.trim()
+    };
+
+    if (id) {
+      const idx = p.crew.findIndex((c) => c.id === id);
+      if (idx !== -1) p.crew[idx] = crewData;
+    } else {
+      if (!p.crew) p.crew = [];
+      p.crew.push(crewData);
+    }
+
+    this.saveProjects();
+    this.renderCrew();
+    this.renderRegisteredUsersDirectory();
+    this.renderCallSheet();
+    this.closeModal("modal-crew");
+  }
+
+  deleteCrew(id) {
+    const p = this.getActiveProject();
+    if (confirm("Remove this crew member from the roster?")) {
+      p.crew = p.crew.filter((c) => c.id !== id);
+      this.saveProjects();
+      this.renderCrew();
+      this.renderRegisteredUsersDirectory();
+      this.renderCallSheet();
+    }
+  }
+
+  // --- SHOT LIST PLANNER ---
   renderShotList() {
     const p = this.getActiveProject();
     const tbody = document.getElementById("shot-list-table-body");
@@ -1328,7 +1575,7 @@ class ProductionApp {
     }
 
     if (filtered.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; padding:1.25rem; color:var(--apple-text-sub);">Belum ada shot. Klik <strong>+ Tambah Shot</strong>.</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; padding:1.25rem; color:var(--apple-text-sub);">No shots planned yet. Click <strong>+ Add Shot</strong>.</td></tr>`;
       return;
     }
 
@@ -1372,10 +1619,10 @@ class ProductionApp {
   openAddShotModal() {
     const p = this.getActiveProject();
     if (!p.scenes || p.scenes.length === 0) {
-      alert("Harap buat minimal 1 adegan di Script Breakdown terlebih dahulu.");
+      alert("Please create at least one Scene in Script Breakdown first.");
       return;
     }
-    document.getElementById("modal-shot-title").textContent = "Tambah Shot";
+    document.getElementById("modal-shot-title").textContent = "Add Shot";
     document.getElementById("shot-form-id").value = "";
     this.updateSceneSelectOptions();
     document.getElementById("sht-num").value = `${(p.shots || []).length + 1}A`;
@@ -1437,18 +1684,19 @@ class ProductionApp {
 
   deleteShot(id) {
     const p = this.getActiveProject();
-    if (confirm("Hapus shot ini?")) {
+    if (confirm("Delete this shot?")) {
       p.shots = p.shots.filter((s) => s.id !== id);
       this.saveProjects();
       this.renderShotList();
     }
   }
 
+  // --- CAST ROSTER ---
   renderCast() {
     const p = this.getActiveProject();
     const tbody = document.getElementById("cast-table-body");
     if (!p.cast || p.cast.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:1.25rem; color:var(--apple-text-sub);">Belum ada cast. Klik <strong>+ Tambah Cast</strong>.</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:1.25rem; color:var(--apple-text-sub);">No talent assigned yet. Click <strong>+ Add Cast</strong>.</td></tr>`;
       return;
     }
 
@@ -1532,7 +1780,7 @@ class ProductionApp {
 
   deleteCast(id) {
     const p = this.getActiveProject();
-    if (confirm("Hapus cast ini?")) {
+    if (confirm("Remove this cast member?")) {
       p.cast = p.cast.filter((c) => c.id !== id);
       this.saveProjects();
       this.renderCast();
@@ -1540,90 +1788,12 @@ class ProductionApp {
     }
   }
 
-  renderCrew() {
-    const p = this.getActiveProject();
-    const tbody = document.getElementById("crew-table-body");
-    if (!p.crew || p.crew.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:1.25rem; color:var(--apple-text-sub);">Belum ada kru. Klik <strong>+ Tambah Kru</strong>.</td></tr>`;
-      return;
-    }
-
-    tbody.innerHTML = p.crew.map((cr) => `
-      <tr>
-        <td><span class="badge badge-purple">${this.escapeHTML(cr.department)}</span></td>
-        <td><strong>${this.escapeHTML(cr.role)}</strong></td>
-        <td>${this.escapeHTML(cr.name)}</td>
-        <td><span class="badge badge-gold">${cr.callTime || "-"}</span></td>
-        <td>
-          <button class="btn btn-glass btn-sm" onclick="app.editCrew('${cr.id}')">✏️</button>
-          <button class="btn btn-danger-glass btn-sm" onclick="app.deleteCrew('${cr.id}')">🗑️</button>
-        </td>
-      </tr>
-    `).join("");
-  }
-
-  openAddCrewModal() {
-    document.getElementById("crew-form-id").value = "";
-    document.getElementById("crw-name").value = "";
-    document.getElementById("crw-phone").value = "";
-    document.getElementById("crw-call").value = "06:00 AM";
-    this.openModal("modal-crew");
-  }
-
-  editCrew(id) {
-    const p = this.getActiveProject();
-    const cr = (p.crew || []).find((c) => c.id === id);
-    if (!cr) return;
-    document.getElementById("crew-form-id").value = cr.id;
-    document.getElementById("crw-dept").value = cr.department;
-    document.getElementById("crw-role").value = cr.role;
-    document.getElementById("crw-name").value = cr.name;
-    document.getElementById("crw-phone").value = cr.phone || "";
-    document.getElementById("crw-call").value = cr.callTime || "";
-    this.openModal("modal-crew");
-  }
-
-  saveCrewForm() {
-    const p = this.getActiveProject();
-    const id = document.getElementById("crew-form-id").value;
-    const crewData = {
-      id: id || `cr_${Date.now()}`,
-      department: document.getElementById("crw-dept").value,
-      role: document.getElementById("crw-role").value.trim(),
-      name: document.getElementById("crw-name").value.trim(),
-      phone: document.getElementById("crw-phone").value.trim(),
-      callTime: document.getElementById("crw-call").value.trim()
-    };
-
-    if (id) {
-      const idx = p.crew.findIndex((c) => c.id === id);
-      if (idx !== -1) p.crew[idx] = crewData;
-    } else {
-      if (!p.crew) p.crew = [];
-      p.crew.push(crewData);
-    }
-
-    this.saveProjects();
-    this.renderCrew();
-    this.renderCallSheet();
-    this.closeModal("modal-crew");
-  }
-
-  deleteCrew(id) {
-    const p = this.getActiveProject();
-    if (confirm("Hapus kru ini?")) {
-      p.crew = p.crew.filter((c) => c.id !== id);
-      this.saveProjects();
-      this.renderCrew();
-      this.renderCallSheet();
-    }
-  }
-
+  // --- GEAR & EQUIPMENT ---
   renderEquipment() {
     const p = this.getActiveProject();
     const tbody = document.getElementById("equipment-table-body");
     if (!p.equipment || p.equipment.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:1.25rem; color:var(--apple-text-sub);">Belum ada peralatan. Klik <strong>+ Tambah Gear</strong>.</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:1.25rem; color:var(--apple-text-sub);">No equipment logged. Click <strong>+ Add Gear</strong>.</td></tr>`;
       return;
     }
 
@@ -1690,7 +1860,7 @@ class ProductionApp {
 
   deleteEquipment(id) {
     const p = this.getActiveProject();
-    if (confirm("Hapus peralatan ini?")) {
+    if (confirm("Remove this equipment item?")) {
       p.equipment = p.equipment.filter((e) => e.id !== id);
       this.saveProjects();
       this.renderEquipment();
@@ -1724,14 +1894,14 @@ class ProductionApp {
       currentDay: 1,
       totalDays: 1,
       shootDate: document.getElementById("np-shoot-date").value || "",
-      weather: "Cerah, 28°C",
+      weather: "Partly Cloudy, 28°C",
       sunrise: "05:30 AM",
       sunset: "17:45 PM",
       generalCall: "06:00 AM",
-      locationName: "Studio Set Utama",
+      locationName: "Main Studio Stage",
       locationAddress: "",
-      parkingNotes: "Parkir area produksi",
-      hospitalName: "RS Terdekat 24 Jam",
+      parkingNotes: "Basecamp parking area",
+      hospitalName: "Nearest 24/7 Emergency Hospital",
       hospitalAddress: "",
       hospitalPhone: "",
       scenes: [],
@@ -1745,20 +1915,32 @@ class ProductionApp {
       budget: { totalEstimated: 100000000, categories: [], pettyCash: [] },
       cloudConfig: { provider: "supabase", url: "", anonKey: "", enabled: false, lastSynced: null },
       daySchedule: [
-        { time: "06:00 AM", activity: "Crew Call & Breakfast" },
+        { time: "06:00 AM", activity: "Crew Call & Hot Breakfast" },
         { time: "07:00 AM", activity: "Cast Hair & Makeup" },
         { time: "08:00 AM", activity: "Roll Camera Scene 1" },
         { time: "12:00 PM", activity: "Lunch Break" },
         { time: "18:00 PM", activity: "Estimated Wrap" }
       ],
       departmentNotes: {
-        production: "Patuhi call time dan jaga kebersihan set.",
-        camera: "Backup media berkala.",
-        lighting: "Safety first.",
-        sound: "Hening saat roll sound.",
-        art: "Siapkan props sebelum blocking."
+        production: "Adhere to call times and keep set clean.",
+        camera: "Checksum data backups after each scene.",
+        lighting: "Safety first on overhead rigs.",
+        sound: "Quiet on set during sound rolls.",
+        art: "Prepare hero props prior to blocking."
       }
     };
+
+    // Auto-populate all registered users into the new project crew!
+    this.users.forEach(u => {
+      newProj.crew.push({
+        id: `cr_${Date.now()}_${Math.random().toString(36).substr(2, 4)}`,
+        department: u.department || "Production",
+        role: u.role,
+        name: u.name,
+        phone: u.email,
+        callTime: "06:00 AM"
+      });
+    });
 
     this.projects.push(newProj);
     this.saveProjects();
@@ -1769,13 +1951,14 @@ class ProductionApp {
   deleteProject(id) {
     const p = this.projects.find((item) => item.id === id);
     if (!p) return;
-    if (confirm(`Hapus proyek "${p.title}"?`)) {
+    if (confirm(`Delete project "${p.title}"?`)) {
       this.projects = this.projects.filter((item) => item.id !== id);
       this.saveProjects();
       this.renderLanding();
     }
   }
 
+  // --- CALL SHEET & PRINT HANDLER ---
   renderCallSheet() {
     const cs = document.getElementById("printable-callsheet");
     const d = this.getActiveProject();
@@ -1819,11 +2002,11 @@ class ProductionApp {
         <div class="cs-title-bar">
           <div>
             <div style="font-size:11px; text-transform:uppercase; color:#6b7280; font-weight:bold;">
-              ${this.escapeHTML(d.productionCompany || "APHI STUDIO PRODUCTION")} &bull; ${this.escapeHTML(d.type || "VIDEO PRODUCTION")}
+              ${this.escapeHTML(d.productionCompany || "APHI STUDIO PRODUCTION")} &bull; ${this.escapeHTML(d.type || "COMMERCIAL / FILM")}
             </div>
             <h1 class="cs-main-title">${this.escapeHTML(d.title || "UNTITLED PRODUCTION")}</h1>
             <div style="font-size:11px; color:#4b5563;">
-              Klien: <strong>${this.escapeHTML(d.client || "-")}</strong> &bull; Agency: <strong>${this.escapeHTML(d.agency || "-")}</strong>
+              Client: <strong>${this.escapeHTML(d.client || "-")}</strong> &bull; Agency: <strong>${this.escapeHTML(d.agency || "-")}</strong>
             </div>
           </div>
           <div style="text-align:right;">
@@ -1835,7 +2018,7 @@ class ProductionApp {
 
         <div class="cs-sub-bar">
           <div>🌅 SUNRISE: ${d.sunrise || "05:30 AM"} | 🌇 SUNSET: ${d.sunset || "17:45 PM"}</div>
-          <div>⛅ WEATHER: ${this.escapeHTML(d.weather || "Cerah")}</div>
+          <div>⛅ WEATHER: ${this.escapeHTML(d.weather || "Clear")}</div>
         </div>
       </div>
 
@@ -1844,14 +2027,14 @@ class ProductionApp {
           <div class="cs-box-title">📍 SET LOCATION & BASECAMP</div>
           <div style="font-size:13px; font-weight:bold;">${this.escapeHTML(d.locationName || "-")}</div>
           <div style="font-size:11px; margin-top:2px;">${this.escapeHTML(d.locationAddress || "-")}</div>
-          <div style="font-size:11px; margin-top:4px; color:#374151;"><strong>Catatan Parkir:</strong> ${this.escapeHTML(d.parkingNotes || "Sesuai petunjuk tim unit.")}</div>
+          <div style="font-size:11px; margin-top:4px; color:#374151;"><strong>Parking Notes:</strong> ${this.escapeHTML(d.parkingNotes || "Follow unit team instructions.")}</div>
         </div>
 
         <div class="cs-box cs-hospital-box">
-          <div class="cs-box-title cs-hospital-title">🚨 NEAREST EMERGENCY HOSPITAL (IGD 24 JAM)</div>
-          <div style="font-size:12px; font-weight:bold; color:#b91c1c;">${this.escapeHTML(d.hospitalName || "RS Terdekat")}</div>
+          <div class="cs-box-title cs-hospital-title">🚨 NEAREST EMERGENCY HOSPITAL (24/7 ER)</div>
+          <div style="font-size:12px; font-weight:bold; color:#b91c1c;">${this.escapeHTML(d.hospitalName || "Nearest Hospital")}</div>
           <div style="font-size:10px; margin-top:2px;">${this.escapeHTML(d.hospitalAddress || "-")}</div>
-          <div style="font-size:12px; font-weight:bold; margin-top:4px; color:#991b1b;">TELP DARURAT: ${this.escapeHTML(d.hospitalPhone || "-")}</div>
+          <div style="font-size:12px; font-weight:bold; margin-top:4px; color:#991b1b;">EMERGENCY TEL: ${this.escapeHTML(d.hospitalPhone || "-")}</div>
         </div>
       </div>
 
@@ -1871,7 +2054,7 @@ class ProductionApp {
           </tr>
         </thead>
         <tbody>
-          ${scenesRows || `<tr><td colspan="7" style="text-align:center;">Tidak ada scene terjadwal</td></tr>`}
+          ${scenesRows || `<tr><td colspan="7" style="text-align:center;">No scheduled scenes for today</td></tr>`}
         </tbody>
       </table>
 
@@ -1891,18 +2074,18 @@ class ProductionApp {
           </tr>
         </thead>
         <tbody>
-          ${castRows || `<tr><td colspan="7" style="text-align:center;">Tidak ada data cast</td></tr>`}
+          ${castRows || `<tr><td colspan="7" style="text-align:center;">No cast scheduled</td></tr>`}
         </tbody>
       </table>
 
       <div class="grid-2" style="gap:10px; margin-bottom:1rem;">
         <div>
           <div style="font-size:11px; font-weight:900; text-transform:uppercase; margin-bottom:4px; border-bottom:1px solid #111827;">
-            ⏱️ ESTIMATED ADVANCE SCHEDULE
+            ⏱️ ADVANCE SHOOTING SCHEDULE
           </div>
           <table class="cs-table" style="margin-bottom:0;">
             <tbody>
-              ${scheduleRows || `<tr><td>Jadwal menyusul dari 1st AD</td></tr>`}
+              ${scheduleRows || `<tr><td>Schedule pending 1st AD confirmation</td></tr>`}
             </tbody>
           </table>
         </div>
@@ -1912,11 +2095,11 @@ class ProductionApp {
             📌 DEPARTMENT NOTES
           </div>
           <div style="font-size:10px; line-height:1.4;">
-            <p><strong>PRODUCTION:</strong> ${this.escapeHTML(notes.production || "Tetap patuhi jadwal call time.")}</p>
-            <p style="margin-top:3px;"><strong>CAMERA:</strong> ${this.escapeHTML(notes.camera || "Pastikan media card terbackup.")}</p>
-            <p style="margin-top:3px;"><strong>LIGHTING:</strong> ${this.escapeHTML(notes.lighting || "Safety first untuk rigging.")}</p>
-            <p style="margin-top:3px;"><strong>SOUND:</strong> ${this.escapeHTML(notes.sound || "Jaga ketenangan set.")}</p>
-            <p style="margin-top:3px;"><strong>ART & WARDROBE:</strong> ${this.escapeHTML(notes.art || "Pastikan hero props siap.")}</p>
+            <p><strong>PRODUCTION:</strong> ${this.escapeHTML(notes.production || "Adhere strictly to call times.")}</p>
+            <p style="margin-top:3px;"><strong>CAMERA:</strong> ${this.escapeHTML(notes.camera || "Card backup verification by DIT.")}</p>
+            <p style="margin-top:3px;"><strong>LIGHTING:</strong> ${this.escapeHTML(notes.lighting || "Safety first on all rigging.")}</p>
+            <p style="margin-top:3px;"><strong>SOUND:</strong> ${this.escapeHTML(notes.sound || "Quiet on set during rolling.")}</p>
+            <p style="margin-top:3px;"><strong>ART & WARDROBE:</strong> ${this.escapeHTML(notes.art || "Hero props standby.")}</p>
           </div>
         </div>
       </div>
@@ -1930,10 +2113,36 @@ class ProductionApp {
     `;
   }
 
+  // EXPLICIT CALL SHEET PRINT HANDLER: PRINTS ONLY CALL SHEET
   printCurrentCallSheet() {
     this.switchTab("tab-callsheet");
     this.renderCallSheet();
-    window.print();
+
+    document.body.classList.remove("printing-storyboard");
+    document.body.classList.add("printing-callsheet");
+
+    const onPrintDone = () => {
+      document.body.classList.remove("printing-callsheet");
+      window.removeEventListener("afterprint", onPrintDone);
+    };
+    window.addEventListener("afterprint", onPrintDone);
+
+    setTimeout(() => {
+      window.print();
+    }, 150);
+  }
+
+  exportAllJSON() {
+    const data = {
+      projects: this.projects,
+      users: this.users,
+      exportedAt: new Date().toISOString()
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `Aphi_Studio_Backup_${new Date().toISOString().split('T')[0]}.json`;
+    link.click();
   }
 
   openModal(modalId) {
